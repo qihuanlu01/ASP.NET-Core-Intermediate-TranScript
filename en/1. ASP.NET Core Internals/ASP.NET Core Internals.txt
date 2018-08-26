@@ -1,0 +1,385 @@
+Hi, I am Maria Naggaga
+And I'm Jeff Fritz
+And we're back with the intermediate course to ASP.NET Core 2.0
+In the beginners course, we went over a couple of things
+We went into an introduction into ASP.NET Core
+We looked at the Dotnet CLI,and we built our first cons application,we went into web application, we looked at Razor Pages?
+-Okay -Okay, end of it
+And we created out first crowd application as well
+And we had a slight introduction into logging
+And in the intermediate today, we'll gonna go in just a little bit deeper
+What's the next step after you've done all the high level stuff?
+Pull back the layer
+We're gonna tune some of those things just a bit
+just a bit,and we're gonna have some more stuff on ASP .NET Core,look at the internals like we had a lot of file new projects
+We really don't explain to you what was going on, right?
+We're going to look at tag helpers in more detail
+Cuz we had a look at tag helpers in the beginners course, but we didn't really explain what else you could do with them
+We just said, these are tag helpers and they are great, and they change a different color
+we're gonna look at authentication and also at Spa
+We have a lot to learn today
+And have a look at the outline and the modules that show up on the side, and yeah, let's get started
+Sounds good
+so I am gonna go and start with a brand new application
+Just so we can set the playing field all at the same place
+And I'm gonna call this MyMVA
+And I'm gonna create just a web application and set the authentication to individual user accounts
+And what does that mean?
+So what this does is this give us the ability to have folks log in into the application, be authenticated,and we can set up authorization capabilities for those users to be able to access different pieces of the application
+What this also does for us, and the trick and why I'm doing it for this course that we're looking at is,it sets up some things for database interaction that I want to be able to push configuration around so we can talk about configuration a little bit
+Okay, so we're going to look at what comes out of the box when you hit Okay
+Yeah, we're gonna take a look at that, and then learn a little bit about why some of those things work?
+So I've got the Individual User Account setup,let's go ahead and create that
+My project's created
+It's gonna restore packages
+Let's take a look at the Solution Explorer here
+And I'm gonna jump into the Startup
+So as we know, this is how our application, our web application is configured for us to be able to interact and serve web pages to visitors to our site
+Now if I scroll down here, we already know there's a simple start up here where we're going to capture the configuration for our application
+We'll look at that configuration in a minute here I wanna go on this quick tour to show configure services where we're gonna set up all the various services that are gonna be available to the rest of my application, right?
+These are those cross-cutting services that different controllers or pages, or even my tag helpers, can use to interact with building content for my application
+And the last piece down here is a configure method that takes in a couple of arguments here, the application builder and then the hosting environment
+And these configures will be called the HTTP pipeline
+So we'll take a look at the pipeline in just a minute, but I wanna start by looking at the configure services method here and really dig in to what's going on here
+Now you may have heard of the term dependency injection in the past, right?
+Yes, I have
+Now what that means is we're gonna configure some dependencies that are gonna be available throughout our application that we can pass into other locations
+Other components, other modules of functionality that need those capabilities in order to perform their tasks
+So for example here, on line 29, we add a database context for our application database context and we configure that to use SQL server
+We're gonna use the Microsoft's SQL server database and get the connection string from our configuration
+Not bad, but what this means is that in any class that's being used by ASP.NET, I can reference ApplicationDbContext in my constructor and it will be automatically passed in to me
+So to take a quick look at that, if I come over here and I look at my pages and I reach into account and I look at my register page
+My register page receives all these different things in order to register a new account, including a UserManager,a SignInManager, a logger and even information to send emails
+These things are referring to abstract classes or interfaces
+Those things will be injected automatically for me
+And it saves a copy of this off so that he can handle the registration process
+So where does it save a copy of this off to?
+So it saves them off into these private variables up top here on lines 17 through 20
+So I have that local copy just for the instance that this page is being run
+So I can register new folks, I can access their user records
+I can access the sign in manager and create a password for them as needed and even log information appropriately or send e-mails to those folks to say, hey,I created a new account for you on this website
+So that's what dependency injection gives you
+And you can see these other add statements here
+Services add identity
+This adds those features that we saw on the register page,particularly the user manager and the sign in manager
+Those come from our security identity features
+And we'll see more about identity later today when we see authentication and authorization
+So the identity capability here configures that and it says we're gonna store that information about our users inside of our application DB contacts
+That same database contacts we just defined previously that's using SQL server
+The next one,add MVC, this configures dependency injection and configures those capabilities inside of the MVC framework so that they're available to be injected into other MVC objects
+So even though this is a razor page application
+It is still built on top of MVC so it's just enabling us to leverage
+Yes, absolutely
+So we're leveraging the same MVC capability
+The same Razor templating engine,the same tag helpers capabilities
+Those are all available to us, and we're gonna be able to appoint and use those with the same MVC capabilities available as well
+We can still add in controllers and views and those templates will be available to us through our application
+The next statement there, AddRazorPagesOptions on line 37,this configures those pages that we need to use for authorizing and pages that we wanna make sure that folks are actually logged in to be able to access
+So you wanna be able to have only logged in folks manage their accounts at the Manage page and only folks that are are logged in should be able to logout, right?
+You'd run into a weird loop if you're not logged in and you're logging out
+But the really interesting thing that you can extend as a developer writing your own application is the ability to register your own services with the dependency injection capabilities
+And this line here on 45, services.AddSingleton,this is where we're starting to register our own capabilities
+So we saw earlier the Register page receives an EmailSender here
+That EmailSender is defined right here as referencing the concrete EmailSender object
+Now if we just take a quick look at that,you can see the EmailSender is just a class that implements the IEmailSender interface as one method, SendEmailAsync
+And for the purposes of the default code,Is just saying I completed that test successfully
+If we wanted to develop a true email sender here, we would write something that actually receives that body of that email we wanna send, the subject of that email, formats the message appropriately and sends it out using whatever email service or email server that we have available to us
+And your mileage may vary about which one you choose
+There's a bunch of services we have available to you on Azure that you can choose or you might have an email server available on your internal network you may wanna use as well
+So which are some of the ones on Azure that people can start taking advantage of?
+A really popular one there folks like to use is called Sendgrid
+So in Sendgrid there's all kinds of things to make sure you are not sending spam to keep you out of spam filters if you are sending legitimate emails
+You don't want to end up in people's spam folders
+There's a lot of stuff to help you manage that
+There's a nice console so you can see the status of those emails that you've sent out
+So check out SendGrid on Azure
+Let me go back to the startup
+Now, this AddSingleton is configuring the interface IEmailSender
+When an email sender interface is requested, we are going to provide a concrete implementation the email sender class that matches that and implements it
+Now, by using the AddSingleton term here,it says we are going to create only one e-mail sender class
+And only one in the entire life of this application
+-It's a singleton -It's the only one in use
+Now, that might be appropriate for some classes where you do only want one of those managing your entire application
+But there is other classes like our database context that you want to only be available for each request that comes in
+So that when a visitor to our website comes through, they get the same database context, the same database connection string,for all the operations they are doing throughout that request
+And we can define those types of services by using the command AddScope
+Now,a scoped object is available throughout that entire request,you get the same object if you request if through a tag helper,through a view component,through a razor page,through a controller
+You will always get the same instance that was created when the first object in that request was created
+So scoped is another way for you to define an object, that to be processed and sent out, the last one that I wanna show is transient
+So if you specify something is transient, that means that every time one of these pages or classes, request that type of interface or abstract class, a new instance will be created
+So that doesn't make sense for something like an email sender where we're gonna establish that connection to a service like SendGrid, and we don't wanna be recreating that connection every time
+Every time 
+It's gonna be rough on memory usage, processor,created once and then use it as needed synchronously as you saw in the interface
+So transient object might be something like a repository pattern or some other communication things that you may want to use so that you are always hitting a new copy of that
+So that's transient scoped in singleton status, okay?
+So that's a little bit about how dependency injection works here inside configure services,and all those things occur right here inside this method
+Now, I've actually seen some folks,where they'll take the contents of this method, and they'll move it out into another class so that they have all of that sitting in an extra file on the side, that they don't need to maintain here And accidentally break something that's in or the other configuration methods of that application
+So they take configure services out and put in into its own?
+Just take out the contents of it, but leave that method there,and they'll just say, this class dot configure service, and it's somewhere else
+You might accidentally change something you didn't intend to
+So let's take a look now at the the HTTP pipeline down here
+HTTP pipeline,this is where we're gonna figure how our requests are processed
+the order in which ASP.NET is gonna look at each request that comes in
+Handles it and then returns it out to the requesting browser or client, whatever that might be
+So, we've got a if statement up top here
+Let's check and see if we are in development mode,if we are in some offer environment
+We are not gonna execute this stuff up to this is gonna test for an environment
+Now, look at how environments are handled in our configuration just a little bit but typically when you're running here in Visual studio, it's automatically configured for you as the development environment
+So I want to see my developer exception page when there is an error, I wanna be able to see a stack trace,everything that's wrong
+But that's not something I want my normal visitors
+We want them to see a better error page, and that's why we have this use exception handler down here route to that error page should there be a problem processing the reports
+So that would be a 404 or 500?
+Would those be the exception though?
+It should be a 500
+404 will go to something that the web server will handle,but yeah
+If we get a 500 level error, we'll come into this location
+In the error page, you can see out there inside of our pages
+Right here
+And it will put up a nice message
+Okay, an error has occurred while processing your request
+An error has occurred, yep
+The next thing here is use static files
+So when you have those extra elements that you need in your application, they live under wwwroot
+We saw that I believe in the last course
+Yes, we did
+In all of these things you actually need to tell ASP.net how to serve them, otherwise,the Castor web server doesn't know what to do, right?
+Well, we need to put that piece in next because if somebody is requesting something like a CSS file we wanna stop there
+And not go into some of these other things
+We don't wanna evaluate MVC capabilities or try and check for security
+Go serve that CSS file and then, we don't need to continue processing at that point
+But if you're not requesting CSS images, JavaScript or static content we're gonna proceed down into this UseAuthentication statement
+And that's what we're gonna check to see
+If authentication is required on the current page or the current request
+We're gonna verify it and then handle it appropriately
+The final thing here is use MVC
+We're gonna configure the MVC capabilities so that they're an endpoint that we can browse to
+Isn't it mapping out our routes as well?
+So this is mapping out routes if we are using controllers with actions
+We're not. In this case,we're actually using pages and pages are routed to whatever are inside the pages folder minus the CSHTML extension
+it's your location, the location you are in the folder
+Yeah, it's that physical location in the folder is what we're serving
+But we can still do those controllers with the actions as a route location
+Okay, so the whole point is that you can add a controller to a page set?
+You can add it
+In this way, you can do API controllers if you're using a JavaScript framework to do some spy application work,and we'll see some of that a little bit later today
+Now, what's important about this is the order that these things appear
+Right so I mentioned static files appears before authentication because we don't want to authenticate people before we send them their CSS file
+Right and if we don't include some of these things,if we don't include you static files,it's not going to actually process and return those static files to our visitors
+So those are very important things
+I'm gonna actually change this over to my application here, and I wanna show you what happens
+Did we remove the static files in the previous course?
+No, we didn't
+Let's see what happens
+When we pull that out, and let's navigate to our application and see what happens
+It looks like it might not be the prettiest of pages
+We're gonna remove
+all that CSS
+We're gonna remove all that JavaScript
+And instead of getting that nice Bootstrap framework enabled site, it's not gonna look as pretty
+So there's my Chrome debugging from Visual Studio
+And that's new, right?
+And that's new, so with Visual Studio, you now have the ability to debug your JavaScript in the Chrome browser from Visual Studio
+Now look at this, right?
+It looks terrible
+I'm looking at it like, what is that?
+I know, it's ugly, that's terrible
+But the point is like toggle navigation,so that's the line bar
+Yeah, that's that hamburger navigation you would have on the left that we're used to seeing in the Bootstrap environment but none of our CSS was served
+None of our JavaScript, and we get just this plain HTML site
+Now that might be okay for my mother in-law's browser back in 2002 when the non-typical folks who don't have updated capabilities
+It's not that good
+This is why we need to include those pieces inside of our HTTP pipeline
+And in a specific order
+In the correct order
+So if you actually took your serve status files and put it under authentication
+Yeah, let's try that
+The same thing will probably happen or something,give you an error
+Well, we might not get an error
+Let's move it all the way down to the bottom
+Okay, there it is
+So now we've just changed the order a little bit
+We're gonna rerun, nothing else has changed
+And actually, it works
+It worked
+Because those pages that we requested are living out there
+And those CSS and JavaScript references don't have a name collision with any of the pages that we've configured
+So we kind of dodged the bullet here
+But if they did have similar names, it might collide and you might not get it back
+So it's not a guarantee that it's going to work
+We happen to have some names that fit in all right
+Because when you look at the things that we've referenced,right, we have a lot of things under lib
+And we don't have a lib page out there that we could be confusing it with, right?
+So same thing with JS images and CSS, we don't have pages that might confuse things out there So let me stop this
+So that's a little about the order of things in which you have inside if your configure method here
+Now if you're doing other capabilities with authentication, with authorization where you wanna interact with some other providers,you're gonna see them get configured here in this method
+And that's hinting, again,at another module that we have in this course
+So that's a little bit about what's going on there
+And I've been mentioning application configuration and I showed a little bit about development environment
+Let's actually talk about configuring our application
+So up here we have this method, the constructor method
+And it's receiving the IConfiguration and it's stashing that off in our local property called Configuration
+So that I can access that configuration later to get things like my database ConnectionString
+Now this request is getting that database ConnectionString out of app settings
+And there's my Default database Connection string
+Let me put a character return in there just so we can see it
+Even then, it still rolls off with one line here because we have this unique GUID dropped in here
+This globally universal identifier for my database name
+We wanna have a unique database name just for creating this template database
+And it's listening to the local database,the local MySQL database
+So that I can write and work with that configuration
+Now inside Startup when it says getConnectionString,this is a helper method that's going to look for a ConnectionStrings object inside of Configuration
+And then look for the DefaultConnection object inside of that Connection strings
+So DefaultConnection, and it's gonna grab this value out of my JSON and serve it
+all of that is configured by default inside of program CS
+Where we have CreateDefaultBuilder,UseStartup and Build
+The DefaultDuilder will grab things like that app settings,load up its values into configuration and start reading it
+It also loads up environment variables
+Now that sounds kinda weird to some long time .NET folks to start reading environment variables into configuration, right?
+Where were they before?
+Exactly, if we had to read environment variables before,we actually had to write some custom code to reach into environment variables
+And figure out where are the values that I want and inject them appropriately
+So what we've done is we've made it part of the framework so that it's built in and it's layered as the last thing into your configuration
+So what you can do is you can actually change some of the settings here that are in app settings by adding an environment variable that has the same name
+you could add a Logging environment variable,but Logging actually has this hierarchy here
+We overwrite items in that hierarchy by separating with a double underscore
+So that sounds kinda weird
+Let me show you how the environment variables appears inside of our pages
+I'm gonna go to the homepage, and then we'll take a look at starting to inject some of these other things
+I'm going to inject our configuration here with @inject directory
+And I'm going to inject it is Microsoft.Extensions.Configuration.IConfiguration
+I will call it Configuration
+So I've got my configuration coming in and I'm gonna go down here to the bottom and let's clear out this page
+Yeah, let's do that
+Don't need anything in here
+Let's just clear this out, and I'm gonna put up the host name of my machine
+So I can do that by saying This is my machine name
+And I would say @configuration
+And every Windows machine actually creates an environment variable called computername, so I will reference that
+Now, by using configuration and then the indexer, computername,it's gonna find that value inside of my configuration and drop it right here
+So let's see what happens when that runs
+So it should say Jeff's Awesome Computer 202049, or something like that
+I think it says Jeff's Yoga or something like that
+There you go
+This is my machine JEFFS-YOGA, okay?
+Now that's great, it's my machine name
+It's an enviroment variable that is existing and is native on my machine
+I've injected injected and I've put it on my page
+That's not valuable
+But what might be valuable is if I have an app setting sitting out here that's something like MyTwitterKey and maybe it's an ID to get you into Twitter
+it is TwitterSecretKey, right?
+So in my machine, when I'm building this,I can reference and use that on whether it's my page or my startup, if I come over here and I'm gonna access that same value, MyTwitterKey
+If I put that there, restart the application
+It should probably have your Twitter
+It should have the same value coming back
+There it is, TwitterSecretKey
+But when I get out to my production environment,I don't want that same value that I wrote in development in production
+I actually wanna overwrite that with an environment variable
+So inside of Visual Studio, you can manage your environment variables that you use- >> So how did you get there?
+At build time
+Thank you, let's step back
+So if I go to Project, my project name's Properties
+And if I go down into, I think it is
+No, it's Debug maybe?
+Yes, Debug, so we have an item here,it says Environment variables
+And we have this initial variable defined here
+ASPNETCORE_ENVIRONMENT, and it says Development
+That's the environment name that we've defined for this machine, okay?
+So we've instructed it that this is a development environment
+So that those things over here inside my Startup where I say,is this development, this would be executed
+If you don't set this variable up front,it defaults to being production
+So what I'm gonna do is I'm gonna override MyTwitterKey over here by setting another environment variable,and I will call this ProductionKey
+So now if this was in a different environment,that value is now gonna take hold
+And that one will supercede what's in the app settings JSON
+And we'll see this come up in just a second
+It seems like a more secure way to do this
+It is, but there's even a more secure way to do it
+So there, ProductionKey came up
+But if that environment variable wasn't set,I would still get the old TwitterKey
+Now, let me stop this one more time, and
+I wanna show the final way that we think folks should start
+looking at doing this
+If we take a look at appsettings, right?
+I actually have my key setting here plain text
+Do you know how many folks commit that into source control,shared source control, and it's just available out there?
+Yeah, I've done it
+I've done it, I'm sorry
+We want folks to be more secure by default
+So instead of putting that there,what we can do is we can use something called User Secrets
+Now, User Secrets is a feature that's available on ASP.NET core
+It's an extra capability here that I can access inside of Visual Studio by coming down and choosing Manage User Secrets
+And when I right-click on my project
+When I choose that,you see I get this new file here called secrets.json
+And when I mouse over, check that out
+It comes up and it's giving me a tool tip that's showing it's under C:/users/jeff/appdata/roaming/,let me go back over it again, microsoft/userssecrets
+And then it's my application name followed by a GUID and then secrets.json
+So this isn't so much of an encrypted file as it's a file that's not in source control
+Now what that means is,I can take that same value that's over here inside my app settings and I'm gonna paste it in here
+There's my TwitterSecretKey
+And I'm gonna change this to- SHOULD NOT USE
+And I should not get that value coming out
+Instead, I wanna get this SecretKey coming out
+Now, here's best part
+By default, if there's a User Secrets configured in my application, inside of program CS when it says CreateDefaultBuilder, it'll load those
+>> Before the environment variables, if it exist, and we're in development method
+So I wrote that secrets.json, there's my TwitterSecretKey,I'll run this one more time
+Everything's running, here it comes
+And I get TwitterSecretKey coming from my secrets.json, so it's not committed into source control
+And my other value that's sitting out there inside of my apps settings, SHOULD NOT USE, that's committed
+I don't care who sees that
+That's a dummy value that nobody really needs to pay attention to
+Keeping my data that I'm using for development purposes more secure
+So your development connection strings,put those in a secret location
+So that folks won't stepping on each other and they're not sharing some of those secret values you don't wanna make public
+So I would suspect if you were using keys for third party providers,you'd probably want to keep them somewhere, what, in Azure,like an Azure Key vault, or
+Absolutely
+that's a great tip
+We have Azure key vault available for you that you can put some of those key values into for those third party providers
+Maybe your Twitter authentication,your Facebook authentication
+Put those keys into the key vault and then we can automatically load those in with a different provider
+And they'll apply when you're in the production space,very cool stuff
+But what we're doing right now would also work in a production space as well?
+Yes, you can use this
+Those secrets.json files,that doesn't go with you into production
+The User Secrets don't get used in production
+But instead, you can write an environment variable to override this inside of your production space
+Azure App Service has a console where you can write in your environment variables that you wanna use
+And they will overwrite these values
+Okay, and keeping our keys nice and safe, so there's no way for people to see it
+Absolutely, no way for people to see it
+No way, so I can't do F12 and try to search around and find it?
+Yeah, nope
+You won't see it
+It's all in memory and hidden behind the scenes
+It's not on disk and it's not being sent down to the browser,unless you write something out that's actually emitting it
+So that's a little bit about how you can pass things in and out of there
+The last thing that I wanna show is what if I wanna change something like the log level here from default warning to maybe I wanna set it to my trace level?
+Well, that's a little bit further down,it's more hierarchical, right?
+It's logging,then log level, then default, how do I set that value?
+What we do is we can set our configuration to be separated by colons
+And it'll come down and it'll read it in just work
+So let me go back into my project Properties and I'm gonna define another Environment variable
+And this one is gonna be Logging, LogLevel, Default, so Logging, LogLevel, Default
+And it's separated by colons, and now I'm gonna set this to Trace
+And now when I run my application,I'll get all my trace level information sent down
+And that's everything, right?
+-Traces is pretty much everything -trace is pretty much everything
+And you're gonna get all your info coming down
+So I have a whole different level of logging coming down to me
+I believe we can also view this in Visual Studio as well?
+Yes, you can view this in Visual Studio if you have your application insights configured right here
+-I can click that -And we talked about that
+And I can see the exact same log information coming down,what's been sent down at the trace level as well
+So very easy to get started
+And use environment variables, User Secrets, and your apps settings JSON to configure
+And then you can read those values out by using configuration and then that square bracket indexer
+So that you can write out configuration information into different classes and different features inside of your application
+And the configuration object is now registered with dependency injection by default
+I didn't have to add anything into startup
+It's just there for me so I can request an IConfiguration inside of a page or a controller
+And it'll just be available with all the configuration for your application
+that's a lot to peel back to from that startup page
+So I think that's all we have for this module
+Yes, we do,it was great insight to the ASP.NET Core internals
+We hope that you feel ready to go and explore and play around with it more
+And we're gonna take a quick break and we'll be back later
+Hope you join us.
