@@ -8,23 +8,25 @@
 
 - [ ] ASP.NET Core 的本质
 
-### 2. 标签助手
+### 2. 标记帮助程序(Tag Helper)
 
-- [ ] 标签助手
+- [ ] 标记帮助程序
 
 ### 3. Entity Framework Core(即 EF Core)
 
 - [ ] Entity Framework Core
 
-### 4. 验证和授权
+### 4. 认证和授权
 
-- [ ] 验证和授权
+- [ ] 认证和授权
 - [ ] 使用外部程序实现身份验证
-- [ ] 对授权的介绍
+- [ ] 授权简介
 
 ### 5. Web API 和 Swagger
-- [ ] Web API 入门
-- [ ] Web API 和 Swagger
 
-### 6. 发布与部属 - Azure 与 Docker
-- [ ] 发布与部属 - Azure 与 Docker
+- [ ] Web API 入门
+- [ ] Web APIs 和 Swagger
+
+### 6. 发布与部署 - Azure 与 Docker
+
+- [ ] 发布与部署 - Azure 与 Docker
