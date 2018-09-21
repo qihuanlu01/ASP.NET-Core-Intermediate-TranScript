@@ -1,0 +1,1248 @@
+WEBVTT
+
+0
+00:00:01,030 --> 00:00:03,940
+Hey, welcome back
+to the ASP.NET Core
+
+1
+00:00:03,941 --> 00:00:06,320
+course here on
+Microsoft Virtual Academy.
+
+2
+00:00:06,321 --> 00:00:07,600
+My name is Jeff Fritz.
+
+3
+00:00:07,601 --> 00:00:08,122
+>> I'm Jon Galloway.
+
+4
+00:00:08,123 --> 00:00:10,813
+>> And we're gonna take
+a look at actually making
+
+5
+00:00:10,814 --> 00:00:12,545
+this stuff into production.
+
+6
+00:00:12,546 --> 00:00:14,140
+Let's publish.
+
+7
+00:00:14,141 --> 00:00:16,383
+>> It's always funny, we talk
+about building web apps and
+
+8
+00:00:16,384 --> 00:00:18,060
+let's actually put it
+out on the web now.
+
+9
+00:00:18,061 --> 00:00:19,630
+[LAUGH]
+>> Yeah, let's do it.
+
+10
+00:00:19,631 --> 00:00:22,693
+>> So I'm starting with this
+very simple File>New Project,
+
+11
+00:00:22,694 --> 00:00:25,020
+and I'm doing this
+with no authentication,
+
+12
+00:00:25,021 --> 00:00:26,746
+keeping it really lightweight.
+
+13
+00:00:26,747 --> 00:00:27,273
+>> Sure.
+
+14
+00:00:27,274 --> 00:00:30,423
+>> This stuff works,
+deploying with migrations and
+
+15
+00:00:30,424 --> 00:00:31,773
+Entity Framework and
+
+16
+00:00:31,774 --> 00:00:35,073
+databases and all that but
+it takes a bit longer, and
+
+17
+00:00:35,074 --> 00:00:39,150
+I wanna just show the really
+quick simple path here.
+
+18
+00:00:39,151 --> 00:00:42,080
+So I could actually,
+this shows here,
+
+19
+00:00:42,081 --> 00:00:44,880
+publish information,
+I've [LAUGH] got an app,
+
+20
+00:00:44,881 --> 00:00:47,290
+I haven't even done anything
+with it yet locally.
+
+21
+00:00:47,291 --> 00:00:49,190
+>> And it's right there
+on the welcome page.
+
+22
+00:00:49,191 --> 00:00:52,768
+>> Right, so [LAUGH] now I could
+also, if I want to publish,
+
+23
+00:00:52,769 --> 00:00:56,816
+I can right-click here and
+do right-click Publish, right?
+
+24
+00:00:56,817 --> 00:01:00,965
+So we should talk as I'm
+publishing about what this
+
+25
+00:01:00,966 --> 00:01:02,417
+actually means.
+
+26
+00:01:02,418 --> 00:01:09,317
+Normally, You wanna set
+something up when you're doing
+
+27
+00:01:09,318 --> 00:01:13,048
+more, like here actually I've
+got to reenter my credentials.
+
+28
+00:01:13,049 --> 00:01:15,252
+I don't know if you wanna
+talk about the whole idea,
+
+29
+00:01:15,253 --> 00:01:17,266
+like is it a good idea
+to right-click publish?
+
+30
+00:01:17,267 --> 00:01:18,236
+>> Sure, I mean, right,
+
+31
+00:01:18,237 --> 00:01:20,326
+when you right-click in
+publish in application,
+
+32
+00:01:20,327 --> 00:01:21,760
+it's really a one off thing.
+
+33
+00:01:21,761 --> 00:01:24,290
+It's not something that you
+wanna do every time there's
+
+34
+00:01:24,291 --> 00:01:27,050
+a change that you're
+making to production space
+
+35
+00:01:27,051 --> 00:01:28,610
+because it's not repetitive.
+
+36
+00:01:28,611 --> 00:01:31,790
+It's not something that you can
+repeat and be guaranteed you're
+
+37
+00:01:31,791 --> 00:01:35,300
+gonna get the exact same
+configuration every time.
+
+38
+00:01:35,301 --> 00:01:38,740
+You may wanna be deploying from
+a continuous integration system,
+
+39
+00:01:38,741 --> 00:01:42,890
+something like
+Visual Studio Team Services, or
+
+40
+00:01:42,891 --> 00:01:45,330
+perhaps you wanna deploy
+directly from GitHub.
+
+41
+00:01:45,331 --> 00:01:49,090
+You can do these things with the
+features available on Azure, but
+
+42
+00:01:49,091 --> 00:01:52,340
+this is great for getting that
+first deployment up and running.
+
+43
+00:01:52,341 --> 00:01:55,810
+Or maybe you wanna deploy to
+a test area or a deployment slot
+
+44
+00:01:55,811 --> 00:01:58,520
+out there, so that you can
+work with that directly.
+
+45
+00:01:58,521 --> 00:01:59,473
+>> Exactly, yep.
+
+46
+00:01:59,474 --> 00:02:03,584
+So kind of my favorite way that
+I usually will work is I'll work
+
+47
+00:02:03,585 --> 00:02:07,077
+in a repo kind of right away,
+I'll get a repo going.
+
+48
+00:02:07,078 --> 00:02:13,498
+You can do free private repos
+out on VSTS or visualstudio.com
+
+49
+00:02:13,499 --> 00:02:18,570
+and then you can get free
+public repos on GitHub.
+
+50
+00:02:18,571 --> 00:02:21,810
+So between the two of those,
+I'm covered for a free repo use.
+
+51
+00:02:21,811 --> 00:02:22,370
+>> Absolutely.
+
+52
+00:02:22,371 --> 00:02:26,120
+>> And so I will go through and
+configure that and
+
+53
+00:02:26,121 --> 00:02:30,520
+then configure Get Deployment,
+and it does that CI Deployment.
+
+54
+00:02:30,521 --> 00:02:32,270
+So every time I do a push,
+
+55
+00:02:32,271 --> 00:02:36,720
+it's going to automatically
+deploy from source control.
+
+56
+00:02:36,721 --> 00:02:39,942
+>> Yep, update Azure with
+all the latest bits and
+
+57
+00:02:39,943 --> 00:02:42,420
+hopefully, you have
+some tests and
+
+58
+00:02:42,421 --> 00:02:46,479
+things in line there to verify
+that it is proper to deploy.
+
+59
+00:02:46,480 --> 00:02:49,714
+>> Yep, but as we're talking
+about for a quick, hey, I wanna
+
+60
+00:02:49,715 --> 00:02:53,160
+try this out, I wanna see this
+running on the public Internet.
+
+61
+00:02:53,161 --> 00:02:57,010
+I want to share it with maybe
+I'm developing this site for
+
+62
+00:02:57,011 --> 00:02:59,170
+somebody and
+I want them to get a look at it.
+
+63
+00:02:59,171 --> 00:03:01,460
+Here it is, so
+this is a live URL, so
+
+64
+00:03:01,461 --> 00:03:03,010
+this is up on the Internet here.
+
+65
+00:03:03,011 --> 00:03:04,497
+>> It took us maybe a minute,
+and
+
+66
+00:03:04,498 --> 00:03:07,124
+you can share this with
+a customer, that's great.
+
+67
+00:03:07,125 --> 00:03:11,984
+>> Yep, so and especially if
+you've got MSDN, or if people
+
+68
+00:03:11,985 --> 00:03:17,047
+you're developing with have
+MSDN, if your shop has MSDN,
+
+69
+00:03:17,048 --> 00:03:21,370
+this is great to use your
+included MSDN credits.
+
+70
+00:03:21,371 --> 00:03:22,510
+>> Right,
+your Azure subscription.
+
+71
+00:03:22,511 --> 00:03:26,860
+>> Azure subscription, and
+set up testing, deployment,
+
+72
+00:03:26,861 --> 00:03:28,900
+and all that kind of stuff.
+
+73
+00:03:28,901 --> 00:03:31,810
+So that's kind of a quick
+look at [LAUGH] very
+
+74
+00:03:31,811 --> 00:03:33,100
+quick deployment.
+
+75
+00:03:33,101 --> 00:03:36,250
+So here's the site running,
+and one of the cool features,
+
+76
+00:03:36,251 --> 00:03:37,960
+now that it's running
+in app service,
+
+77
+00:03:37,961 --> 00:03:40,670
+is that I can use App Insights.
+
+78
+00:03:40,671 --> 00:03:42,740
+Okay, so-
+>> What does App Insights do?
+
+79
+00:03:42,741 --> 00:03:45,730
+>> So App Insights profiles my
+application as it's running in
+
+80
+00:03:45,731 --> 00:03:49,800
+production, and
+it tells me all kinds of things,
+
+81
+00:03:49,801 --> 00:03:52,410
+statistics about how
+fast it's running.
+
+82
+00:03:52,411 --> 00:03:55,635
+Things that are bottlenecks, any
+errors helps me diagnose things.
+
+83
+00:03:55,636 --> 00:03:56,180
+>> Okay.
+
+84
+00:03:56,181 --> 00:03:58,940
+>> And what's cool is that
+used to take several steps to
+
+85
+00:03:58,941 --> 00:04:00,120
+configure that.
+
+86
+00:04:00,121 --> 00:04:02,990
+Now you actually don't have to
+make any code changes in your
+
+87
+00:04:02,991 --> 00:04:03,820
+application.
+
+88
+00:04:03,821 --> 00:04:06,580
+>> Terrific.
+>> You just go up into Azure and
+
+89
+00:04:06,581 --> 00:04:09,860
+when you go to your site, it'll
+show a thing at the top that
+
+90
+00:04:09,861 --> 00:04:12,950
+will say, hey, do you wanna
+turn on App Insights?
+
+91
+00:04:12,951 --> 00:04:14,970
+So it actually looks
+just like this.
+
+92
+00:04:14,971 --> 00:04:17,880
+In the dashboard,
+right here on a deployed app,
+
+93
+00:04:17,881 --> 00:04:21,180
+this is gonna say, hey you don't
+have App Insights turned on,
+
+94
+00:04:21,181 --> 00:04:24,020
+click this and
+we'll configure it for you.
+
+95
+00:04:24,021 --> 00:04:26,790
+So I'm actually gonna show
+you a running website
+
+96
+00:04:26,791 --> 00:04:30,340
+because there's not much to
+show you on this website,
+
+97
+00:04:30,341 --> 00:04:33,440
+we just deployed it, there's
+not much to profile there.
+
+98
+00:04:33,441 --> 00:04:36,680
+So I've actually got a website I
+deployed over this past weekend,
+
+99
+00:04:36,681 --> 00:04:38,580
+we'll take a look at it.
+
+100
+00:04:38,581 --> 00:04:41,070
+But what's really neat here
+is I don't have to make
+
+101
+00:04:41,071 --> 00:04:44,450
+any code changes to
+enable App Insights.
+
+102
+00:04:44,451 --> 00:04:48,290
+It's able to inject this
+directly into my application as
+
+103
+00:04:48,291 --> 00:04:49,412
+it's running.
+
+104
+00:04:49,413 --> 00:04:54,440
+There's no code
+modifications at all.
+
+105
+00:04:54,441 --> 00:04:57,423
+So I'm gonna be showing you some
+things on this .NET Foundation
+
+106
+00:04:57,424 --> 00:04:57,930
+website.
+
+107
+00:04:57,931 --> 00:05:01,196
+This is an ASP.NET Core
+application, I just deployed it.
+
+108
+00:05:01,197 --> 00:05:03,913
+And I actually used that
+App Insights to help kind of
+
+109
+00:05:03,914 --> 00:05:07,386
+troubleshoot and see what things
+are running first and slow, and
+
+110
+00:05:07,387 --> 00:05:09,360
+that kind of stuff.
+
+111
+00:05:09,361 --> 00:05:11,135
+So when I click through on this,
+
+112
+00:05:11,136 --> 00:05:16,670
+I'll click on monitor
+App Insights and it'll show,
+
+113
+00:05:17,690 --> 00:05:20,830
+if I click through this will
+show the actual application.
+
+114
+00:05:22,026 --> 00:05:25,000
+And I need to make sure that
+I'm picking a time range.
+
+115
+00:05:25,001 --> 00:05:27,950
+If you're not seeing
+information out there,
+
+116
+00:05:27,951 --> 00:05:30,700
+it may be that you're filtering
+down on the wrong time range.
+
+117
+00:05:30,701 --> 00:05:33,345
+So here I'm gonna filter for
+the last seven days so I can see
+
+118
+00:05:33,346 --> 00:05:37,190
+kinda what I was looking
+at over the past weekend.
+
+119
+00:05:37,191 --> 00:05:39,960
+And so here immediately,
+I can see some neat things.
+
+120
+00:05:39,961 --> 00:05:43,754
+Like for instance, it's got an
+App Map, and it's actually going
+
+121
+00:05:43,755 --> 00:05:47,570
+through and discovering what
+kind of things that I'm doing.
+
+122
+00:05:47,571 --> 00:05:50,730
+So here in this case,
+there's not a whole lot but
+
+123
+00:05:50,731 --> 00:05:54,910
+let's say I was calling out
+to a lot of other services or
+
+124
+00:05:54,911 --> 00:05:59,860
+using databases to profile, etc,
+it could help diagnose that.
+
+125
+00:05:59,861 --> 00:06:06,169
+It also helps me to see what
+kind of users are looking.
+
+126
+00:06:06,170 --> 00:06:09,527
+As I was kind of going through,
+this is actually saying during
+
+127
+00:06:09,528 --> 00:06:13,070
+the past 24, let me expand
+it to that seven days again.
+
+128
+00:06:13,071 --> 00:06:17,248
+And here we can see this is
+what the users were looking at,
+
+129
+00:06:17,249 --> 00:06:21,096
+where they were, this was
+me testing a home on Microsoft Edge.
+
+130
+00:06:21,097 --> 00:06:22,641
+But we can go through and
+
+131
+00:06:22,642 --> 00:06:26,259
+look at what all kinds
+of stuff about them.
+
+132
+00:06:26,260 --> 00:06:28,718
+And then I can
+actually go in and
+
+133
+00:06:28,719 --> 00:06:33,069
+see what sort of requests
+were being called overall and
+
+134
+00:06:33,070 --> 00:06:36,940
+what things were running
+faster or slower.
+
+135
+00:06:36,941 --> 00:06:39,060
+See you'll notice here
+if I dig in to this and
+
+136
+00:06:39,061 --> 00:06:44,440
+look at what sort of request
+I have, I can see things like
+
+137
+00:06:44,441 --> 00:06:47,310
+common properties,
+common request and things.
+
+138
+00:06:47,311 --> 00:06:50,544
+I can also see that for
+instance, I've got a lot of
+
+139
+00:06:50,545 --> 00:06:54,163
+request to this holder JS and
+this is actually something
+
+140
+00:06:54,164 --> 00:06:57,090
+that's generating some
+thumbnails for me.
+
+141
+00:06:57,091 --> 00:07:00,737
+And I can get an idea of like,
+well, was it running quickly and
+
+142
+00:07:00,738 --> 00:07:05,070
+if not, is there maybe something
+that I could do to speed it up?
+
+143
+00:07:05,071 --> 00:07:08,840
+So this is all great profiling
+information that I can get.
+
+144
+00:07:08,841 --> 00:07:11,530
+And if I really wanna
+dig deeper into it,
+
+145
+00:07:11,531 --> 00:07:15,240
+I can go even into analytics,
+and this'll let me run queries.
+
+146
+00:07:15,241 --> 00:07:18,020
+And so here I can go in,
+I can say okay,
+
+147
+00:07:18,021 --> 00:07:23,320
+what sort of things happened
+over this day time range, and
+
+148
+00:07:23,321 --> 00:07:27,270
+I can really dig in and generate
+some advanced charts and stuff.
+
+149
+00:07:27,271 --> 00:07:30,418
+Again, I did no co changes at
+all for this, this is just
+
+150
+00:07:30,419 --> 00:07:34,123
+something that's built in
+directly, so that's really cool.
+
+151
+00:07:35,395 --> 00:07:37,622
+All right, so
+now we've looked at all that and
+
+152
+00:07:37,623 --> 00:07:40,210
+we're going to next move on and
+take a look at Docker.
+
+153
+00:07:42,040 --> 00:07:44,410
+One of the things that Docker
+offers me is it's kind of
+
+154
+00:07:44,411 --> 00:07:49,100
+repeatable package that includes
+everything about my application.
+
+155
+00:07:49,101 --> 00:07:51,730
+>> It's like taking a snapshot
+of your application
+
+156
+00:07:51,731 --> 00:07:54,240
+that you can easily
+stand up anywhere.
+
+157
+00:07:54,241 --> 00:07:59,940
+>> Yep, so here I did right
+click Add>Docker Support,
+
+158
+00:07:59,941 --> 00:08:03,390
+and here I have a choice
+of operating system.
+
+159
+00:08:03,391 --> 00:08:04,940
+This is a bit of
+a mind blower here,
+
+160
+00:08:04,941 --> 00:08:07,690
+I'm actually gonna target Linux,
+so I'm using
+
+161
+00:08:07,691 --> 00:08:12,090
+a Linux Docker container,
+running on my Windows machine.
+
+162
+00:08:12,091 --> 00:08:13,584
+And it's gonna package it up and
+
+163
+00:08:13,585 --> 00:08:16,136
+do that all automatically for
+me.
+
+164
+00:08:16,137 --> 00:08:18,762
+So some of the neat
+things it does here for
+
+165
+00:08:18,763 --> 00:08:22,778
+me is it creates this Dockerfile
+and this Dockerfile is kind of
+
+166
+00:08:22,779 --> 00:08:27,120
+a recipe of here's what's needed
+to package up my application.
+
+167
+00:08:27,121 --> 00:08:29,573
+So this is saying take this,
+
+168
+00:08:29,574 --> 00:08:35,114
+the microsoft/aspnetcore
+version 2.0 Docker container.
+
+169
+00:08:35,115 --> 00:08:36,759
+>> Mm-hm.
+>> And then it says,
+
+170
+00:08:36,760 --> 00:08:39,813
+grab my source, and
+it has a working directory
+
+171
+00:08:39,814 --> 00:08:43,880
+on the container and
+it just copies that code over.
+
+172
+00:08:43,881 --> 00:08:47,920
+It exposes port 80, and
+then at the end here it says,
+
+173
+00:08:47,921 --> 00:08:50,010
+this is how to actually run it.
+
+174
+00:08:50,011 --> 00:08:52,540
+If we look here, it's actually
+done a few other things for
+
+175
+00:08:52,541 --> 00:08:55,210
+me, there's Docker file ignored.
+
+176
+00:08:55,211 --> 00:08:58,511
+These are things that you
+normally don't want published
+
+177
+00:08:58,512 --> 00:08:59,961
+out to your Docker file.
+
+178
+00:08:59,962 --> 00:09:00,514
+>> Right.
+
+179
+00:09:00,515 --> 00:09:03,090
+>> There's a couple,
+there's also Docker compose.
+
+180
+00:09:03,091 --> 00:09:05,020
+If I wanna have multiple
+different things,
+
+181
+00:09:05,021 --> 00:09:08,140
+if I wanna have maybe some
+microservices or whatever.
+
+182
+00:09:08,141 --> 00:09:12,170
+And then this,
+docker compose ci, is used for
+
+183
+00:09:12,171 --> 00:09:13,860
+the actual build process.
+
+184
+00:09:13,861 --> 00:09:17,630
+So we don't actually need to
+deploy this stuff out onto our,
+
+185
+00:09:17,631 --> 00:09:18,610
+we want a very tight,
+
+186
+00:09:18,611 --> 00:09:22,210
+lightweight docker container
+when we actually deploy it.
+
+187
+00:09:22,211 --> 00:09:23,370
+This is used in Build, but
+
+188
+00:09:23,371 --> 00:09:26,270
+not used in my final
+Docker container.
+
+189
+00:09:26,271 --> 00:09:29,662
+>> Right, this, we're actually
+gonna expose the source code to
+
+190
+00:09:29,663 --> 00:09:33,054
+this so that our build operation
+actually takes place inside of
+
+191
+00:09:33,055 --> 00:09:34,591
+another Docker container.
+
+192
+00:09:34,592 --> 00:09:38,350
+So we get that sanitary
+clean room for the build.
+
+193
+00:09:38,351 --> 00:09:42,009
+So we get to the exact same
+build every time and then we're
+
+194
+00:09:42,010 --> 00:09:46,140
+gonna output that information
+into another Docker container.
+
+195
+00:09:46,141 --> 00:09:49,808
+And that's what we will
+package up and turn into our
+
+196
+00:09:49,809 --> 00:09:54,420
+image that will create copies
+of our web application from.
+
+197
+00:09:54,421 --> 00:09:56,990
+>> Cool, I wanna show just
+one other thing here.
+
+198
+00:09:56,991 --> 00:09:59,620
+I wanna actually run this
+application in Docker,
+
+199
+00:09:59,621 --> 00:10:02,205
+locally, and
+I'm gonna set a breakpoint.
+
+200
+00:10:03,210 --> 00:10:04,882
+So I've got a breakpoint set.
+
+201
+00:10:04,883 --> 00:10:07,204
+So I'm actually gonna be
+debugging into the Docker
+
+202
+00:10:07,205 --> 00:10:09,904
+container and then I've added
+something into my index view
+
+203
+00:10:09,905 --> 00:10:12,260
+that shows the operating
+system version.
+
+204
+00:10:12,261 --> 00:10:15,100
+>> Okay.
+>> So then I hit run and
+
+205
+00:10:15,101 --> 00:10:17,800
+I haven't done anything
+special in this application.
+
+206
+00:10:17,801 --> 00:10:19,690
+I have installed
+Docker beforehand and
+
+207
+00:10:19,691 --> 00:10:21,900
+there's stuff in the Docks
+about how to do that.
+
+208
+00:10:21,901 --> 00:10:25,872
+>> So our start debug button
+flipped from saying either our
+
+209
+00:10:25,873 --> 00:10:28,154
+project name or IS express, and
+
+210
+00:10:28,155 --> 00:10:31,720
+it now said Docker because
+starting it in Docker.
+
+211
+00:10:31,721 --> 00:10:37,240
+And passing control back to me,
+in Microsoft Edge.
+
+212
+00:10:37,241 --> 00:10:38,920
+>> Yeah,
+now here's a crazy thing.
+
+213
+00:10:38,921 --> 00:10:42,090
+I actually hit a breakpoint so
+I'm debugging.
+
+214
+00:10:42,091 --> 00:10:44,560
+I'm able to debug,
+I can do edit and continue,
+
+215
+00:10:44,561 --> 00:10:45,830
+all that kind of stuff.
+
+216
+00:10:45,831 --> 00:10:49,050
+>> So you're debugging
+in application you wrote
+
+217
+00:10:49,051 --> 00:10:53,680
+on Windows,
+hosting on a Linux container and
+
+218
+00:10:53,681 --> 00:10:55,650
+exposing a debugging
+back to Windows.
+
+219
+00:10:55,651 --> 00:10:59,055
+>> Back, yes, exactly,
+back into Visual Studio.
+
+220
+00:10:59,056 --> 00:11:00,331
+So it's possible for me to,
+
+221
+00:11:00,332 --> 00:11:03,670
+right at the beginning of my
+project, build it on Docker.
+
+222
+00:11:03,671 --> 00:11:06,243
+It's not gonna slow me down as
+I develop the whole way through
+
+223
+00:11:06,244 --> 00:11:08,311
+and I know when I'm done,
+I can just deploy it and
+
+224
+00:11:08,312 --> 00:11:10,042
+I've been testing it
+all the way along.
+
+225
+00:11:10,043 --> 00:11:13,986
+Now here's the final little
+mind blower, I hit Continue and
+
+226
+00:11:13,987 --> 00:11:16,460
+we'll see the application
+come up and
+
+227
+00:11:16,461 --> 00:11:20,420
+you see way up in that corner
+there, here's the OS version.
+
+228
+00:11:20,421 --> 00:11:22,460
+So this is running in a Unix.
+
+229
+00:11:22,461 --> 00:11:26,172
+It's a Linux container, and this
+is running, I'm building this in
+
+230
+00:11:26,173 --> 00:11:29,180
+Visual Studio,
+testing with a Docker container.
+
+231
+00:11:29,181 --> 00:11:30,810
+>> All on Windows 10.
+
+232
+00:11:30,811 --> 00:11:31,660
+>> Yep.
+
+233
+00:11:31,661 --> 00:11:32,900
+>> Nice.
+
+234
+00:11:32,901 --> 00:11:34,460
+>> All right, so
+a bit of a whirlwind here,
+
+235
+00:11:34,461 --> 00:11:38,190
+but we went through looking
+at File> New Project,
+
+236
+00:11:38,191 --> 00:11:39,400
+deployed it to Azure.
+
+237
+00:11:39,401 --> 00:11:40,612
+>> Yep.
+>> Played with App Insights.
+
+238
+00:11:40,613 --> 00:11:41,286
+>> App Insights.
+
+239
+00:11:41,287 --> 00:11:45,390
+>> And I just kind of
+poked around a bit at it.
+
+240
+00:11:45,391 --> 00:11:46,495
+There's quite a bit more in
+
+241
+00:11:46,496 --> 00:11:48,035
+the documentation
+of what you can do.
+
+242
+00:11:48,036 --> 00:11:50,045
+And if you've got a running
+website, I've used that so
+
+243
+00:11:50,046 --> 00:11:52,685
+many times to diagnose exactly
+what's going wrong, or
+
+244
+00:11:52,686 --> 00:11:53,975
+what could speed up.
+
+245
+00:11:53,976 --> 00:11:55,645
+>> Yeah, there's logging
+information in there that
+
+246
+00:11:55,646 --> 00:11:56,607
+you could dig into,
+
+247
+00:11:56,608 --> 00:12:00,920
+that is being output as
+the application is running, so.
+
+248
+00:12:00,921 --> 00:12:03,640
+>> Yeah, and then finally,
+we looked at Docker and
+
+249
+00:12:03,641 --> 00:12:06,590
+literally just right clicks,
+add Docker support and
+
+250
+00:12:06,591 --> 00:12:10,450
+then hit a breakpoint and
+checked out, yes indeed,
+
+251
+00:12:10,451 --> 00:12:12,280
+it is running in
+a Linux container.
+
+252
+00:12:12,281 --> 00:12:15,660
+>> So you showed us that there
+is a continuous integration
+
+253
+00:12:15,661 --> 00:12:18,830
+file in there that we
+can use with VSTS so
+
+254
+00:12:18,831 --> 00:12:22,450
+that we can generate our
+images as we build each time.
+
+255
+00:12:22,451 --> 00:12:23,130
+>> Exactly.
+
+256
+00:12:23,131 --> 00:12:24,530
+>> Cool.
+
+257
+00:12:24,531 --> 00:12:26,410
+>> All right, let's stop there.
+
+258
+00:12:26,411 --> 00:12:27,152
+>> Thanks so much for
+
+259
+00:12:27,153 --> 00:12:29,133
+joining us here on
+Microsoft Virtual Academy.
+

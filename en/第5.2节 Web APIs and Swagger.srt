@@ -1,0 +1,1070 @@
+WEBVTT
+
+0
+00:00:01,060 --> 00:00:01,590
+Hey friends,
+
+1
+00:00:01,591 --> 00:00:04,935
+we just successfully survived
+the creation of a web API.
+
+2
+00:00:04,936 --> 00:00:06,356
+>> [LAUGH] Yes, we did.
+>> Entirely from scratch,
+
+3
+00:00:06,357 --> 00:00:07,244
+that was pretty cool.
+
+4
+00:00:07,245 --> 00:00:09,074
+>> Yeah.
+>> We got get and get post,
+
+5
+00:00:09,075 --> 00:00:13,304
+put and delete, create,
+read, update, and delete.
+
+6
+00:00:13,305 --> 00:00:14,620
+>> Yep.
+
+7
+00:00:14,621 --> 00:00:17,453
+>> We made our little concert
+ticket management application
+
+8
+00:00:17,454 --> 00:00:19,252
+here, but
+it has no documentation.
+
+9
+00:00:19,253 --> 00:00:23,329
+And there's really no good
+API way, there's no WSDL,
+
+10
+00:00:23,330 --> 00:00:26,385
+the Web Services
+Description Language-
+
+11
+00:00:26,386 --> 00:00:27,600
+>> Yeah.
+
+12
+00:00:27,601 --> 00:00:28,500
+>> For our thing.
+
+13
+00:00:28,501 --> 00:00:29,067
+So how can I fix this?
+
+14
+00:00:29,068 --> 00:00:33,241
+>> So what we can do is we can
+actually add on the Swagger capability-
+
+15
+00:00:33,242 --> 00:00:33,990
+>> Swagger.
+
+16
+00:00:33,991 --> 00:00:36,316
+>> That will
+describe our API for
+
+17
+00:00:36,317 --> 00:00:39,540
+folks that aren't
+familiar with it.
+
+18
+00:00:39,541 --> 00:00:41,990
+>> Okay,
+Swagger sounds pretty cool.
+
+19
+00:00:41,991 --> 00:00:42,850
+What is Swagger?
+
+20
+00:00:42,851 --> 00:00:48,980
+>> So Swagger is a standard that
+folks use to define their API's,
+
+21
+00:00:48,981 --> 00:00:52,980
+so that those restful end points
+can be found, discovered, and
+
+22
+00:00:52,981 --> 00:00:56,050
+executed easily with a little
+bit of documentation.
+
+23
+00:00:56,051 --> 00:00:59,416
+And even a helpful interface you
+can use to interact with it if
+
+24
+00:00:59,417 --> 00:01:01,733
+you enable that feature
+on your website.
+
+25
+00:01:01,734 --> 00:01:04,368
+>> Okay, so it's a description
+language for the web API.
+
+26
+00:01:04,369 --> 00:01:04,956
+>> Yep.
+
+27
+00:01:04,957 --> 00:01:07,837
+>> And then, at that point,
+anyone, even people who
+
+28
+00:01:07,838 --> 00:01:10,860
+aren't using .NET, of course,
+can call that API.
+
+29
+00:01:10,861 --> 00:01:13,650
+So a client, a Ruby client,
+a Python client, a JavaScript
+
+30
+00:01:13,651 --> 00:01:17,270
+client can then consume that
+Swagger, be ready to generate if
+
+31
+00:01:17,271 --> 00:01:22,750
+they choose, or absorb if
+they don't, that API's shape.
+
+32
+00:01:22,751 --> 00:01:26,380
+>> Yep, they can learn about it
+and generate that strongly typed
+
+33
+00:01:26,381 --> 00:01:29,950
+API if they need it or they
+can interact with it directly,
+
+34
+00:01:29,951 --> 00:01:32,230
+just like we were
+doing using Postman.
+
+35
+00:01:32,231 --> 00:01:35,060
+>> All right, cool, so
+there is a library,
+
+36
+00:01:35,061 --> 00:01:37,460
+an open source library,
+called Swashbuckle.
+
+37
+00:01:37,461 --> 00:01:38,958
+>> Yes.
+>> Like a swashbuckling pirate.
+
+38
+00:01:38,959 --> 00:01:40,962
+That Swaggers, I assume, and
+
+39
+00:01:40,963 --> 00:01:43,361
+that allows you to
+add this Swagger.
+
+40
+00:01:43,362 --> 00:01:45,719
+Now, Swagger is not a Microsoft
+thing, Swagger is a thing.
+
+41
+00:01:45,720 --> 00:01:46,853
+>> It's an open source thing.
+
+42
+00:01:46,854 --> 00:01:48,840
+>> It's an open source thing.
+
+43
+00:01:48,841 --> 00:01:50,650
+So I'm gonna go here into
+Visual Studio, this is
+
+44
+00:01:50,651 --> 00:01:53,190
+the same one that we were
+working on just moments ago.
+
+45
+00:01:53,191 --> 00:01:56,485
+So I'm gonna click on
+Solution Explorer, and I'm gonna
+
+46
+00:01:56,486 --> 00:02:01,240
+right-click on Dependencies and
+say Manage NewGet Packages.
+
+47
+00:02:01,241 --> 00:02:03,480
+And I'm gonna click
+here on Browse and
+
+48
+00:02:03,481 --> 00:02:05,796
+we're gonna search for
+Swashbuckle.
+
+49
+00:02:08,328 --> 00:02:11,412
+And I want specifically
+the ASP.NET Core version of
+
+50
+00:02:11,413 --> 00:02:12,330
+Swashbuckle.
+
+51
+00:02:12,331 --> 00:02:15,200
+And this is interesting, notice
+that it said no packages found,
+
+52
+00:02:15,201 --> 00:02:17,000
+you might bump into
+this sometimes.
+
+53
+00:02:17,001 --> 00:02:19,970
+There is a packet source
+pull down here that,
+
+54
+00:02:19,971 --> 00:02:21,440
+you might have different
+packet sources,
+
+55
+00:02:21,441 --> 00:02:23,070
+you wanna make sure that
+you're picking the right one.
+
+56
+00:02:24,200 --> 00:02:25,860
+Sometimes that happens to me.
+
+57
+00:02:25,861 --> 00:02:30,235
+So Swashbuckle, there we go,
+went by too fast,
+
+58
+00:02:30,236 --> 00:02:32,760
+swashbuckle.aspnetcore.
+
+59
+00:02:32,761 --> 00:02:34,370
+There's different ones for
+different versions.
+
+60
+00:02:36,060 --> 00:02:37,970
+There we go,
+probably the right one,
+
+61
+00:02:37,971 --> 00:02:40,010
+it's got a lot of
+great downloads.
+
+62
+00:02:40,011 --> 00:02:43,100
+All right, gonna hit the latest
+stable one, and hit install.
+
+63
+00:02:44,730 --> 00:02:46,943
+That's gonna then go and
+get those packages.
+
+64
+00:02:52,366 --> 00:02:53,204
+And that's all done.
+
+65
+00:02:53,205 --> 00:02:57,028
+Cool, so those were added.
+
+66
+00:02:57,029 --> 00:03:00,656
+Now remember, when we were
+in startup earlier, and
+
+67
+00:03:00,657 --> 00:03:05,410
+we did our services, we added
+MVC, we added our DbContext.
+
+68
+00:03:05,411 --> 00:03:07,660
+Swashbuckle is one
+of those things.
+
+69
+00:03:07,661 --> 00:03:08,931
+It's a service that
+we're gonna go and add.
+
+70
+00:03:08,932 --> 00:03:13,487
+So I'm gonna say
+services.AddSwaggerGen,
+
+71
+00:03:13,488 --> 00:03:16,531
+Swagger generation, right?
+
+72
+00:03:16,532 --> 00:03:19,549
+We're gonna go and
+make a little room for that,
+
+73
+00:03:19,550 --> 00:03:22,801
+cuz I'm gonna put some
+things inside SwaggerGen.
+
+74
+00:03:22,802 --> 00:03:25,977
+All right, let's go and
+do our SwaggerGen and
+
+75
+00:03:25,978 --> 00:03:29,235
+pass in this other object and
+we're gonna say,
+
+76
+00:03:29,236 --> 00:03:34,042
+we're gonna need documentation,
+let's say that this is maybe v1,
+
+77
+00:03:34,043 --> 00:03:36,342
+and we're gonna make a new Info.
+
+78
+00:03:36,343 --> 00:03:39,499
+Now here I've gotta choice,
+I wanna point this out,
+
+79
+00:03:39,500 --> 00:03:45,083
+you see I typed in Info, and
+it's saying, do you mean Swashbuckle.ASPNetCore.Swagger.-
+
+80
+00:03:45,084 --> 00:03:45,475
+Info?
+
+81
+00:03:45,476 --> 00:03:48,645
+I'm gonna hit control dot and
+add that using, so
+
+82
+00:03:48,646 --> 00:03:52,010
+I don't have to fill that out so
+much.
+
+83
+00:03:52,011 --> 00:03:53,679
+And then the title, there's
+the different options, you see?
+
+84
+00:03:53,680 --> 00:03:56,596
+TermsOfService for your API,
+and titles and descriptions.
+
+85
+00:03:56,597 --> 00:03:57,565
+We'll just take title.
+
+86
+00:03:57,566 --> 00:04:02,505
+>> All those things that your
+API consumers might to know
+
+87
+00:04:02,506 --> 00:04:04,050
+about your API.
+
+88
+00:04:04,051 --> 00:04:07,990
+>> Exactly, and we'll just
+say it's a Concert API,
+
+89
+00:04:07,991 --> 00:04:09,645
+keep it that, okay?
+
+90
+00:04:09,646 --> 00:04:14,578
+All right, that's just
+the setting up of that initial
+
+91
+00:04:14,579 --> 00:04:19,660
+Swagger, Okay?
+
+92
+00:04:19,661 --> 00:04:22,980
+And then down here in Configure,
+we've got UseMvc and
+
+93
+00:04:22,981 --> 00:04:24,010
+all that kind of stuff.
+
+94
+00:04:24,011 --> 00:04:25,650
+Let's give it a UI.
+
+95
+00:04:25,651 --> 00:04:30,020
+This lets it answer the call,
+basically, when someone goes and
+
+96
+00:04:30,021 --> 00:04:32,589
+asks for Swagger, but I wanna
+see an attractive UI for this.
+
+97
+00:04:33,630 --> 00:04:37,720
+>> Right, that AddSwaggerGen, it
+adds that extra information, so
+
+98
+00:04:37,721 --> 00:04:40,960
+that it knows that
+swagger information is in
+
+99
+00:04:40,961 --> 00:04:42,660
+the dependency
+injection container.
+
+100
+00:04:42,661 --> 00:04:44,090
+>> Right.
+>> So then down here-
+
+101
+00:04:44,091 --> 00:04:44,770
+>> We use it.
+
+102
+00:04:44,771 --> 00:04:46,980
+>> We can put it in
+the pipeline, the HTTP pipeline.
+
+103
+00:04:46,981 --> 00:04:51,600
+>> Al right, and
+I'm gonna say UseSwagger itself,
+
+104
+00:04:51,601 --> 00:04:52,660
+that enables it now.
+
+105
+00:04:52,661 --> 00:04:54,840
+So now it exists and
+it can listen.
+
+106
+00:04:54,841 --> 00:04:57,570
+>> Yes.
+>> Thank you, I misspoke before.
+
+107
+00:04:57,571 --> 00:05:02,060
+And then we can say
+UseSwaggerUI, okay?
+
+108
+00:05:03,580 --> 00:05:04,870
+And then here,
+
+109
+00:05:04,871 --> 00:05:08,230
+we'll give a little bit of
+hints on how we wanna do that.
+
+110
+00:05:08,231 --> 00:05:14,844
+So UseSwaggerUI, So
+
+111
+00:05:14,845 --> 00:05:18,700
+I thought that would,
+is that correct?
+
+112
+00:05:18,701 --> 00:05:19,374
+All right, let's try this again.
+
+113
+00:05:19,375 --> 00:05:24,255
+So UseSwaggerUI,
+SwaggerEndpoint and
+
+114
+00:05:24,256 --> 00:05:30,141
+its gonna be at
+swagger/v1/swagger.json,
+
+115
+00:05:30,142 --> 00:05:34,165
+and well call it
+a Ticket API V1.
+
+116
+00:05:38,502 --> 00:05:44,934
+All right,
+Sometimes I get a little
+
+117
+00:05:44,935 --> 00:05:50,329
+confused with these lambdas.
+
+118
+00:05:50,330 --> 00:05:52,135
+>> Yeah, all the different,
+there we go.
+
+119
+00:05:52,136 --> 00:05:54,960
+>> There we go, so
+let's go into a build.
+
+120
+00:05:56,630 --> 00:06:00,640
+And now I know that this is
+where the Swagger's going to be.
+
+121
+00:06:00,641 --> 00:06:03,900
+>> Right,
+the definition of our API, so
+
+122
+00:06:03,901 --> 00:06:05,850
+let's go and run this and see.
+
+123
+00:06:05,851 --> 00:06:07,623
+What's nice about this, though,
+
+124
+00:06:07,624 --> 00:06:10,529
+is you'll notice we did it
+all inside of the Startup.cs.
+
+125
+00:06:10,530 --> 00:06:12,136
+We didn't have to
+go into our API.
+
+126
+00:06:12,137 --> 00:06:12,665
+>> Yeah.
+
+127
+00:06:12,666 --> 00:06:15,650
+>> Yeah, so the Swashbuckle
+tool, what it's gonna do?
+
+128
+00:06:15,651 --> 00:06:19,639
+What Swashbuckle the value that
+it adds is it's going to go and
+
+129
+00:06:19,640 --> 00:06:23,177
+explore that API and
+generate this UI automatically.
+
+130
+00:06:23,178 --> 00:06:26,689
+Gonna I paced in, swagger.json.
+
+131
+00:06:29,313 --> 00:06:33,834
+Now, I'm doing this in Microsoft Edge,
+which is a lovely browser,
+
+132
+00:06:33,835 --> 00:06:37,800
+but not well known for
+attractive json handling.
+
+133
+00:06:37,801 --> 00:06:40,000
+So I'm gonna pull that
+over into Chrome,
+
+134
+00:06:40,001 --> 00:06:41,970
+where we have an extension.
+
+135
+00:06:44,220 --> 00:06:48,720
+So this isn't the API,
+this is the Swagger for the API.
+
+136
+00:06:48,721 --> 00:06:49,290
+>> This is the documentation.
+
+137
+00:06:49,291 --> 00:06:50,144
+>> The documentation.
+
+138
+00:06:50,145 --> 00:06:50,644
+>> Yeah.
+
+139
+00:06:50,645 --> 00:06:52,460
+>> It's the description,
+it's the shape.
+
+140
+00:06:52,461 --> 00:06:54,290
+So for example,
+I can close this up.
+
+141
+00:06:54,291 --> 00:06:56,525
+Look /ticket has a get.
+
+142
+00:06:56,526 --> 00:06:57,840
+>> Mm-hm.
+
+143
+00:06:57,841 --> 00:06:59,130
+>> Right?
+Takes an array,
+
+144
+00:06:59,131 --> 00:07:02,135
+post takes in an API ticket.
+
+145
+00:07:02,136 --> 00:07:08,040
+Ticket/id, that's a get,
+there's your delete, right?
+
+146
+00:07:08,041 --> 00:07:10,140
+We still got values along for
+the ride, remember?
+
+147
+00:07:10,141 --> 00:07:10,970
+>> Sure, look at that.
+
+148
+00:07:10,971 --> 00:07:12,010
+>> That's pretty cool.
+
+149
+00:07:12,011 --> 00:07:14,670
+>> And check out the producer's
+entry there, right?
+
+150
+00:07:14,671 --> 00:07:17,460
+If I go to API values,
+I can get plain text,
+
+151
+00:07:17,461 --> 00:07:19,500
+I can get json
+coming out of there.
+
+152
+00:07:19,501 --> 00:07:20,130
+>> Yeah.
+
+153
+00:07:20,131 --> 00:07:21,780
+>> Not just json.
+
+154
+00:07:21,781 --> 00:07:23,478
+>> So
+how do I got UI from my Swagger?
+
+155
+00:07:23,479 --> 00:07:27,618
+>> So that's actually at
+a slightly different end point
+
+156
+00:07:27,619 --> 00:07:31,575
+if you just go to,
+I believe it's just /swagger.
+
+157
+00:07:31,576 --> 00:07:32,131
+>> Okay.
+
+158
+00:07:32,132 --> 00:07:33,979
+>> There you go.
+
+159
+00:07:33,980 --> 00:07:35,296
+>> There it is,
+I see, I love this.
+
+160
+00:07:35,297 --> 00:07:38,929
+I just got a free API for
+my ticket.
+
+161
+00:07:38,930 --> 00:07:42,080
+And notice I've got my v1,
+I could have v2, v3, etc.
+
+162
+00:07:42,081 --> 00:07:43,180
+>> Exactly.
+
+163
+00:07:43,181 --> 00:07:45,290
+>> You've got values which
+we kind of kept around
+
+164
+00:07:45,291 --> 00:07:47,260
+from earlier, right?
+
+165
+00:07:47,261 --> 00:07:49,050
+We've got our gets.
+
+166
+00:07:49,051 --> 00:07:51,298
+Here's the part that
+I think is fun,
+
+167
+00:07:51,299 --> 00:07:54,310
+you can poke at these things,
+right?
+
+168
+00:07:54,311 --> 00:07:55,410
+I can say try it out.
+
+169
+00:07:56,740 --> 00:07:57,600
+They'll tell you how to
+
+170
+00:07:57,601 --> 00:07:59,570
+try it out with a curl
+at the command line.
+
+171
+00:08:01,590 --> 00:08:04,374
+The URL and they're giving you,
+
+172
+00:08:04,375 --> 00:08:09,060
+effectively, a tester inside
+of your documentation.
+
+173
+00:08:09,061 --> 00:08:11,150
+So imagine if you're gonna
+ship that documentation
+
+174
+00:08:11,151 --> 00:08:14,287
+to your customer, how they'll
+feel pretty good about that.
+
+175
+00:08:14,288 --> 00:08:17,660
+>> It is everything that we
+looked at in Postman, but
+
+176
+00:08:17,661 --> 00:08:20,300
+we generated this from
+our application and
+
+177
+00:08:20,301 --> 00:08:21,500
+it's in the browser for
+
+178
+00:08:21,501 --> 00:08:23,473
+anybody regardless of what
+tool they have installed.
+
+179
+00:08:23,474 --> 00:08:28,370
+>> So here's a tester, I'll just
+say I want Id 1 to write out and
+
+180
+00:08:28,371 --> 00:08:30,186
+I just went and
+got the Beyonce concert.
+
+181
+00:08:30,187 --> 00:08:31,264
+>> There you go.
+>> That's link,
+
+182
+00:08:31,265 --> 00:08:34,903
+so that is called Swagger,
+the concept, Swashbuckle
+
+183
+00:08:34,904 --> 00:08:38,476
+is the implementation of
+Swagger for APS.NET Core.
+
+184
+00:08:38,477 --> 00:08:41,173
+And there is a bunch of
+great documentation on this,
+
+185
+00:08:41,174 --> 00:08:42,990
+we're gonna find that.
+
+186
+00:08:42,991 --> 00:08:47,626
+>> If you go to
+docs.microsoft.com?
+
+187
+00:08:47,627 --> 00:08:48,854
+>> Okay, there it is, ASP.NET.
+
+188
+00:08:48,855 --> 00:08:52,690
+>> Right, and
+if you look up Swagger there?
+
+189
+00:08:54,970 --> 00:08:56,690
+>> I want this one.
+
+190
+00:08:56,691 --> 00:08:57,455
+>> There you go, yep.
+
+191
+00:08:57,456 --> 00:09:00,610
+>> ASP.NET Core Web API
+Help Pages using Swagger.
+
+192
+00:09:01,730 --> 00:09:03,450
+Walking through step
+by step by step.
+
+193
+00:09:03,451 --> 00:09:06,740
+And what's nice about this
+docs as with all of our docs,
+
+194
+00:09:06,741 --> 00:09:09,590
+Visual Studio for Mac, Visual
+Studio Code from the command
+
+195
+00:09:09,591 --> 00:09:12,440
+line, explained to you
+how to do all of this.
+
+196
+00:09:12,441 --> 00:09:15,540
+You can see exactly how we
+add it to the middleware,
+
+197
+00:09:15,541 --> 00:09:19,290
+how we configured it,
+what you get, and
+
+198
+00:09:19,291 --> 00:09:21,580
+then you can get into
+the customization.
+
+199
+00:09:21,581 --> 00:09:23,460
+You can go and
+add version information.
+
+200
+00:09:23,461 --> 00:09:24,270
+You can add your license,
+
+201
+00:09:24,271 --> 00:09:26,750
+you can add your terms
+of service and move on.
+
+202
+00:09:26,751 --> 00:09:29,270
+And even from there, if you
+want, you can go and bring that
+
+203
+00:09:29,271 --> 00:09:32,630
+up into Azure and we have tools
+that will suck that Swagger in.
+
+204
+00:09:32,631 --> 00:09:35,301
+And if you have a Swagger
+enabled Web API,
+
+205
+00:09:35,302 --> 00:09:38,201
+you'll be able to then
+use the API management
+
+206
+00:09:38,202 --> 00:09:41,270
+features in Azure to
+even do more with that.
+
+207
+00:09:41,271 --> 00:09:42,150
+>> Yep, to manage,
+
+208
+00:09:42,151 --> 00:09:44,030
+you'll be able to see
+all your documentation.
+
+209
+00:09:44,031 --> 00:09:46,240
+And the other folks that
+are using your end point will be
+
+210
+00:09:46,241 --> 00:09:48,040
+able to see that documentation.
+
+211
+00:09:48,041 --> 00:09:50,830
+>> Exactly, you can also
+modify that Swagger.
+
+212
+00:09:50,831 --> 00:09:52,210
+So in this example here,
+
+213
+00:09:52,211 --> 00:09:56,830
+what Shayne has got in, change
+the CSS to put documentation and
+
+214
+00:09:56,831 --> 00:09:58,680
+then the looks they way he
+wants his part to look.
+
+215
+00:09:58,681 --> 00:10:00,310
+>> Maybe you want your
+logo in the corner,
+
+216
+00:10:00,311 --> 00:10:01,820
+instead of the default
+Swagger logo.
+
+217
+00:10:01,821 --> 00:10:02,381
+>> Very flexible stuff.
+
+218
+00:10:02,382 --> 00:10:06,444
+So that is a complete Web API
+with a Swagger endpoint,
+
+219
+00:10:06,445 --> 00:10:10,610
+with documentation and
+I think that's a good module.
+
+220
+00:10:10,611 --> 00:10:11,820
+>> It's a good place to start,
+yeah.
+
+221
+00:10:11,821 --> 00:10:13,870
+>> Fantastic,
+we having an all kinds of fun
+
+222
+00:10:13,871 --> 00:10:15,740
+here on
+Microsoft Virtual Academy.
+
+223
+00:10:15,741 --> 00:10:19,620
+Stay with us, we've a great
+whole series of modules
+
+224
+00:10:19,621 --> 00:10:22,220
+before this one and after this
+one, so be sure to explore.
+
+225
+00:10:22,221 --> 00:10:23,180
+Thanks so much.
+
+226
+00:10:23,181 --> 00:10:23,680
+>> All right.
+

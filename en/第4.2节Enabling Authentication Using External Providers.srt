@@ -1,0 +1,1198 @@
+WEBVTT
+
+0
+00:00:01,094 --> 00:00:05,440
+Hey there, welcome back to this
+module about ASP.NET Core.
+
+1
+00:00:05,441 --> 00:00:06,760
+My name is Jeff Fritz.
+
+2
+00:00:06,761 --> 00:00:08,080
+>> I'm Jon Galloway.
+
+3
+00:00:08,081 --> 00:00:11,330
+>> And, Jon, we built an
+application in that last video
+
+4
+00:00:11,331 --> 00:00:14,840
+where we showed how to log
+in to our application, but
+
+5
+00:00:14,841 --> 00:00:16,800
+I've already got
+a Microsoft account and
+
+6
+00:00:16,801 --> 00:00:19,240
+a Twitter account and
+a Facebook account.
+
+7
+00:00:19,241 --> 00:00:21,770
+Can I use one of those to
+login to my application?
+
+8
+00:00:21,771 --> 00:00:24,920
+>> Well, yeah,
+that's exactly what will show.
+
+9
+00:00:24,921 --> 00:00:26,190
+Password are terrible.
+
+10
+00:00:26,191 --> 00:00:27,080
+>> They are.
+
+11
+00:00:27,081 --> 00:00:29,210
+>> If you remember
+on the last thing,
+
+12
+00:00:29,211 --> 00:00:30,615
+I can't miss type my password.
+
+13
+00:00:30,616 --> 00:00:31,880
+>> Mm-hm.
+>> I wanna
+
+14
+00:00:31,881 --> 00:00:34,040
+manage as few
+passwords as possible.
+
+15
+00:00:34,041 --> 00:00:36,840
+And as an application
+developer I wanna manage this
+
+16
+00:00:36,841 --> 00:00:38,410
+few passwords as
+well as possible.
+
+17
+00:00:38,411 --> 00:00:41,660
+I don't want people breaking
+into my application and
+
+18
+00:00:41,661 --> 00:00:46,090
+stealing user passwords, people
+sometimes reuse passwords on
+
+19
+00:00:46,091 --> 00:00:48,750
+other sites,
+I don't wanna deal with that.
+
+20
+00:00:48,751 --> 00:00:52,430
+So what's a lot better is if
+I can let people login to my
+
+21
+00:00:52,431 --> 00:00:55,850
+application using Google,
+Microsoft, Facebook,
+
+22
+00:00:55,851 --> 00:00:56,739
+Twitter, etc.
+
+23
+00:00:57,830 --> 00:00:59,560
+And let them deal with it.
+
+24
+00:00:59,561 --> 00:01:01,470
+>> Sure.
+>> So we'll show how to do that.
+
+25
+00:01:01,471 --> 00:01:03,390
+I'm on my application.
+
+26
+00:01:03,391 --> 00:01:05,110
+>> Okay.
+>> And I'm gonna click on
+
+27
+00:01:05,111 --> 00:01:06,550
+Log In.
+
+28
+00:01:06,551 --> 00:01:09,780
+And when I do that, you'll see
+over on the left side it has
+
+29
+00:01:09,781 --> 00:01:13,670
+this kind of standard user
+account with email and password.
+
+30
+00:01:13,671 --> 00:01:17,920
+Over on the right side though
+it says, there's no external
+
+31
+00:01:17,921 --> 00:01:20,090
+authentication services
+configured.
+
+32
+00:01:20,091 --> 00:01:22,760
+See this article for details.
+
+33
+00:01:22,761 --> 00:01:25,980
+>> So more boiler plate text
+there that instruct us how to
+
+34
+00:01:25,981 --> 00:01:28,410
+configure that application
+if we wanna add the feature.
+
+35
+00:01:28,411 --> 00:01:29,970
+>> Exactly,
+this is prompting me.
+
+36
+00:01:29,971 --> 00:01:32,850
+This is saying all you've
+got set up right now is user
+
+37
+00:01:32,851 --> 00:01:33,570
+name and password.
+
+38
+00:01:33,571 --> 00:01:36,820
+There are some steps to
+configure it in your application
+
+39
+00:01:36,821 --> 00:01:39,950
+so that it can use external
+authentication services, but
+
+40
+00:01:39,951 --> 00:01:41,370
+here's how to do it.
+
+41
+00:01:41,371 --> 00:01:46,070
+Now you need to go through
+these different steps for
+
+42
+00:01:46,071 --> 00:01:47,630
+each provider.
+
+43
+00:01:47,631 --> 00:01:51,070
+So, for Facebook, for Twitter,
+for Google, for Microsoft, for
+
+44
+00:01:51,071 --> 00:01:53,500
+other open idea or
+out to providers.
+
+45
+00:01:53,501 --> 00:01:57,360
+So you need to go through and
+configure that.
+
+46
+00:01:57,361 --> 00:01:59,550
+It's not a whole
+lot of steps but.
+
+47
+00:01:59,551 --> 00:02:01,050
+So we're gonna go
+through in this one.
+
+48
+00:02:01,051 --> 00:02:02,520
+I'm gonna use some
+Microsoft account.
+
+49
+00:02:02,521 --> 00:02:04,120
+But you could use whatever, and
+
+50
+00:02:04,121 --> 00:02:06,640
+the steps are all kinda
+written here in the dots.
+
+51
+00:02:06,641 --> 00:02:10,750
+And it was off that link I
+clicked in my application there.
+
+52
+00:02:10,751 --> 00:02:15,854
+So what I'm gonna do here is I'm
+going to start with creating
+
+53
+00:02:15,855 --> 00:02:20,570
+an application using
+Microsoft application, right?
+
+54
+00:02:20,571 --> 00:02:26,810
+So I'm going to go in and
+I've gone to apps.dev.microsoft.com
+
+55
+00:02:26,811 --> 00:02:28,030
+>> Okay.
+
+56
+00:02:28,031 --> 00:02:29,720
+And I'm gonna click
+on Add an app.
+
+57
+00:02:30,830 --> 00:02:35,160
+So now I need to give
+it My MVA Sample.
+
+58
+00:02:36,920 --> 00:02:40,274
+And then I could go through
+here, there's this guided setup
+
+59
+00:02:40,275 --> 00:02:43,625
+and if I do that, it's actually
+going to give me like a little
+
+60
+00:02:43,626 --> 00:02:46,147
+wizard to point me at
+some sample code stuff.
+
+61
+00:02:46,148 --> 00:02:50,228
+But I'm an expert here, I've
+done this a gazillion times I'm
+
+62
+00:02:50,229 --> 00:02:54,001
+just gonna click on Create, and
+so it's going to go out and
+
+63
+00:02:54,002 --> 00:02:57,260
+provision a new application for
+me.
+
+64
+00:02:57,261 --> 00:03:00,190
+So now let's make sure that we
+are kind of following along
+
+65
+00:03:00,191 --> 00:03:04,190
+here and I'm going to go in and
+find where it's got
+
+66
+00:03:06,150 --> 00:03:08,760
+my Microsoft instructions.
+
+67
+00:03:08,761 --> 00:03:11,240
+So, this is kind of showing
+how to configure it
+
+68
+00:03:11,241 --> 00:03:13,660
+on the Microsoft side, right?
+
+69
+00:03:13,661 --> 00:03:16,170
+So, you will log in,
+you will create and
+
+70
+00:03:16,171 --> 00:03:19,350
+there you will see there is my
+application I've just added.
+
+71
+00:03:19,351 --> 00:03:20,270
+>> Okay.
+
+72
+00:03:20,271 --> 00:03:23,650
+>> All right, so now let's
+kinda work through this.
+
+73
+00:03:24,920 --> 00:03:28,870
+So, in here, that's my name.
+
+74
+00:03:28,871 --> 00:03:29,450
+I will,
+
+75
+00:03:29,451 --> 00:03:33,750
+as I work down the list, I will
+need to generate a new password.
+
+76
+00:03:33,751 --> 00:03:37,200
+So when I click this
+generate password, this is,
+
+77
+00:03:37,201 --> 00:03:38,710
+it's a secret.
+
+78
+00:03:38,711 --> 00:03:42,270
+I'm going to use this in my
+application, and I need to store
+
+79
+00:03:42,271 --> 00:03:45,910
+this, so when this pops up it's
+only gonna show it to me once.
+
+80
+00:03:45,911 --> 00:03:47,780
+So I just copied that.
+
+81
+00:03:47,781 --> 00:03:52,430
+And I'm gonna go over
+into notepad here and
+
+82
+00:03:52,431 --> 00:03:54,160
+I'm going to paste
+that down here.
+
+83
+00:03:54,161 --> 00:03:57,020
+So this is from a previous one,
+I'm just going to,
+
+84
+00:03:57,021 --> 00:03:58,940
+that's my password there.
+
+85
+00:03:58,941 --> 00:04:02,450
+And then here is
+my Application Id.
+
+86
+00:04:03,570 --> 00:04:07,040
+So those are the two things I'm
+going to need to configure in my
+
+87
+00:04:07,041 --> 00:04:09,140
+app in order to do that.
+
+88
+00:04:09,141 --> 00:04:12,140
+So I'm actually going to be
+
+89
+00:04:12,141 --> 00:04:15,620
+pasting these as secrets
+into my application.
+
+90
+00:04:15,621 --> 00:04:19,310
+So just while I'm here I'm gonna
+go ahead and paste this in here.
+
+91
+00:04:21,990 --> 00:04:22,730
+And this here.
+
+92
+00:04:22,731 --> 00:04:25,620
+This is going to be
+information I'm going to be
+
+93
+00:04:25,621 --> 00:04:27,660
+using in my application
+in just a minute.
+
+94
+00:04:29,360 --> 00:04:32,070
+>> So, these two data points.
+
+95
+00:04:32,071 --> 00:04:35,240
+This is effectively
+the user ID and password
+
+96
+00:04:35,241 --> 00:04:40,190
+that your application will
+use to access the Microsoft
+
+97
+00:04:40,191 --> 00:04:44,330
+account website and do a check
+on user ID's and passwords.
+
+98
+00:04:44,331 --> 00:04:45,290
+>> That's exactly.
+
+99
+00:04:45,291 --> 00:04:47,040
+>> Okay.
+>> So my application needs a way
+
+100
+00:04:47,041 --> 00:04:51,410
+to call into a Microsoft
+account to the Microsoft, or
+
+101
+00:04:51,411 --> 00:04:53,925
+whatever it is Twitter,
+Google, etc, etc.
+
+102
+00:04:53,926 --> 00:04:56,690
+I'm this registered application
+I need you to look up
+
+103
+00:04:56,691 --> 00:04:57,700
+the user for me.
+
+104
+00:04:57,701 --> 00:04:58,220
+>> Okay.
+>> So
+
+105
+00:04:58,221 --> 00:05:00,300
+that's how we're doing that.
+
+106
+00:05:00,301 --> 00:05:04,340
+So then here I'm gonna click in,
+I'm gonna say Add Platform and
+
+107
+00:05:04,341 --> 00:05:07,730
+at this point I'm going
+to need a URL for this.
+
+108
+00:05:07,731 --> 00:05:10,030
+And this part is
+actually is important.
+
+109
+00:05:10,031 --> 00:05:11,600
+You've got to get,
+I mean it's all important.
+
+110
+00:05:11,601 --> 00:05:14,970
+But this part is,
+if you get this wrong,
+
+111
+00:05:14,971 --> 00:05:18,690
+it's just not gonna work and
+you'll be frustrated, right.
+
+112
+00:05:18,691 --> 00:05:21,616
+Unlike some other errors
+that you can get developing,
+
+113
+00:05:21,617 --> 00:05:24,378
+if you get this part wrong,
+it just doesn't work.
+
+114
+00:05:24,379 --> 00:05:25,030
+>> Man.
+>> You don't get
+
+115
+00:05:25,031 --> 00:05:25,960
+an error message.
+
+116
+00:05:25,961 --> 00:05:30,060
+You just get a couldn't find
+your application kind of thing.
+
+117
+00:05:30,061 --> 00:05:34,340
+So what I need to do is I'm
+going to look at my app and
+
+118
+00:05:34,341 --> 00:05:36,450
+I have this URL.
+
+119
+00:05:36,451 --> 00:05:41,070
+It's local host,
+blah, blah, blah.
+
+120
+00:05:41,071 --> 00:05:45,800
+So I'm going to copy
+that part in here.
+
+121
+00:05:48,440 --> 00:05:49,880
+And then I need to get
+
+122
+00:05:51,010 --> 00:05:54,680
+the second part which is
+sign in dash Microsoft.
+
+123
+00:05:54,681 --> 00:05:59,270
+So within my application
+there's actually,
+
+124
+00:05:59,271 --> 00:06:05,160
+there's kind of route generated
+to enable this call back.
+
+125
+00:06:06,650 --> 00:06:09,010
+So I'm gonna go like that.
+
+126
+00:06:09,011 --> 00:06:14,420
+Right, so what this tells the
+Microsoft account registration
+
+127
+00:06:14,421 --> 00:06:18,590
+thing is once you kinda look
+this person up, here's how you
+
+128
+00:06:18,591 --> 00:06:21,280
+call back into my application
+and say they're good to go.
+
+129
+00:06:21,281 --> 00:06:22,130
+>> Okay.
+>> Right.
+
+130
+00:06:22,131 --> 00:06:24,110
+>> And
+it'll notify your application.
+
+131
+00:06:24,111 --> 00:06:27,240
+That it's John Galloway signed
+in with his Microsoft account.
+
+132
+00:06:27,241 --> 00:06:27,760
+>> Exactly.
+>> Okay.
+
+133
+00:06:27,761 --> 00:06:31,720
+>> Will pass that information
+over who that person is.
+
+134
+00:06:31,721 --> 00:06:34,280
+So an important thing here
+is once you type that in,
+
+135
+00:06:34,281 --> 00:06:35,940
+you gotta hit the save button.
+
+136
+00:06:35,941 --> 00:06:37,480
+>> Okay.
+>> So I got that wrong before I
+
+137
+00:06:37,481 --> 00:06:39,120
+went through and I was like,
+what's going on?
+
+138
+00:06:39,121 --> 00:06:40,090
+Why isn't that working?
+
+139
+00:06:40,091 --> 00:06:42,870
+So that is an important step.
+
+140
+00:06:42,871 --> 00:06:47,660
+[LAUGH] So now that we have
+that information configured
+
+141
+00:06:47,661 --> 00:06:52,060
+over on the Microsoft side,
+on the Microsoft account side.
+
+142
+00:06:52,061 --> 00:06:55,960
+Now, I need to take that
+information, here's the password
+
+143
+00:06:55,961 --> 00:07:00,150
+and all that and I need to
+configure this in my app.
+
+144
+00:07:00,151 --> 00:07:04,673
+So I actually wanna do this
+using the secret management
+
+145
+00:07:04,674 --> 00:07:09,490
+thing that's built into,
+built into ASP.NET Core.
+
+146
+00:07:09,491 --> 00:07:10,250
+>> Okay.
+
+147
+00:07:10,251 --> 00:07:13,020
+>> So remember,
+I've got these things here,
+
+148
+00:07:13,021 --> 00:07:17,110
+this is my application ID and
+password.
+
+149
+00:07:17,111 --> 00:07:18,750
+>> Right.
+>> And
+
+150
+00:07:18,751 --> 00:07:20,250
+I might be tempted
+to just go and
+
+151
+00:07:20,251 --> 00:07:23,880
+put this in my appconfig or
+my appsettings json.
+
+152
+00:07:23,881 --> 00:07:24,950
+>> App Settings Json.
+
+153
+00:07:24,951 --> 00:07:25,580
+Don't do that.
+
+154
+00:07:25,581 --> 00:07:26,705
+>> That's a bad idea, right?
+
+155
+00:07:26,706 --> 00:07:31,012
+Because oops, I might check that
+in the source control, etc. Absolutely.
+
+156
+00:07:31,013 --> 00:07:32,220
+>> I don't wanna do that.
+
+157
+00:07:32,221 --> 00:07:35,350
+So there's a thing built
+into ASP.NET Core that has,
+
+158
+00:07:35,351 --> 00:07:37,710
+it's called user secrets.
+
+159
+00:07:37,711 --> 00:07:42,380
+And so I can just go in, oops,
+I can grab this bit here.
+
+160
+00:07:44,805 --> 00:07:46,133
+And paste that in.
+
+161
+00:07:46,134 --> 00:07:52,460
+So this user secrets thing is
+just a standard JSON file, and
+
+162
+00:07:52,461 --> 00:07:56,040
+what this is doing this will not
+get checked into source control.
+
+163
+00:07:56,041 --> 00:07:58,710
+And what I'm gonna wanna do
+then is when I deploy this
+
+164
+00:07:58,711 --> 00:08:01,540
+application to production, say
+I'm using Azure I would go in
+
+165
+00:08:01,541 --> 00:08:03,825
+and set an application
+setting for that.
+
+166
+00:08:03,826 --> 00:08:05,700
+>> Mm-hm.
+>> I would set in a environment
+
+167
+00:08:05,701 --> 00:08:07,823
+variable in another server, etc.
+
+168
+00:08:07,824 --> 00:08:11,900
+I wanna store this on the server
+as an environment variable and
+
+169
+00:08:11,901 --> 00:08:14,640
+not in source code
+with my application.
+
+170
+00:08:14,641 --> 00:08:15,180
+>> Right.
+
+171
+00:08:15,181 --> 00:08:16,500
+>> Makes sense?
+
+172
+00:08:16,501 --> 00:08:19,060
+>> Keep production
+configuration in production.
+
+173
+00:08:19,061 --> 00:08:19,940
+>> Exactly.
+
+174
+00:08:19,941 --> 00:08:22,970
+Okay, so now the one final
+thing I need to do is,
+
+175
+00:08:22,971 --> 00:08:24,950
+I've got these secrets stored.
+
+176
+00:08:24,951 --> 00:08:26,750
+And I need to go in and
+
+177
+00:08:26,751 --> 00:08:31,560
+I need to tell it, hey,
+use Microsoft account and
+
+178
+00:08:31,561 --> 00:08:35,710
+here's how to look at that
+application ID and password.
+
+179
+00:08:35,711 --> 00:08:39,110
+So I'm going to go
+into my start up and
+
+180
+00:08:39,111 --> 00:08:44,880
+right below the place where
+it does the AddIdentity.
+
+181
+00:08:44,881 --> 00:08:48,180
+So he's right, it kind of
+configure the basic identity.
+
+182
+00:08:48,181 --> 00:08:51,260
+I'm going to, on this line here,
+
+183
+00:08:51,261 --> 00:08:54,620
+I need to stop my app in order
+to make source code changes.
+
+184
+00:08:54,621 --> 00:08:57,310
+So I'll go in here and
+I'll paste that.
+
+185
+00:08:57,311 --> 00:09:01,610
+So this says AddAuthentication
+turn on the Microsoft account
+
+186
+00:09:01,611 --> 00:09:04,118
+and for the Microsoft account
+use this client ID and
+
+187
+00:09:04,119 --> 00:09:05,740
+this client secret.
+
+188
+00:09:05,741 --> 00:09:07,250
+So they use some
+different names,
+
+189
+00:09:07,251 --> 00:09:10,610
+client ID, client secret
+you'll notice in here that
+
+190
+00:09:10,611 --> 00:09:13,400
+the Microsoft account called it
+something slightly different.
+
+191
+00:09:13,401 --> 00:09:14,850
+>> Yeah they call
+them a password.
+
+192
+00:09:14,851 --> 00:09:17,350
+>> But there's basically
+it's a user ID and
+
+193
+00:09:17,351 --> 00:09:19,370
+some sought of password
+secret sought of thing.
+
+194
+00:09:19,371 --> 00:09:20,640
+>> Okay.
+
+195
+00:09:20,641 --> 00:09:23,330
+>> So now I've got that setup,
+
+196
+00:09:23,331 --> 00:09:26,540
+I'll verify in my steps
+that I'm done here.
+
+197
+00:09:26,541 --> 00:09:29,680
+So here it calls that out by
+difference in terminology.
+
+198
+00:09:29,681 --> 00:09:31,580
+And now I can just
+run my application.
+
+199
+00:09:33,060 --> 00:09:34,090
+Now in my case,
+
+200
+00:09:34,091 --> 00:09:38,130
+I've already signed in with my
+Microsoft account so hopefully
+
+201
+00:09:39,700 --> 00:09:41,630
+I'll just be able to kinda
+click through and it will work.
+
+202
+00:09:44,070 --> 00:09:47,060
+All right so
+it's starting on up.
+
+203
+00:09:48,310 --> 00:09:51,760
+So now I am going to log
+out as test.test.com.
+
+204
+00:09:51,761 --> 00:09:54,970
+And then hit Log in.
+
+205
+00:09:54,971 --> 00:09:57,950
+And now you'll see this
+button here and it's laid up.
+
+206
+00:09:57,951 --> 00:10:02,640
+So if I go through that help,
+and I configure also, say,
+
+207
+00:10:02,641 --> 00:10:03,690
+Twitter and Google, etc.
+
+208
+00:10:03,691 --> 00:10:05,620
+Those will show up here, too.
+
+209
+00:10:05,621 --> 00:10:06,550
+>> Cool.
+
+210
+00:10:06,551 --> 00:10:08,680
+>> So
+now I'm gonna click on this.
+
+211
+00:10:08,681 --> 00:10:10,430
+It calls over,
+it redirects over.
+
+212
+00:10:10,431 --> 00:10:11,840
+Now I've got a few different
+
+213
+00:10:11,841 --> 00:10:13,500
+accounts with
+Microsoft accounts.
+
+214
+00:10:13,501 --> 00:10:17,320
+Fortunately Microsoft has
+kinda support for that, right.
+
+215
+00:10:17,321 --> 00:10:21,755
+So here it says okay we
+need your permission.
+
+216
+00:10:21,756 --> 00:10:24,270
+The thing I wanna verify
+here is the user is
+
+217
+00:10:24,271 --> 00:10:26,260
+that it's my Microsoft sample.
+
+218
+00:10:26,261 --> 00:10:29,240
+Which I'll say application
+that I think it is.
+
+219
+00:10:29,241 --> 00:10:31,220
+Right and I'll say Yes.
+
+220
+00:10:32,830 --> 00:10:36,280
+And so now it's continuing that
+it's go, it's logged in and
+
+221
+00:10:36,281 --> 00:10:39,630
+now it's redirected back
+in to my application.
+
+222
+00:10:39,631 --> 00:10:42,390
+This would be the part where
+if I had gotten that call back
+
+223
+00:10:42,391 --> 00:10:44,880
+URL wrong, this is where
+it would have blown up.
+
+224
+00:10:44,881 --> 00:10:47,200
+>> You would have ended up
+in never, never length.
+
+225
+00:10:47,201 --> 00:10:49,930
+>> It would have the Microsoft
+authentication thing would have
+
+226
+00:10:49,931 --> 00:10:51,030
+said couldn't find this.
+
+227
+00:10:51,031 --> 00:10:52,050
+So it would show me in an error.
+
+228
+00:10:53,230 --> 00:10:56,560
+So now it says great,
+we logged you in,
+
+229
+00:10:56,561 --> 00:10:59,810
+we looked up your email address
+for that Microsoft account so
+
+230
+00:10:59,811 --> 00:11:01,710
+you can just click Register.
+
+231
+00:11:01,711 --> 00:11:03,350
+And now, this is me.
+
+232
+00:11:04,550 --> 00:11:08,150
+So if I click through on
+this it shows here's my
+
+233
+00:11:08,151 --> 00:11:11,690
+external log in and that's my
+registered external log in.
+
+234
+00:11:11,691 --> 00:11:14,260
+>> You can have more than one
+registered external login for
+
+235
+00:11:14,261 --> 00:11:15,670
+a user which is kind of neat.
+
+236
+00:11:15,671 --> 00:11:16,580
+>> And then I could go in and
+
+237
+00:11:16,581 --> 00:11:19,240
+configure things like Two
+factor authorization, etc.
+
+238
+00:11:19,241 --> 00:11:21,730
+>> And
+still increase the security
+
+239
+00:11:21,731 --> 00:11:23,530
+of your account on
+this application.
+
+240
+00:11:23,531 --> 00:11:28,670
+>> Exactly, so what we saw here
+was kinda the basic steps of
+
+241
+00:11:28,671 --> 00:11:32,690
+going in and getting out of the
+password management business.
+
+242
+00:11:32,691 --> 00:11:34,830
+I don't wanna manage
+passwords in my application.
+
+243
+00:11:34,831 --> 00:11:38,250
+I want another bigger service
+where people are, run around
+
+244
+00:11:38,251 --> 00:11:41,920
+with pagers and worry about
+all that stuff all day long.
+
+245
+00:11:41,921 --> 00:11:45,430
+So, what I've done is
+set up an external
+
+246
+00:11:45,431 --> 00:11:48,680
+authentication provider using
+Microsoft and I've shown you
+
+247
+00:11:48,681 --> 00:11:51,638
+where you could also hook
+up Google, Twitter etc.
+
+248
+00:11:51,639 --> 00:11:54,490
+>> Cool, all right.
+
+249
+00:11:54,491 --> 00:11:56,180
+Thanks so much for
+sticking around and
+
+250
+00:11:56,181 --> 00:11:58,970
+seeing about how to configure
+authentication here.
+
+251
+00:11:58,971 --> 00:12:01,090
+Hope you'd come back and
+join us for our next video where
+
+252
+00:12:01,091 --> 00:12:02,800
+we're gonna start talking
+about authorization.
+

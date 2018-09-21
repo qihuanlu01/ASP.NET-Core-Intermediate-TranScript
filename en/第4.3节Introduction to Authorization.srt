@@ -1,0 +1,2577 @@
+WEBVTT
+
+0
+00:00:01,200 --> 00:00:02,700
+Hi, I'm Jon Galloway.
+
+1
+00:00:02,701 --> 00:00:04,000
+>> And I'm Jeff Fritz.
+
+2
+00:00:04,001 --> 00:00:07,600
+>> And we've been talking about
+logging into an application,
+
+3
+00:00:07,601 --> 00:00:09,670
+setting up simple identity.
+
+4
+00:00:09,671 --> 00:00:14,910
+So this is both setting up,
+registering a user.
+
+5
+00:00:14,911 --> 00:00:16,650
+>> Sure.
+>> And then also enabling two
+
+6
+00:00:16,651 --> 00:00:20,830
+factor authentication, so
+that we make sure my password.
+
+7
+00:00:20,831 --> 00:00:23,400
+Somebody can't just take my
+password and login to the site.
+
+8
+00:00:23,401 --> 00:00:25,200
+>> Sure, you're authenticating
+somewhere else.
+
+9
+00:00:25,201 --> 00:00:29,110
+Maybe it's Twitter,
+a Microsoft account, Facebook. Sure.
+
+10
+00:00:29,111 --> 00:00:30,010
+>> Exactly, so
+
+11
+00:00:30,011 --> 00:00:32,950
+now that we've got that setup,
+what can we do with it?
+
+12
+00:00:32,951 --> 00:00:35,420
+>> Sure, we wanna look now at,
+
+13
+00:00:35,421 --> 00:00:39,620
+how do I grant folks access
+to specific features?
+
+14
+00:00:39,621 --> 00:00:41,610
+Right, we've gone
+through authentication.
+
+15
+00:00:41,611 --> 00:00:43,985
+Are you the person
+you say you are?
+
+16
+00:00:43,986 --> 00:00:46,040
+Let's now look at authorization.
+
+17
+00:00:46,041 --> 00:00:46,739
+Hey John,
+
+18
+00:00:46,740 --> 00:00:50,718
+are you allowed to access these
+features of my application?
+
+19
+00:00:50,719 --> 00:00:51,786
+>> Great.
+
+20
+00:00:51,787 --> 00:00:53,910
+>> So let's take a look
+here on my machine.
+
+21
+00:00:53,911 --> 00:00:57,070
+I got a sample already started
+up here with a couple of
+
+22
+00:00:57,071 --> 00:00:58,740
+features already built,
+
+23
+00:00:58,741 --> 00:01:02,020
+just to get us through some of
+the boiler plate capabilities.
+
+24
+00:01:02,021 --> 00:01:03,920
+So this is a new application,
+
+25
+00:01:03,921 --> 00:01:07,310
+a new ASP.NET Core
+2.0 application.
+
+26
+00:01:07,311 --> 00:01:12,163
+And I've already got my identity
+configuration in my start
+
+27
+00:01:12,164 --> 00:01:16,336
+of class here, but
+I've changed my database to use
+
+28
+00:01:16,337 --> 00:01:21,494
+the InMemoryDatabase and I've
+just called it off the sample.
+
+29
+00:01:21,495 --> 00:01:24,194
+>> So the InMemoryDatabase is a
+great way for working with test
+
+30
+00:01:24,195 --> 00:01:26,894
+data or something that you wanna
+have created every time you
+
+31
+00:01:26,895 --> 00:01:28,192
+start up your application?
+
+32
+00:01:28,193 --> 00:01:32,030
+>> Yup, every time I start,
+let's rebuild that database.
+
+33
+00:01:32,031 --> 00:01:35,650
+Consequently, I need to also put
+some seed data in that database
+
+34
+00:01:35,651 --> 00:01:36,933
+every time I start up.
+
+35
+00:01:36,934 --> 00:01:40,521
+So down here in my configure
+method, I added a call into
+
+36
+00:01:40,522 --> 00:01:44,109
+something that I called
+SampleData to initialize that
+
+37
+00:01:44,110 --> 00:01:48,400
+database and I'm passing in
+the application services.
+
+38
+00:01:48,401 --> 00:01:51,990
+That's a reference to
+the dependency injection
+
+39
+00:01:51,991 --> 00:01:53,470
+provider that we have.
+
+40
+00:01:53,471 --> 00:01:56,780
+So I'll go over into that
+SampleData method and
+
+41
+00:01:56,781 --> 00:02:00,833
+I want you to see I'm actually
+using the same things that we
+
+42
+00:02:00,834 --> 00:02:04,076
+have in our register page
+to create a new user.
+
+43
+00:02:04,077 --> 00:02:07,971
+So I first have to reach in and
+get a service scope for
+
+44
+00:02:07,972 --> 00:02:10,872
+my dependency
+injection provider and
+
+45
+00:02:10,873 --> 00:02:15,510
+I have to call get required
+service IServiceScopeFactory.
+
+46
+00:02:15,511 --> 00:02:19,127
+So this is the reference
+to the exact version,
+
+47
+00:02:19,128 --> 00:02:23,673
+the current context that I need
+to create objects from that
+
+48
+00:02:23,674 --> 00:02:26,390
+dependency injection provider.
+
+49
+00:02:26,391 --> 00:02:26,970
+>> Okay.
+
+50
+00:02:26,971 --> 00:02:31,888
+>> So now that I have that,
+I can start saying GetService.
+
+51
+00:02:31,889 --> 00:02:34,701
+>> Okay, so just to make sure
+that it does make sense to me
+
+52
+00:02:34,702 --> 00:02:37,832
+and everyone else, the ideas
+you're gonna be working with
+
+53
+00:02:37,833 --> 00:02:40,525
+services and things to provide,
+like for instance
+
+54
+00:02:40,526 --> 00:02:43,808
+the user management, those who
+are to service logging also.
+
+55
+00:02:43,809 --> 00:02:45,486
+>> Right.
+>> So you need to talk to
+
+56
+00:02:45,487 --> 00:02:49,779
+the service scope factory, you
+need to get the current service
+
+57
+00:02:49,780 --> 00:02:53,210
+scope, so that you can
+work with those services.
+
+58
+00:02:53,211 --> 00:02:55,970
+>> Right, I'm working around
+
+59
+00:02:55,971 --> 00:03:00,520
+the way we would do constructor
+injection in our other classes
+
+60
+00:03:00,521 --> 00:03:04,270
+because I'm interacting with
+that provider directly.
+
+61
+00:03:04,271 --> 00:03:04,880
+>> Okay.
+>> And
+
+62
+00:03:04,881 --> 00:03:07,910
+I need to declare my scope
+that I'm working in.
+
+63
+00:03:07,911 --> 00:03:11,620
+So I'm gonna get a reference
+to the hosting environment and
+
+64
+00:03:11,621 --> 00:03:13,690
+if I'm not in development mode,
+
+65
+00:03:13,691 --> 00:03:16,230
+don't do any of this
+initialization.
+
+66
+00:03:16,231 --> 00:03:19,790
+I then grab a reference
+to the role manager and
+
+67
+00:03:19,791 --> 00:03:21,460
+I wanna start creating roles.
+
+68
+00:03:21,461 --> 00:03:24,750
+And this is important, you need
+to have roles in your database
+
+69
+00:03:24,751 --> 00:03:27,920
+if you're going to
+assign folks to a role.
+
+70
+00:03:27,921 --> 00:03:31,460
+So I create two roles,
+one called admin and
+
+71
+00:03:31,461 --> 00:03:33,370
+one called power users.
+
+72
+00:03:33,371 --> 00:03:35,950
+I wait for
+those to finish being created.
+
+73
+00:03:35,951 --> 00:03:39,929
+And then I'm going to log some
+information to the console that
+
+74
+00:03:39,930 --> 00:03:42,081
+I accurately added those roles.
+
+75
+00:03:42,082 --> 00:03:45,485
+Next, I get access to
+our user manager, and
+
+76
+00:03:45,486 --> 00:03:49,634
+this is what happens inside
+of our register CSS HTML.
+
+77
+00:03:49,635 --> 00:03:53,714
+So in the normal flow of things
+when someone registers as a new
+
+78
+00:03:53,715 --> 00:03:57,395
+user, we create a new
+application user with their user
+
+79
+00:03:57,396 --> 00:04:01,780
+name and email equal to whatever
+email address was keyed in.
+
+80
+00:04:01,781 --> 00:04:06,190
+And we say user manager
+create that user with this
+
+81
+00:04:06,191 --> 00:04:09,600
+incoming user, and then
+whatever password was keyed in.
+
+82
+00:04:09,601 --> 00:04:11,970
+So when sample did a class here,
+
+83
+00:04:11,971 --> 00:04:13,690
+I'm gonna do that
+exact same thing.
+
+84
+00:04:13,691 --> 00:04:17,930
+I create a new application
+user within default email and
+
+85
+00:04:17,931 --> 00:04:20,790
+user name, jeff@test.com.
+
+86
+00:04:20,791 --> 00:04:23,810
+It's easier to remember
+something for me to test with.
+
+87
+00:04:23,811 --> 00:04:26,830
+And then I'm gonna create that
+user with this very very super
+
+88
+00:04:26,831 --> 00:04:30,470
+secret, highly secure
+password that uses uppercase,
+
+89
+00:04:30,471 --> 00:04:33,180
+lower case, a number and
+special character.
+
+90
+00:04:33,181 --> 00:04:34,230
+>> No one can ever crack that.
+
+91
+00:04:34,231 --> 00:04:37,965
+>> No body can ever crack that. Okay-
+
+92
+00:04:37,966 --> 00:04:38,310
+>> [LAUGH]
+
+93
+00:04:38,311 --> 00:04:39,530
+>> And then I'm gonna log that
+
+94
+00:04:39,531 --> 00:04:41,890
+information just so
+that I am aware of that and
+
+95
+00:04:41,891 --> 00:04:43,520
+I can see that in my console.
+
+96
+00:04:43,521 --> 00:04:44,770
+>> Okay, so
+a couple of things here.
+
+97
+00:04:44,771 --> 00:04:47,590
+One that I like is, well,
+
+98
+00:04:47,591 --> 00:04:50,020
+you are kind of having to
+write some custom code.
+
+99
+00:04:50,021 --> 00:04:53,740
+You're continuing to work with
+the providers, the user manager,
+
+100
+00:04:53,741 --> 00:04:56,560
+all those things that the rest
+of the application works.
+
+101
+00:04:56,561 --> 00:04:59,376
+So you're not like cheating or
+hacking around in there.
+
+102
+00:04:59,377 --> 00:05:00,259
+>> No, no.
+
+103
+00:05:00,260 --> 00:05:03,446
+>> And what's nice is your code
+will continue to work maybe as
+
+104
+00:05:03,447 --> 00:05:05,930
+the user manager gets
+bug fixes or whatever.
+
+105
+00:05:07,050 --> 00:05:08,349
+>> Yeah.
+>> Another thing,
+
+106
+00:05:08,350 --> 00:05:11,614
+just you've got a password
+where you're showing this here,
+
+107
+00:05:11,615 --> 00:05:14,502
+obviously we talked about in
+other session where we use
+
+108
+00:05:14,503 --> 00:05:17,851
+things like the secret storage
+and that kind of thing, right?
+
+109
+00:05:17,852 --> 00:05:18,766
+>> Yes.
+
+110
+00:05:18,767 --> 00:05:21,910
+>> So this is an example to show
+we're creating a password in
+
+111
+00:05:21,911 --> 00:05:25,530
+line, but you will pull that out
+of secret storage or something.
+
+112
+00:05:25,531 --> 00:05:27,800
+>> Sure, that you could
+absolutely put these things into
+
+113
+00:05:27,801 --> 00:05:30,480
+configuration somewhere, so
+that you pull it in from that
+
+114
+00:05:30,481 --> 00:05:33,470
+location and then it's only
+saved on your machine.
+
+115
+00:05:33,471 --> 00:05:35,070
+>> Okay.
+>> This is development mode,
+
+116
+00:05:35,071 --> 00:05:36,160
+this is a sample.
+
+117
+00:05:36,161 --> 00:05:39,440
+I want you to see these things,
+so that it's a little bit
+
+118
+00:05:39,441 --> 00:05:41,760
+clearer where the values
+are coming from.
+
+119
+00:05:41,761 --> 00:05:42,260
+>> Okay.
+
+120
+00:05:43,840 --> 00:05:49,064
+>> So I'm going to go from here
+and go into my solution explorer
+
+121
+00:05:49,065 --> 00:05:54,076
+and I want to show you one last
+thing before I get started,
+
+122
+00:05:54,077 --> 00:05:57,433
+and that is inside
+of my project file.
+
+123
+00:06:01,323 --> 00:06:05,787
+I have a call here on line 12,
+I'm adding a new tool into
+
+124
+00:06:05,788 --> 00:06:09,707
+the mix here called
+the DotNet.Watcher, okay?
+
+125
+00:06:09,708 --> 00:06:12,009
+>> Okay.
+>> DotNet.Watcher is a feature
+
+126
+00:06:12,010 --> 00:06:16,163
+that we can use on the command
+line to watch our application,
+
+127
+00:06:16,164 --> 00:06:19,911
+and as C# files change,
+automatically recompile and
+
+128
+00:06:19,912 --> 00:06:23,600
+rerun whatever command
+we passed into it.
+
+129
+00:06:23,601 --> 00:06:27,010
+What this will let us do is,
+as we go through this excercise,
+
+130
+00:06:27,011 --> 00:06:29,450
+and you can use then when
+you're writing your code,
+
+131
+00:06:29,451 --> 00:06:34,110
+is you can execute
+all of your code,
+
+132
+00:06:34,111 --> 00:06:37,050
+as you type it in and
+save it, it'll rebuild and
+
+133
+00:06:37,051 --> 00:06:40,690
+you can revisit the website and
+see those changes immediately.
+
+134
+00:06:40,691 --> 00:06:41,645
+>> Kind of the same experience
+
+135
+00:06:41,646 --> 00:06:43,765
+I get when I'm editing
+my razor views.
+
+136
+00:06:43,766 --> 00:06:46,205
+Where those are picked up
+immediately this doing that with
+
+137
+00:06:46,206 --> 00:06:46,865
+your C# code.
+
+138
+00:06:46,866 --> 00:06:47,955
+>> Absolutely.
+
+139
+00:06:47,956 --> 00:06:49,485
+So let me kick that off and
+
+140
+00:06:49,486 --> 00:06:52,295
+let's at the website
+the way it is right now.
+
+141
+00:06:52,296 --> 00:06:54,905
+So I'm going to start
+a command prompt and
+
+142
+00:06:54,906 --> 00:06:56,685
+I'm going to jump
+into that folder.
+
+143
+00:06:58,650 --> 00:07:01,170
+This is identity
+authorization sample.
+
+144
+00:07:03,000 --> 00:07:04,120
+All right, and
+
+145
+00:07:04,121 --> 00:07:08,340
+now I can use that watch
+command by saying dotnet watch.
+
+146
+00:07:08,341 --> 00:07:10,940
+And then what I wanted
+to actually execute
+
+147
+00:07:10,941 --> 00:07:11,973
+when there is a change.
+
+148
+00:07:11,974 --> 00:07:14,390
+And I'm gonna say
+execute the run command.
+
+149
+00:07:16,960 --> 00:07:18,320
+So now the watch has started,
+
+150
+00:07:18,321 --> 00:07:20,670
+it's going to do its
+build operation here, and
+
+151
+00:07:20,671 --> 00:07:25,400
+start running and
+hosting my application.
+
+152
+00:07:25,401 --> 00:07:26,920
+So there we go.
+
+153
+00:07:26,921 --> 00:07:28,900
+It's running the application and
+
+154
+00:07:28,901 --> 00:07:31,830
+you see here the log information
+that I told it to write out.
+
+155
+00:07:31,831 --> 00:07:34,310
+Added the admin and
+power users roles,
+
+156
+00:07:34,311 --> 00:07:37,830
+created our test user with
+that super secure password.
+
+157
+00:07:39,100 --> 00:07:44,930
+And it's listening on local
+host 52764, so let me copy that
+
+158
+00:07:46,150 --> 00:07:51,590
+and I will go over to my browser
+and navigate to that location.
+
+159
+00:07:53,590 --> 00:07:55,555
+And there's my application,
+okay?
+
+160
+00:07:55,556 --> 00:07:57,386
+I can click login and
+
+161
+00:07:57,387 --> 00:08:02,242
+I will login with jeff@test.com
+with my password.
+
+162
+00:08:04,622 --> 00:08:07,870
+And I'm logged in,
+don't save my password.
+
+163
+00:08:07,871 --> 00:08:11,490
+And I get my user name
+appearing here on the top right
+
+164
+00:08:11,491 --> 00:08:12,960
+>> Okay, cool.
+
+165
+00:08:12,961 --> 00:08:14,276
+>> This is where we left off.
+
+166
+00:08:14,277 --> 00:08:16,906
+>> That's the same as
+if you had gone in and
+
+167
+00:08:16,907 --> 00:08:19,558
+clicked register basically-
+>> Absolutely.
+
+168
+00:08:19,559 --> 00:08:20,249
+>> That's done that encode.
+
+169
+00:08:20,250 --> 00:08:23,761
+>> Yep, we've done that encode,
+we've got it saved in memory So
+
+170
+00:08:23,762 --> 00:08:26,742
+that we can jump through and
+do some testing here, and
+
+171
+00:08:26,743 --> 00:08:29,993
+learn a little bit now about
+authorization now that we've
+
+172
+00:08:29,994 --> 00:08:33,650
+made authentication really easy
+and in test mode, if you will.
+
+173
+00:08:33,651 --> 00:08:34,587
+>> Okay.
+
+174
+00:08:34,588 --> 00:08:38,456
+>> Okay, so now,
+let's go back to my code.
+
+175
+00:08:38,457 --> 00:08:42,460
+And let's start preventing
+access to some things.
+
+176
+00:08:42,461 --> 00:08:45,493
+I'm gonna go over
+to the About page.
+
+177
+00:08:45,494 --> 00:08:50,330
+So here's pages, and
+I'll go to the About page.
+
+178
+00:08:50,331 --> 00:08:53,865
+Now, this is the code that we
+would be showing on the page
+
+179
+00:08:53,866 --> 00:08:57,341
+when I navigate to it,
+when I click there, I see this.
+
+180
+00:08:57,342 --> 00:09:01,619
+Well, what if I want to require
+folks to be logged in in order
+
+181
+00:09:01,620 --> 00:09:03,900
+to access that page?
+
+182
+00:09:03,901 --> 00:09:08,662
+What you can do is you go in
+your Razor Page page model, and
+
+183
+00:09:08,663 --> 00:09:13,638
+you can decorate this class
+with the authorize attribute.
+
+184
+00:09:13,639 --> 00:09:14,849
+>> Okay.
+
+185
+00:09:14,850 --> 00:09:18,181
+>> So this says users must
+be authorized to access this
+
+186
+00:09:18,182 --> 00:09:22,211
+with no other information,
+they just have to be authorized,
+
+187
+00:09:22,212 --> 00:09:24,315
+they have to be authenticated.
+
+188
+00:09:24,316 --> 00:09:26,127
+We don't really need to
+know more information.
+
+189
+00:09:26,128 --> 00:09:27,828
+>> Just anyone that's
+logged into my site?
+
+190
+00:09:27,829 --> 00:09:28,514
+>> Yeah.
+>> Okay.
+
+191
+00:09:28,515 --> 00:09:30,112
+>> So I will save that change.
+
+192
+00:09:30,113 --> 00:09:31,510
+And if you look over here,
+
+193
+00:09:31,511 --> 00:09:34,188
+you'll see this is what
+the watch is doing for me.
+
+194
+00:09:34,189 --> 00:09:36,514
+It sees that a file changed,
+it recompiled, and
+
+195
+00:09:36,515 --> 00:09:38,410
+it is re-running my application.
+
+196
+00:09:38,411 --> 00:09:39,149
+>> Yeah.
+
+197
+00:09:39,150 --> 00:09:44,111
+>> So, now, if I click
+the About page, It's not
+
+198
+00:09:44,112 --> 00:09:47,910
+going to the About page,
+it went to the login page.
+
+199
+00:09:47,911 --> 00:09:50,290
+And if you look up
+here in the top, right?
+
+200
+00:09:50,291 --> 00:09:55,290
+It says account login
+return URL is About.
+
+201
+00:09:55,291 --> 00:09:59,097
+So it's saying you weren't
+allowed to access this, and
+
+202
+00:09:59,098 --> 00:10:02,602
+it routed me over here to
+show this content instead.
+
+203
+00:10:02,603 --> 00:10:06,190
+You have to log in, and then
+we'll take you back over there.
+
+204
+00:10:06,191 --> 00:10:10,611
+And this is all wired up for
+me, so that when I key in that
+
+205
+00:10:10,612 --> 00:10:15,432
+information, it does take me
+back to the page I requested.
+
+206
+00:10:15,433 --> 00:10:16,120
+>> Okay.
+
+207
+00:10:16,121 --> 00:10:19,291
+>> So the Authorize
+attribute lets us get in and
+
+208
+00:10:19,292 --> 00:10:21,870
+access those appropriate things.
+
+209
+00:10:21,871 --> 00:10:25,700
+But that's just if folks
+are logged in, right?
+
+210
+00:10:25,701 --> 00:10:27,731
+We have a role out there
+called administrator.
+
+211
+00:10:27,732 --> 00:10:30,849
+Maybe I wanna protect this
+page and say you know what,
+
+212
+00:10:30,850 --> 00:10:33,769
+only administrators
+are allowed to access this.
+
+213
+00:10:33,770 --> 00:10:37,982
+>> Okay, so this is why we go
+in and change only admin kind of
+
+214
+00:10:37,983 --> 00:10:40,680
+[CROSSTALK] inventory or
+whatever.
+
+215
+00:10:40,681 --> 00:10:42,696
+>> Yes,
+if this was admin features,
+
+216
+00:10:42,697 --> 00:10:44,231
+we want to restrict that.
+
+217
+00:10:44,232 --> 00:10:48,654
+What you can do now is enhance
+that Authorize attribute, and
+
+218
+00:10:48,655 --> 00:10:50,586
+you can say roles equals.
+
+219
+00:10:50,587 --> 00:10:54,334
+And then specify the names of
+the roles that you must have in
+
+220
+00:10:54,335 --> 00:10:55,796
+order to access this.
+
+221
+00:10:55,797 --> 00:10:56,420
+>> Got it.
+
+222
+00:10:56,421 --> 00:11:01,282
+>> So I will say you must be
+an admin to access this page.
+
+223
+00:11:01,283 --> 00:11:04,049
+And now, if I go back and
+I refresh this.
+
+224
+00:11:07,304 --> 00:11:08,330
+Access denied.
+
+225
+00:11:08,331 --> 00:11:10,201
+You don't have access
+to this resource.
+
+226
+00:11:10,202 --> 00:11:13,589
+So this actually the Access
+denied page, and it's got some
+
+227
+00:11:13,590 --> 00:11:17,136
+boilerplate information here
+to say you don't have access.
+
+228
+00:11:17,137 --> 00:11:18,229
+>> Okay.
+
+229
+00:11:18,230 --> 00:11:20,020
+>> Not bad, okay.
+
+230
+00:11:20,021 --> 00:11:23,524
+But how do I make sure that
+folks have access to this role,
+
+231
+00:11:23,525 --> 00:11:27,550
+that they're members of this
+role when they're being created?
+
+232
+00:11:27,551 --> 00:11:33,169
+So let me grant access to the
+admin role to my Jeff test user.
+
+233
+00:11:33,170 --> 00:11:34,936
+So I'll go back into
+my sample data.
+
+234
+00:11:36,680 --> 00:11:40,829
+Now, if you are using the
+register facilities that we have
+
+235
+00:11:40,830 --> 00:11:45,147
+here and using identity, you
+would need to build some sort of
+
+236
+00:11:45,148 --> 00:11:47,770
+a page to manage
+access to roles, and
+
+237
+00:11:47,771 --> 00:11:50,670
+grant users access
+to different roles.
+
+238
+00:11:50,671 --> 00:11:54,088
+But you would use pretty
+much the same feature here,
+
+239
+00:11:54,089 --> 00:11:57,230
+where you would say
+userManager.AddToRole.
+
+240
+00:11:57,231 --> 00:12:02,124
+And then I specify the user
+that I'm adding to that role.
+
+241
+00:12:02,125 --> 00:12:05,518
+So I'm gonna specify user
+because that's my Jeff test
+
+242
+00:12:05,519 --> 00:12:06,940
+user here.
+
+243
+00:12:06,941 --> 00:12:08,970
+And then I can give it
+the name of the role that I
+
+244
+00:12:08,971 --> 00:12:09,891
+want to add them to.
+
+245
+00:12:09,892 --> 00:12:11,727
+So Admin.
+
+246
+00:12:11,728 --> 00:12:18,069
+And now, you know what, let's
+throw in await in front of that.
+
+247
+00:12:18,070 --> 00:12:19,320
+Much better.
+
+248
+00:12:19,321 --> 00:12:21,789
+So now it's gonna recompile, and
+
+249
+00:12:21,790 --> 00:12:25,956
+I should be able to come back
+here, refresh this page, and
+
+250
+00:12:25,957 --> 00:12:30,146
+actually see my About page
+again because Jeff is an admin.
+
+251
+00:12:30,147 --> 00:12:32,561
+>> Nice.
+>> Not yet.
+
+252
+00:12:32,562 --> 00:12:34,373
+He has to log out and
+log back in.
+
+253
+00:12:34,374 --> 00:12:35,378
+>> Okay.
+
+254
+00:12:35,379 --> 00:12:43,043
+>> It's added, Those roles are
+added when you are logged in.
+
+255
+00:12:45,360 --> 00:12:48,375
+So About, and
+now I can get into the page.
+
+256
+00:12:48,376 --> 00:12:48,880
+>> Okay.
+
+257
+00:12:48,881 --> 00:12:51,489
+>> Because I'm now
+a member of that role.
+
+258
+00:12:51,490 --> 00:12:51,989
+>> Great.
+>> Okay?
+
+259
+00:12:51,990 --> 00:12:52,850
+>> Okay.
+
+260
+00:12:52,851 --> 00:12:53,857
+>> So roles are pretty easy.
+
+261
+00:12:53,858 --> 00:12:55,903
+That's a pretty standard thing
+that people can get their
+
+262
+00:12:55,904 --> 00:12:56,420
+arms around.
+
+263
+00:12:56,421 --> 00:12:59,399
+They're familiar with roles
+in their operating system.
+
+264
+00:12:59,400 --> 00:13:02,794
+They've seen using roles
+in applications before, so
+
+265
+00:13:02,795 --> 00:13:06,057
+it's a pretty common concept
+to add users to a role.
+
+266
+00:13:06,058 --> 00:13:07,700
+>> Something like an admin role.
+
+267
+00:13:07,701 --> 00:13:09,516
+>> Exactly.
+Or- >> Content manager role.
+
+268
+00:13:09,517 --> 00:13:10,480
+>> Yes.
+>> Or whatever it is.
+
+269
+00:13:10,481 --> 00:13:12,121
+>> Editor of my website.
+
+270
+00:13:12,122 --> 00:13:16,110
+So, what if you wanna actually
+work directly with specific
+
+271
+00:13:16,111 --> 00:13:18,120
+claims about a user, right?
+
+272
+00:13:18,121 --> 00:13:21,172
+These are those user
+properties that for
+
+273
+00:13:21,173 --> 00:13:23,957
+a security concern
+you want to know.
+
+274
+00:13:23,958 --> 00:13:24,875
+>> Okay.
+>> Okay?
+
+275
+00:13:24,876 --> 00:13:29,397
+So perhaps we need to enforce
+and say, you know what?
+
+276
+00:13:29,398 --> 00:13:33,788
+We know there's rules in Canada
+where only Canadians can access
+
+277
+00:13:33,789 --> 00:13:37,470
+certain features of
+an application, right?
+
+278
+00:13:37,471 --> 00:13:40,466
+They have rules in Canada around
+Government data must be hosted
+
+279
+00:13:40,467 --> 00:13:41,660
+on government servers.
+
+280
+00:13:41,661 --> 00:13:43,230
+>> A lot of countries/regions do that.
+
+281
+00:13:43,231 --> 00:13:43,886
+>> Yes.
+
+282
+00:13:43,887 --> 00:13:47,252
+>> So, what if we wanna
+enforce that only Canadians
+
+283
+00:13:47,253 --> 00:13:49,780
+can access this page?
+
+284
+00:13:49,781 --> 00:13:53,184
+So that means we need to create
+what is called a policy,
+
+285
+00:13:53,185 --> 00:13:56,588
+not just a role but a policy
+that we're gonna enforce on
+
+286
+00:13:56,589 --> 00:13:59,925
+a specific claim being
+present with a certain value.
+
+287
+00:13:59,926 --> 00:14:02,779
+>> Okay.
+>> So let's take a look at that.
+
+288
+00:14:02,780 --> 00:14:05,173
+So I'm gonna come
+back into my code,
+
+289
+00:14:05,174 --> 00:14:07,734
+I'm gonna go over to
+the start up page.
+
+290
+00:14:07,735 --> 00:14:12,845
+And now, inside of my configure
+services, I'm gonna add
+
+291
+00:14:12,846 --> 00:14:18,284
+some capabilities now to define
+these additional policies.
+
+292
+00:14:18,285 --> 00:14:22,940
+>> So, what we do is we
+call AddAuthorization.
+
+293
+00:14:22,941 --> 00:14:26,782
+And then we can start
+to configure policies.
+
+294
+00:14:30,896 --> 00:14:38,244
+So let's add an initial policy,
+Called CanadiansOnly.
+
+295
+00:14:38,245 --> 00:14:39,980
+Okay?
+
+296
+00:14:39,981 --> 00:14:44,844
+And what we can do then is
+specify about the policy,
+
+297
+00:14:47,622 --> 00:14:53,589
+That the policy,
+Requires a specific claim.
+
+298
+00:14:53,590 --> 00:14:58,437
+And then we need to name that
+claim that we're going to
+
+299
+00:14:58,438 --> 00:14:59,418
+check on.
+
+300
+00:14:59,419 --> 00:15:01,623
+So, I'll say ClaimTypes.Country.
+
+301
+00:15:01,624 --> 00:15:05,613
+>> So there's some predefined
+claim types, then?
+
+302
+00:15:05,614 --> 00:15:08,685
+>> Yeah, these are standard
+claim types that are available
+
+303
+00:15:08,686 --> 00:15:10,997
+to you under the claim
+types enumeration.
+
+304
+00:15:10,998 --> 00:15:13,811
+And there's all kinds
+of things in here.
+
+305
+00:15:13,812 --> 00:15:17,790
+If they're anonymous, their
+country/region, their date of birth.
+
+306
+00:15:17,791 --> 00:15:20,706
+There's some web applications
+that you need to be a certain
+
+307
+00:15:20,707 --> 00:15:22,338
+age in order to access features,
+
+308
+00:15:22,339 --> 00:15:25,389
+particularly around the alcohol
+industry in United States.
+
+309
+00:15:25,390 --> 00:15:26,397
+>> Sure.
+>> There's one example.
+
+310
+00:15:26,398 --> 00:15:27,363
+>> Yeah.
+
+311
+00:15:27,364 --> 00:15:30,564
+So those are predefined ones,
+but I can also do just a string
+
+312
+00:15:30,565 --> 00:15:33,201
+there, as well,
+I can [CROSSTALK] okay, great.
+
+313
+00:15:33,202 --> 00:15:34,646
+>> You're absolutely right.
+
+314
+00:15:34,647 --> 00:15:36,725
+So let me key in Country.
+
+315
+00:15:36,726 --> 00:15:40,231
+Now, at this point it's just
+requiring the presence of
+
+316
+00:15:40,232 --> 00:15:41,357
+a country/region claim.
+
+317
+00:15:41,358 --> 00:15:45,249
+I wanna specify a specific
+country/region, so I can comma and
+
+318
+00:15:45,250 --> 00:15:48,017
+key in an array of
+required values, or
+
+319
+00:15:48,018 --> 00:15:50,537
+just a specific
+value that I want.
+
+320
+00:15:50,538 --> 00:15:54,150
+So I'm going to specify Canada.
+
+321
+00:15:54,151 --> 00:15:55,111
+>> Okay.
+>> So now,
+
+322
+00:15:55,112 --> 00:15:58,265
+I have a policy called
+CanadiansOnly, and
+
+323
+00:15:58,266 --> 00:16:00,991
+you're required to
+be from Canada.
+
+324
+00:16:00,992 --> 00:16:05,409
+So if I save that,
+that policy is being built and
+
+325
+00:16:05,410 --> 00:16:08,175
+added in by my .NET watcher.
+
+326
+00:16:08,176 --> 00:16:11,211
+Let me go back over
+to my About page, and
+
+327
+00:16:11,212 --> 00:16:14,247
+where I specified
+roles equals admin,
+
+328
+00:16:14,248 --> 00:16:17,570
+what I can now do is I
+can say policy equals.
+
+329
+00:16:17,571 --> 00:16:22,357
+And I'm gonna make sure
+I copy this correctly.
+
+330
+00:16:22,358 --> 00:16:26,019
+My CanadiansOnly policy name,
+I'll copy that string,
+
+331
+00:16:26,020 --> 00:16:27,860
+paste it in here, and save.
+
+332
+00:16:29,320 --> 00:16:31,463
+And now my Jeff user
+isn't a Canadian.
+
+333
+00:16:31,464 --> 00:16:34,909
+>> No.
+>> My Jeff user is an admin, but
+
+334
+00:16:34,910 --> 00:16:36,653
+not a Canadian.
+
+335
+00:16:36,654 --> 00:16:42,325
+So, he shouldn't be able
+to access this page.
+
+336
+00:16:42,326 --> 00:16:46,122
+So I will login as Jeff And
+while you're doing that,
+
+337
+00:16:46,123 --> 00:16:49,316
+I think it's good to
+point out there we moved
+
+338
+00:16:49,317 --> 00:16:52,768
+from a specific role to
+a policy and people I've
+
+339
+00:16:52,769 --> 00:16:57,539
+talked to have said policy-based
+is kinda the way to go, right?
+
+340
+00:16:57,540 --> 00:16:59,450
+>> Yes.
+>> You wanna move towards claims
+
+341
+00:16:59,451 --> 00:17:02,504
+and policies because they're
+much more configurable and
+
+342
+00:17:02,505 --> 00:17:05,554
+you're not, this person's in
+this role or this person,
+
+343
+00:17:05,555 --> 00:17:08,626
+it's a lot more rich the kind
+of information you get back.
+
+344
+00:17:08,627 --> 00:17:11,648
+>> A lot of flexibility in
+there in how you configure your
+
+345
+00:17:11,649 --> 00:17:12,193
+policy.
+
+346
+00:17:12,194 --> 00:17:12,960
+>> Okay.
+
+347
+00:17:12,961 --> 00:17:15,680
+>> So I'm logged in as Jeff
+again and when I click About,
+
+348
+00:17:15,681 --> 00:17:17,683
+I don't have access
+to this resource.
+
+349
+00:17:17,684 --> 00:17:18,187
+>> And you're not Canadian.
+
+350
+00:17:18,188 --> 00:17:19,016
+>> Even though it's an admin.
+
+351
+00:17:19,017 --> 00:17:20,437
+>> Yeah.
+>> I'm not Canadian and
+
+352
+00:17:20,438 --> 00:17:22,280
+can't access it.
+
+353
+00:17:22,281 --> 00:17:26,100
+So how do we grant those
+claims to our user?
+
+354
+00:17:26,101 --> 00:17:30,460
+So I'll come back into
+my sample data and
+
+355
+00:17:30,461 --> 00:17:34,380
+I will add that
+claim to my user.
+
+356
+00:17:34,381 --> 00:17:39,137
+So Add, and I will add
+a claim asynchronously,
+
+357
+00:17:39,138 --> 00:17:42,700
+I specify the user and then
+that claim that I am creating.
+
+358
+00:17:44,350 --> 00:17:50,391
+And so
+the type was ClaimTypes,Country.
+
+359
+00:17:50,392 --> 00:17:53,420
+And the name of that
+country is Canada.
+
+360
+00:17:55,610 --> 00:17:58,562
+So I'll Save that and
+now I'm adding Jeff and
+
+361
+00:17:58,563 --> 00:18:02,440
+his Canadian citizenship
+to my application.
+
+362
+00:18:02,441 --> 00:18:04,270
+I'll go back over to my website,
+
+363
+00:18:04,271 --> 00:18:07,330
+I will click Log out,
+because I wanna Log in and
+
+364
+00:18:07,331 --> 00:18:10,240
+make sure that I received
+that claim information.
+
+365
+00:18:10,241 --> 00:18:10,950
+>> Sure.
+
+366
+00:18:10,951 --> 00:18:13,270
+>> So
+now I am logging in as Jeff.
+
+367
+00:18:16,500 --> 00:18:19,430
+So I'm logged in, and
+let me click the About page.
+
+368
+00:18:19,431 --> 00:18:20,800
+And now I'm granted access.
+
+369
+00:18:20,801 --> 00:18:21,500
+>> Okay.
+
+370
+00:18:21,501 --> 00:18:26,091
+>> So I have that claim, I have
+access to an admin role, but
+
+371
+00:18:26,092 --> 00:18:29,023
+it was only the Canadian
+claim that I
+
+372
+00:18:29,024 --> 00:18:32,177
+needed in order to
+get access to this.
+
+373
+00:18:32,178 --> 00:18:34,208
+>> Mm-hm.
+But realistically,
+
+374
+00:18:34,209 --> 00:18:37,562
+there's scenarios where
+a global admin needs
+
+375
+00:18:37,563 --> 00:18:41,522
+access to these things that
+Canadians have access to.
+
+376
+00:18:41,523 --> 00:18:42,240
+>> Right.
+>> So
+
+377
+00:18:42,241 --> 00:18:45,750
+what if I wanna enforce and
+say you ca be an admin or
+
+378
+00:18:45,751 --> 00:18:48,310
+a Canadian to access this-
+>> You just need one of those
+
+379
+00:18:48,311 --> 00:18:48,920
+two things.
+
+380
+00:18:48,921 --> 00:18:51,010
+>> You just need one,
+you need that or, right?
+
+381
+00:18:51,011 --> 00:18:54,597
+What we can do is we can create
+a little bit more complex
+
+382
+00:18:54,598 --> 00:18:58,500
+requirement in code with
+the requirement class.
+
+383
+00:18:58,501 --> 00:19:01,740
+Now, I've already written
+out this class for us and
+
+384
+00:19:01,741 --> 00:19:05,170
+it's sitting over here inside
+of my Requirements folder
+
+385
+00:19:06,620 --> 00:19:08,290
+called Canadian Requirement.
+
+386
+00:19:08,291 --> 00:19:13,055
+Now this class, it inherits from
+the AuthorizationHandler of type
+
+387
+00:19:13,056 --> 00:19:15,540
+CanadianRequirement, cuz
+we're gonna
+
+388
+00:19:15,541 --> 00:19:18,450
+handle the authorization for
+this requirement.
+
+389
+00:19:18,451 --> 00:19:21,020
+And it's
+an IAuthorizationRequirement.
+
+390
+00:19:21,021 --> 00:19:25,805
+That interface and that abstract
+class requires this one method.
+
+391
+00:19:25,806 --> 00:19:30,460
+HandleRequirementAsync, and
+let me carriage return here, so
+
+392
+00:19:30,461 --> 00:19:32,080
+we can see everything.
+
+393
+00:19:32,081 --> 00:19:34,120
+And that receives a context, and
+
+394
+00:19:34,121 --> 00:19:36,420
+then that requirement
+we're checking.
+
+395
+00:19:36,421 --> 00:19:39,190
+So here's where I'm
+doing that or check.
+
+396
+00:19:39,191 --> 00:19:42,142
+If the user is in role admin,
+>> Mm-hm.
+
+397
+00:19:42,143 --> 00:19:44,980
+>> Then they've succeeded
+at this requirement.
+
+398
+00:19:44,981 --> 00:19:47,830
+If they have
+the claim Country and
+
+399
+00:19:47,831 --> 00:19:51,108
+that claim is Canada,
+they've succeeded also.
+
+400
+00:19:51,109 --> 00:19:53,850
+And then Task.CompletedTask.
+
+401
+00:19:53,851 --> 00:19:57,560
+>> Great, so if I get to the end
+of this task completed and
+
+402
+00:19:57,561 --> 00:20:01,110
+I haven't matched either of
+those, then it's gonna fail out?
+
+403
+00:20:01,111 --> 00:20:03,140
+>> Right,
+by default a requirement fails.
+
+404
+00:20:03,141 --> 00:20:03,860
+>> Okay.
+
+405
+00:20:03,861 --> 00:20:09,290
+>> So now I can enforce
+this requirement by saying,
+
+406
+00:20:09,291 --> 00:20:12,560
+by creating a policy called
+Canadians or Admins.
+
+407
+00:20:12,561 --> 00:20:15,970
+So let's create that
+policy real quick here.
+
+408
+00:20:15,971 --> 00:20:18,535
+>> And you're just
+adding another policy so
+
+409
+00:20:18,536 --> 00:20:22,058
+your existing CanadiansOnly
+policy is still in effect-
+
+410
+00:20:22,059 --> 00:20:22,586
+>> Absolutely.
+
+411
+00:20:22,587 --> 00:20:24,468
+>> So you can have
+multiple policies and
+
+412
+00:20:24,469 --> 00:20:25,690
+you just stack them up.
+
+413
+00:20:25,691 --> 00:20:28,030
+>> You just keep stacking
+them up, you're right.
+
+414
+00:20:28,031 --> 00:20:33,446
+>> So I'm gonna say,
+policy.AddRequirements,
+
+415
+00:20:33,447 --> 00:20:36,153
+and I'm gonna say new-
+>> And
+
+416
+00:20:36,154 --> 00:20:36,928
+you'll pass that class then,
+right, okay.
+
+417
+00:20:36,929 --> 00:20:37,936
+>> CanadianRequirement.
+
+418
+00:20:37,937 --> 00:20:41,906
+Okay, now that's a class,
+I could pass in constructor
+
+419
+00:20:41,907 --> 00:20:45,463
+arguments, I could configure
+it however I want-
+
+420
+00:20:45,464 --> 00:20:46,057
+>> Mm-hm.
+
+421
+00:20:46,058 --> 00:20:48,960
+>> Maybe I wanna just have
+a nationality requirement and
+
+422
+00:20:48,961 --> 00:20:50,710
+I wanna pass in not just Canada.
+
+423
+00:20:50,711 --> 00:20:53,034
+Maybe I wanna pass in instead,
+United States and
+
+424
+00:20:53,035 --> 00:20:54,573
+have an American requirement.
+
+425
+00:20:54,574 --> 00:20:56,026
+>> Mm-hm.
+>> You can do that also.
+
+426
+00:20:56,027 --> 00:20:56,587
+>> Okay.
+
+427
+00:20:56,588 --> 00:21:00,120
+>> But for this, that's
+a very simple configuration.
+
+428
+00:21:00,121 --> 00:21:03,340
+And now I can use that same
+policy if I go back over
+
+429
+00:21:03,341 --> 00:21:04,900
+to my About page.
+
+430
+00:21:06,390 --> 00:21:09,030
+And I can change that,
+and it will now enforce.
+
+431
+00:21:09,031 --> 00:21:10,946
+You can be a Canadian or
+an Admin and
+
+432
+00:21:10,947 --> 00:21:12,640
+be able to access this page.
+
+433
+00:21:12,641 --> 00:21:14,681
+>> And I'm guessing those could
+be that policy attribute,
+
+434
+00:21:14,682 --> 00:21:16,687
+those could be common to
+limited or something, right?
+
+435
+00:21:16,688 --> 00:21:17,325
+>> Yes.
+>> I can put
+
+436
+00:21:17,326 --> 00:21:17,841
+in a list of policies.
+
+437
+00:21:17,842 --> 00:21:18,427
+>> Absolutely.
+
+438
+00:21:18,428 --> 00:21:18,992
+>> Okay.
+>> So
+
+439
+00:21:18,993 --> 00:21:21,180
+now I'm gonna take away
+my Canadian citizenship.
+
+440
+00:21:21,181 --> 00:21:22,150
+>> All right, it's been revoked.
+
+441
+00:21:23,900 --> 00:21:24,930
+Rough day for you.
+
+442
+00:21:24,931 --> 00:21:26,510
+>> Rough day, man.
+
+443
+00:21:26,511 --> 00:21:28,310
+So now I'll log out and
+log back in.
+
+444
+00:21:32,888 --> 00:21:38,600
+And I click About and
+I can access the page.
+
+445
+00:21:38,601 --> 00:21:39,360
+>> Cuz you're an admin.
+
+446
+00:21:39,361 --> 00:21:40,700
+>> Because I'm an admin.
+
+447
+00:21:40,701 --> 00:21:43,020
+But one final thing
+that we should do.
+
+448
+00:21:44,540 --> 00:21:47,520
+It's kind of bad form
+to show that About link
+
+449
+00:21:47,521 --> 00:21:48,740
+if you can't access it.
+
+450
+00:21:48,741 --> 00:21:49,990
+>> Right, it's just mean.
+
+451
+00:21:49,991 --> 00:21:50,766
+>> It's rude, right?
+
+452
+00:21:50,767 --> 00:21:51,836
+>> [LAUGH]
+>> It's not being
+
+453
+00:21:51,837 --> 00:21:52,480
+a good citizen.
+
+454
+00:21:52,481 --> 00:21:53,370
+>> And that's pretty common.
+
+455
+00:21:53,371 --> 00:21:55,090
+Once I log into
+a site as an admin,
+
+456
+00:21:55,091 --> 00:21:56,510
+I'll see new links up here.
+
+457
+00:21:56,511 --> 00:21:57,790
+>> Absolutely.
+>> Yeah.
+
+458
+00:21:57,791 --> 00:22:02,590
+>> So what you can do to enforce
+those checks, and show and
+
+459
+00:22:02,591 --> 00:22:05,342
+hide features on your page.
+
+460
+00:22:05,343 --> 00:22:11,070
+I'm gonna go into my layout,
+where that About link exists,
+
+461
+00:22:11,071 --> 00:22:12,450
+and I'm going to inject
+
+462
+00:22:13,750 --> 00:22:19,010
+a feature here that will allow
+me to check for authorization.
+
+463
+00:22:19,011 --> 00:22:22,090
+So I'm going to inject
+the IAuthorizationService
+
+464
+00:22:26,160 --> 00:22:29,620
+and I will just call this
+AuthorizationService.
+
+465
+00:22:29,621 --> 00:22:31,980
+I'm gonna want
+a using statement,
+
+466
+00:22:31,981 --> 00:22:35,286
+there to make sure that
+Microsoft.AspNetCore,
+
+467
+00:22:35,287 --> 00:22:38,110
+to make sure that it-
+>> That you can call the-
+
+468
+00:22:38,111 --> 00:22:39,830
+>> That I can call it, yep.
+
+469
+00:22:39,831 --> 00:22:41,640
+So there we go,
+my AuthorizationService
+
+470
+00:22:41,641 --> 00:22:44,340
+is highlighted cuz I have
+the appropriate using statement.
+
+471
+00:22:44,341 --> 00:22:47,700
+And now I can go down
+to my About, and
+
+472
+00:22:47,701 --> 00:22:51,790
+I can hide that by just wrapping
+it with a normal if statement.
+
+473
+00:22:51,791 --> 00:22:59,473
+So if, and I will say, await AuthorizationService.Authoerize-
+
+474
+00:22:59,474 --> 00:23:00,331
+Async.
+
+475
+00:23:00,332 --> 00:23:03,927
+And I'm gonna check
+the current user
+
+476
+00:23:03,928 --> 00:23:07,872
+against the CanadiansOrAdmin
+policy,
+
+477
+00:23:07,873 --> 00:23:12,628
+all right, let me just
+verify that policy name,
+
+478
+00:23:12,629 --> 00:23:17,044
+nope, it's CanadianOrAdmin,
+all right.
+
+479
+00:23:17,045 --> 00:23:21,702
+And if, I need to check
+to see if that succeeded,
+
+480
+00:23:21,703 --> 00:23:26,110
+if it did then we will
+show the About link.
+
+481
+00:23:26,111 --> 00:23:27,350
+>> Great.
+
+482
+00:23:27,351 --> 00:23:29,540
+>> All right,
+let me go back over to my page,
+
+483
+00:23:29,541 --> 00:23:34,440
+I'm not logged in, and I'll
+Refresh and my About is gone.
+
+484
+00:23:34,441 --> 00:23:37,310
+Because I don't have-
+>> You haven't logged in.
+
+485
+00:23:37,311 --> 00:23:39,710
+>> Exactly, I'm not logged in,
+I'm not an admin and
+
+486
+00:23:39,711 --> 00:23:40,400
+I'm not Canadian.
+
+487
+00:23:40,401 --> 00:23:48,312
+If I log in now, And
+now I have the About link.
+
+488
+00:23:48,313 --> 00:23:49,155
+>> Yes, okay.
+
+489
+00:23:49,156 --> 00:23:50,980
+>> I can click it and it works.
+
+490
+00:23:50,981 --> 00:23:54,960
+So, I have that complete
+experience of granting and
+
+491
+00:23:54,961 --> 00:23:56,970
+revoking access to this page.
+
+492
+00:23:56,971 --> 00:23:58,790
+And now, I can also grant and
+
+493
+00:23:58,791 --> 00:24:02,665
+revoke visibility to these links
+to these pages by using that
+
+494
+00:24:02,666 --> 00:24:05,630
+AuthorizationService inside
+of my Razor views.
+
+495
+00:24:05,631 --> 00:24:07,910
+>> Okay, so
+I wanna take you back aways.
+
+496
+00:24:07,911 --> 00:24:13,200
+And so, we looked at doing all
+this in code during app startup.
+
+497
+00:24:13,201 --> 00:24:14,480
+We configure the user,
+
+498
+00:24:14,481 --> 00:24:16,672
+we created you as a user-
+>> Yep.
+
+499
+00:24:16,673 --> 00:24:18,990
+>> In code and
+we added you to the role.
+
+500
+00:24:18,991 --> 00:24:23,013
+What if I wanted to say,
+during the registration process,
+
+501
+00:24:23,014 --> 00:24:27,365
+maybe I've got a drop down where
+I collect the user's country/region,
+
+502
+00:24:27,366 --> 00:24:28,140
+>> Yep.
+
+503
+00:24:28,141 --> 00:24:31,268
+>> Right, so, what I am hoping
+is, because you have used
+
+504
+00:24:31,269 --> 00:24:34,736
+the user manager and all those
+kind of services, you could do
+
+505
+00:24:34,737 --> 00:24:38,140
+that same kind of logic during
+the registration process?
+
+506
+00:24:38,141 --> 00:24:43,770
+>> Absolutely, so where I called
+AddToRoleAsync, or AddClaimAsync
+
+507
+00:24:43,771 --> 00:24:47,230
+here inside of my sample data
+that I was initializing.
+
+508
+00:24:47,231 --> 00:24:49,400
+I could certainly
+copy those out and
+
+509
+00:24:49,401 --> 00:24:52,260
+paste them here into
+my registration page.
+
+510
+00:24:52,261 --> 00:24:53,614
+Where it's actually going and
+
+511
+00:24:53,615 --> 00:24:57,310
+creating that user sending
+those email confirmations.
+
+512
+00:24:57,311 --> 00:25:00,067
+I could put those
+modifications in here, so
+
+513
+00:25:00,068 --> 00:25:03,353
+that we enhance that user's
+profile information.
+
+514
+00:25:03,354 --> 00:25:04,346
+As they're being created.
+
+515
+00:25:04,347 --> 00:25:05,392
+>> Perfect, okay, so
+
+516
+00:25:05,393 --> 00:25:07,856
+let me try and wrap up all
+the stuff you covered.
+
+517
+00:25:07,857 --> 00:25:08,838
+>> Sure.
+>> Because it was quite a bit.
+
+518
+00:25:08,839 --> 00:25:09,458
+>> It was.
+
+519
+00:25:09,459 --> 00:25:12,679
+>> Okay, so we started at the
+beginning in session where we
+
+520
+00:25:12,680 --> 00:25:14,620
+had just set up simple identity.
+
+521
+00:25:14,621 --> 00:25:17,713
+I'm able to authenticate a user.
+
+522
+00:25:17,714 --> 00:25:18,591
+>> Correct, yes.
+
+523
+00:25:18,592 --> 00:25:21,417
+>> So now I know who that user
+is, but I haven't done anything
+
+524
+00:25:21,418 --> 00:25:23,329
+to restrict what they can do or
+can see.
+
+525
+00:25:23,330 --> 00:25:25,855
+>> Yep.
+>> Then you showed how to use
+
+526
+00:25:25,856 --> 00:25:29,347
+those services to create
+a user end code and
+
+527
+00:25:29,348 --> 00:25:31,385
+to assign them to a role.
+
+528
+00:25:31,386 --> 00:25:32,600
+>> Yep.
+
+529
+00:25:32,601 --> 00:25:35,810
+>> And then after that you
+showed how to assign policies
+
+530
+00:25:35,811 --> 00:25:39,240
+and to kind of turn
+those policies on for
+
+531
+00:25:39,241 --> 00:25:42,260
+specific views and
+say you can only see this thing.
+
+532
+00:25:42,261 --> 00:25:43,940
+You can only click on this link.
+
+533
+00:25:43,941 --> 00:25:49,540
+If you are in a role or
+have meta policy and you defined
+
+534
+00:25:49,541 --> 00:25:53,030
+a custom policy that kind of
+took it to the next level.
+
+535
+00:25:53,031 --> 00:25:55,860
+>> A custom requirement kind of
+gave us the ability to write
+
+536
+00:25:55,861 --> 00:25:59,440
+some code beyond just
+a simple string match of
+
+537
+00:25:59,441 --> 00:26:01,790
+the word Canada or Admin, right?
+
+538
+00:26:01,791 --> 00:26:05,278
+I could do more complex testing
+like that date of birth,
+
+539
+00:26:05,279 --> 00:26:08,914
+I could test to see if those
+folks were over 21 today, and
+
+540
+00:26:08,915 --> 00:26:10,491
+then allow them access.
+
+541
+00:26:10,492 --> 00:26:12,100
+>> Great, wow.
+
+542
+00:26:12,101 --> 00:26:15,976
+>> So that's all we did here,
+and so that's the story.
+
+543
+00:26:15,977 --> 00:26:17,693
+>> Thanks for joining us.
+
+544
+00:26:17,694 --> 00:26:21,406
+I hope you'll stick around for
+the next video where we'll
+
+545
+00:26:21,407 --> 00:26:23,924
+continue digging
+into ASP.NET Core.
+

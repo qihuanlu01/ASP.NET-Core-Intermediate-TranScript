@@ -1,0 +1,1721 @@
+WEBVTT
+
+0
+00:00:01,520 --> 00:00:05,250
+Hey there, welcome back to
+this module on ASP.NET Core,
+
+1
+00:00:05,251 --> 00:00:07,710
+my name is Jeff Fritz
+>> And I'm Jon Galloway.
+
+2
+00:00:07,711 --> 00:00:10,610
+>> And, we're gonna talk
+a little in this module about,
+
+3
+00:00:10,611 --> 00:00:13,480
+authentication and
+authorization security, right?
+
+4
+00:00:13,481 --> 00:00:15,910
+>> Right, right, so there's a
+lot in there let's get started.
+
+5
+00:00:16,930 --> 00:00:20,458
+I'm creating a new
+ASP NET Core application.
+
+6
+00:00:20,459 --> 00:00:23,034
+And one of the things on
+the dialog here is, it has this
+
+7
+00:00:23,035 --> 00:00:26,700
+thing on the right, where it
+says change authentication.
+
+8
+00:00:26,701 --> 00:00:28,770
+So that said, no authentication.
+
+9
+00:00:28,771 --> 00:00:31,670
+That means, the application
+is completely anonymous.
+
+10
+00:00:31,671 --> 00:00:33,440
+>> Right, anybody can access it.
+
+11
+00:00:33,441 --> 00:00:34,730
+>> Right, exactly.
+
+12
+00:00:34,731 --> 00:00:37,780
+So what we're gonna be
+showing in this section,
+
+13
+00:00:37,781 --> 00:00:40,740
+we're gonna be looking at
+individual user accounts.
+
+14
+00:00:40,741 --> 00:00:42,270
+There are some others available.
+
+15
+00:00:42,271 --> 00:00:44,550
+You can do Windows
+authentication, for
+
+16
+00:00:44,551 --> 00:00:45,770
+an intranet application.
+
+17
+00:00:47,130 --> 00:00:50,810
+>> So that would use
+internal Windows challenge
+
+18
+00:00:50,811 --> 00:00:54,390
+capabilities with IIS, so it can
+check with Active Directory, and
+
+19
+00:00:54,391 --> 00:00:56,310
+make sure that folks
+are logged in.
+
+20
+00:00:56,311 --> 00:00:56,990
+>> Exactly.
+
+21
+00:00:56,991 --> 00:01:00,390
+>> Okay.
+>> All that magical IIS
+
+22
+00:01:00,391 --> 00:01:02,100
+intranet stuff.
+
+23
+00:01:02,101 --> 00:01:05,380
+There's also school accounts and
+this all set out.
+
+24
+00:01:05,381 --> 00:01:10,350
+This works with active
+directory O365, and
+
+25
+00:01:10,351 --> 00:01:15,520
+it has support for cloud, single
+and multiple organizations.
+
+26
+00:01:15,521 --> 00:01:18,880
+So kinda the simplest one, and
+I think kinda the most standard
+
+27
+00:01:18,881 --> 00:01:21,850
+that a lot of people use is
+individual user accounts.
+
+28
+00:01:21,851 --> 00:01:22,830
+>> Okay.
+>> This is kind of a good
+
+29
+00:01:22,831 --> 00:01:24,660
+place to get started.
+
+30
+00:01:24,661 --> 00:01:28,620
+And you have some options here,
+storing your accounts in app
+
+31
+00:01:28,621 --> 00:01:30,660
+actually uses local databases-
+>> Okay.
+
+32
+00:01:30,661 --> 00:01:32,520
+>> For
+storing there the information.
+
+33
+00:01:32,521 --> 00:01:35,250
+And where you can also
+connect this to stool in
+
+34
+00:01:35,251 --> 00:01:36,320
+the cloud, right?
+
+35
+00:01:36,321 --> 00:01:38,160
+>> Sure.
+>> So that's one nice thing is,
+
+36
+00:01:38,161 --> 00:01:41,179
+you can develop for a while, and
+then you can migrate over later.
+
+37
+00:01:42,330 --> 00:01:44,420
+>> Very good.
+>> So we're going to do this,
+
+38
+00:01:44,421 --> 00:01:46,460
+store user account in app.
+
+39
+00:01:46,461 --> 00:01:48,510
+So I'll click OK,
+and get started.
+
+40
+00:01:50,060 --> 00:01:53,528
+So the first thing we're going
+to be looking at in here once we
+
+41
+00:01:53,529 --> 00:01:54,412
+start this up,
+
+42
+00:01:54,413 --> 00:01:58,130
+is that our authentication
+is set up using middleware.
+
+43
+00:01:58,131 --> 00:02:01,520
+So like just about everything
+in ASP NET core now,
+
+44
+00:02:01,521 --> 00:02:03,240
+it's all configured
+in middleware.
+
+45
+00:02:03,241 --> 00:02:07,460
+So if I go to my startup, we'll
+see if we scroll down a bit,
+
+46
+00:02:08,830 --> 00:02:12,020
+we have in here use identity.
+
+47
+00:02:12,021 --> 00:02:16,710
+So this is actually
+the service is configured to
+
+48
+00:02:16,711 --> 00:02:21,350
+use the identity service, with
+default token providers, etc.
+
+49
+00:02:21,351 --> 00:02:24,030
+We'll be configuring more
+of those in a second.
+
+50
+00:02:24,031 --> 00:02:29,200
+And then down in here,
+it says app.UseAuthentication.
+
+51
+00:02:29,201 --> 00:02:30,690
+So that's kinda
+what turns it on.
+
+52
+00:02:30,691 --> 00:02:33,890
+>> And it's there inside of our
+
+53
+00:02:33,891 --> 00:02:37,420
+configure method between
+static files and UseMvc.
+
+54
+00:02:37,421 --> 00:02:40,930
+So that we're not authenticating
+access to the static files.
+
+55
+00:02:40,931 --> 00:02:41,500
+>> Exactly.
+
+56
+00:02:41,501 --> 00:02:44,050
+>> But we are gonna check for
+authentication requirements for
+
+57
+00:02:44,051 --> 00:02:45,360
+npc pages.
+
+58
+00:02:45,361 --> 00:02:48,410
+>> Exactly, that's a very key
+point, that this middleware kind
+
+59
+00:02:48,411 --> 00:02:49,940
+of falls there,
+it goes top to bottom.
+
+60
+00:02:49,941 --> 00:02:52,670
+So, it'll get called
+in that order.
+
+61
+00:02:52,671 --> 00:02:55,920
+So, I'll want my static files,
+CSS, etc, for
+
+62
+00:02:55,921 --> 00:02:57,250
+my log in pages, right?
+
+63
+00:02:57,251 --> 00:02:57,840
+>> Sure.
+
+64
+00:02:57,841 --> 00:02:59,080
+>> That's important.
+
+65
+00:02:59,081 --> 00:03:00,450
+So just right out of the box,
+
+66
+00:03:00,451 --> 00:03:02,430
+I'm going to run
+this application.
+
+67
+00:03:03,980 --> 00:03:05,370
+And then, we'll go through and
+
+68
+00:03:05,371 --> 00:03:07,590
+we'll start configuring
+some things in here.
+
+69
+00:03:07,591 --> 00:03:10,770
+So, when I run this,
+first of all,
+
+70
+00:03:10,771 --> 00:03:13,900
+some of the things I'm going to
+be doing with my application,
+
+71
+00:03:13,901 --> 00:03:16,770
+I'm gonna be later setting
+up OAuth for login,
+
+72
+00:03:16,771 --> 00:03:20,870
+and that's gonna require SSL,
+the way OAuth is
+
+73
+00:03:20,871 --> 00:03:23,650
+setup to call backs to my
+application require SSL.
+
+74
+00:03:23,651 --> 00:03:27,470
+Fortunately, Visual Studio and
+IS kind of do this for
+
+75
+00:03:27,471 --> 00:03:28,920
+me automatically.
+
+76
+00:03:28,921 --> 00:03:34,950
+So what this is doing is it's
+saying, I can create an IS SSL
+
+77
+00:03:34,951 --> 00:03:38,480
+certificate for you, and install
+it locally on your machine.
+
+78
+00:03:38,481 --> 00:03:41,350
+For development this is
+a real easy way to go.
+
+79
+00:03:41,351 --> 00:03:43,290
+So I'm gonna say, okay, and
+
+80
+00:03:43,291 --> 00:03:46,258
+I'm gonna memorize that show
+one thumbprint, just kidding.
+
+81
+00:03:46,259 --> 00:03:46,865
+[LAUGH].
+
+82
+00:03:46,866 --> 00:03:48,580
+I'm gonna install
+the certificate.
+
+83
+00:03:48,581 --> 00:03:51,280
+So this certificate is installed
+locally on my machine.
+
+84
+00:03:51,281 --> 00:03:53,500
+>> Okay.
+>> What that allows me to do,
+
+85
+00:03:53,501 --> 00:03:57,910
+is run my application locally,
+you'll see in the address bar
+
+86
+00:03:57,911 --> 00:04:02,630
+that it actually does say,
+get this out of here, https.
+
+87
+00:04:02,631 --> 00:04:05,160
+So that allows me to kind of
+right from the beginning of my
+
+88
+00:04:05,161 --> 00:04:10,150
+development, start
+testing with SSL locally.
+
+89
+00:04:10,151 --> 00:04:10,960
+>> Okay.
+
+90
+00:04:10,961 --> 00:04:12,130
+>> So the first thing
+that I'm gonna do,
+
+91
+00:04:12,131 --> 00:04:13,590
+is register a new user.
+
+92
+00:04:14,810 --> 00:04:17,420
+And I'm doing this with
+individual user accounts.
+
+93
+00:04:17,421 --> 00:04:19,651
+The very simplest
+way to do this,
+
+94
+00:04:19,652 --> 00:04:22,212
+is just create an email and
+password.
+
+95
+00:04:22,213 --> 00:04:27,380
+So, just create something.
+
+96
+00:04:29,876 --> 00:04:33,511
+And there are some default
+password requirements,
+
+97
+00:04:33,512 --> 00:04:35,580
+need a capital letter, etc.
+
+98
+00:04:35,581 --> 00:04:36,850
+And those are configurable.
+
+99
+00:04:40,939 --> 00:04:42,650
+And they need to match.
+
+100
+00:04:42,651 --> 00:04:43,530
+Let me try that again.
+
+101
+00:04:52,595 --> 00:04:53,410
+There we go.
+
+102
+00:04:54,720 --> 00:04:57,330
+So it is nice that it at
+least checks that for me.
+
+103
+00:04:57,331 --> 00:04:58,770
+>> No.
+>> No, it blew up.
+
+104
+00:04:58,771 --> 00:05:00,150
+This is actually expected.
+
+105
+00:05:00,151 --> 00:05:03,410
+The first time through that I
+ran this, and the reason is,
+
+106
+00:05:03,411 --> 00:05:06,810
+it needs to store my
+identity data somewhere.
+
+107
+00:05:06,811 --> 00:05:07,530
+>> Right.
+>> And
+
+108
+00:05:07,531 --> 00:05:09,230
+it's using Entity Framework for
+that.
+
+109
+00:05:10,280 --> 00:05:12,700
+So this is actually
+the first time through,
+
+110
+00:05:12,701 --> 00:05:13,930
+that I access this.
+
+111
+00:05:13,931 --> 00:05:16,620
+It's saying I need to create
+those tables for you.
+
+112
+00:05:16,621 --> 00:05:18,254
+>> So
+it's gonna create those tables,
+
+113
+00:05:18,255 --> 00:05:20,430
+in what kind of a database for
+me?
+
+114
+00:05:20,431 --> 00:05:24,490
+>> So
+this is in my local SQL express.
+
+115
+00:05:24,491 --> 00:05:25,350
+>> Got you, the local DB.
+
+116
+00:05:25,351 --> 00:05:26,960
+>> Yeah, local DB center, yeah.
+
+117
+00:05:26,961 --> 00:05:27,480
+>> Okay.
+
+118
+00:05:27,481 --> 00:05:30,020
+>> Exactly, so
+now I hit apply migrations and
+
+119
+00:05:30,021 --> 00:05:32,070
+this is creating that
+database for me.
+
+120
+00:05:32,071 --> 00:05:35,550
+>> So, this error screen
+is entity framework saying,
+
+121
+00:05:35,551 --> 00:05:38,460
+we don't have all the database
+definitions created
+
+122
+00:05:38,461 --> 00:05:40,190
+inside that database.
+
+123
+00:05:40,191 --> 00:05:42,460
+Hey press this button to apply and-
+
+124
+00:05:42,461 --> 00:05:42,780
+>> Exactly.
+
+125
+00:05:42,781 --> 00:05:43,690
+>> Do those updates.
+
+126
+00:05:43,691 --> 00:05:46,840
+>> So,
+this is the migration that runs,
+
+127
+00:05:46,841 --> 00:05:50,120
+it creates those, it actually
+is all ready finished and
+
+128
+00:05:50,121 --> 00:05:52,710
+it says,
+try refreshing the page.
+
+129
+00:05:52,711 --> 00:05:55,230
+So I'm gonna refresh
+the page fortunately for
+
+130
+00:05:55,231 --> 00:05:58,480
+me, it reset the form
+when I refresh the page,
+
+131
+00:05:58,481 --> 00:06:01,880
+it refreshes so I don't need
+to type that password again.
+
+132
+00:06:01,881 --> 00:06:04,350
+So great, there I've gone
+through and logged in.
+
+133
+00:06:04,351 --> 00:06:06,450
+>> And it says,
+hello test at test.com.
+
+134
+00:06:06,451 --> 00:06:07,176
+>> Exactly.
+>> Cool, okay.
+
+135
+00:06:07,177 --> 00:06:08,880
+>> So
+let's configure that a bit.
+
+136
+00:06:08,881 --> 00:06:14,380
+So, I'm going to go in, and I
+am going to click on my account.
+
+137
+00:06:14,381 --> 00:06:19,140
+I will see in here, I can change
+my email, or phone number.
+
+138
+00:06:19,141 --> 00:06:21,890
+I can do things like send
+a verification email.
+
+139
+00:06:21,891 --> 00:06:24,730
+I could, update my password.
+
+140
+00:06:24,731 --> 00:06:25,690
+>> Sure.
+
+141
+00:06:25,691 --> 00:06:26,890
+>> What I want to
+show here though,
+
+142
+00:06:26,891 --> 00:06:29,265
+is configuring two-factor
+authentication.
+
+143
+00:06:29,266 --> 00:06:32,220
+And two-factor authentication
+is really important.
+
+144
+00:06:32,221 --> 00:06:36,330
+This is a great feature to
+enable for your applications.
+
+145
+00:06:36,331 --> 00:06:39,620
+The reason is,
+if someone gets my password
+
+146
+00:06:39,621 --> 00:06:41,660
+they can take over my
+account very easily.
+
+147
+00:06:41,661 --> 00:06:44,640
+However, if I setup
+two-factor authentication
+
+148
+00:06:44,641 --> 00:06:48,970
+on my phone, using a two
+factor authentication application-
+
+149
+00:06:48,971 --> 00:06:49,900
+>> Yes.
+
+150
+00:06:49,901 --> 00:06:52,960
+>> Then someone would need both
+my password, and my phone.
+
+151
+00:06:52,961 --> 00:06:53,740
+>> Sure.
+
+152
+00:06:53,741 --> 00:06:55,070
+>> And so,
+
+153
+00:06:55,071 --> 00:06:58,760
+it's just adding a second factor
+of authentication for me.
+
+154
+00:06:58,761 --> 00:07:03,840
+So if I click on here and
+I say, add authenticator app,
+
+155
+00:07:03,841 --> 00:07:06,760
+this is going to take me to
+a page, and it's gonna tell me,
+
+156
+00:07:06,761 --> 00:07:13,435
+hey, you could go in, you could
+type in this code, and this
+
+157
+00:07:13,436 --> 00:07:17,625
+code is actually a seed for a
+time based TOTP password thing,
+
+158
+00:07:17,626 --> 00:07:21,835
+where it regenerates a password,
+every I believe, 30 seconds.
+
+159
+00:07:21,836 --> 00:07:22,595
+>> Okay.
+
+160
+00:07:22,596 --> 00:07:26,123
+>> Now, we'll look at that
+in a second, but your users,
+
+161
+00:07:26,124 --> 00:07:29,117
+this isn't the best
+experience to make them,
+
+162
+00:07:29,118 --> 00:07:31,217
+type this key into their phone.
+
+163
+00:07:31,218 --> 00:07:32,163
+>> No.
+
+164
+00:07:32,164 --> 00:07:34,719
+>> Most two factor of,
+is set up on phone, and
+
+165
+00:07:34,720 --> 00:07:37,400
+I don't want them
+to have to do that.
+
+166
+00:07:37,401 --> 00:07:38,060
+>> Sure.
+
+167
+00:07:38,061 --> 00:07:41,540
+>> So, a nice way to kinda
+get this information
+
+168
+00:07:41,541 --> 00:07:44,590
+over on to my phone,
+is using a QR code.
+
+169
+00:07:44,591 --> 00:07:45,162
+>> Okay.
+>> So,
+
+170
+00:07:45,163 --> 00:07:48,028
+there's actually some pretty
+good documentation on here, and
+
+171
+00:07:48,029 --> 00:07:50,957
+we're just gonna follow through
+what they're telling us to do.
+
+172
+00:07:50,958 --> 00:07:52,866
+And it's actually,
+surprisingly, easy.
+
+173
+00:07:52,867 --> 00:07:53,594
+>> Good.
+
+174
+00:07:53,595 --> 00:07:56,285
+>> So yeah, so
+what we're doing for this,
+
+175
+00:07:56,286 --> 00:08:00,245
+is we're actually using a Java
+Script library that is going
+
+176
+00:08:00,246 --> 00:08:02,159
+to generate a QR code for me.
+
+177
+00:08:02,160 --> 00:08:03,927
+>> Okay.
+
+178
+00:08:03,928 --> 00:08:06,978
+>> So you can add this
+to your application,
+
+179
+00:08:06,979 --> 00:08:09,325
+any number of different ways.
+
+180
+00:08:09,326 --> 00:08:11,244
+I'm going to do
+this using bower,
+
+181
+00:08:11,245 --> 00:08:13,240
+just cuz bower is
+currently set up.
+
+182
+00:08:13,241 --> 00:08:15,515
+But, you could use
+any kind of bundling,
+
+183
+00:08:15,516 --> 00:08:18,960
+you could use You know you could
+just download the file into your
+
+184
+00:08:18,961 --> 00:08:20,524
+directory if you wanted to.
+
+185
+00:08:20,525 --> 00:08:27,324
+So this is qr-js, and
+I'm just going to pick star,
+
+186
+00:08:27,325 --> 00:08:32,530
+there's just one version of it.
+
+187
+00:08:32,531 --> 00:08:34,010
+And we'll save that.
+
+188
+00:08:34,011 --> 00:08:40,058
+And so then that's going
+to dump this file into,
+
+189
+00:08:40,059 --> 00:08:45,900
+procure, that's now
+the secure code JS.
+
+190
+00:08:45,901 --> 00:08:49,616
+So you just need to put it
+somewhere in your dub dub dub
+
+191
+00:08:49,617 --> 00:08:52,100
+root and know where you put it.
+
+192
+00:08:52,101 --> 00:08:54,835
+>> So you made an update
+to Bower JSON.
+
+193
+00:08:54,836 --> 00:08:57,020
+>> Mm-hm.
+>> You included the qrcode-js
+
+194
+00:08:57,021 --> 00:08:57,680
+line, and
+
+195
+00:08:57,681 --> 00:09:01,780
+in the background, Visual Studio
+kicked off a Bower install and
+
+196
+00:09:01,781 --> 00:09:04,985
+it wrote the contents of
+that package into that
+
+197
+00:09:04,986 --> 00:09:09,790
+qrcode-js folder inside of the
+lib sub folder of dub dub root.
+
+198
+00:09:09,791 --> 00:09:10,360
+>> Exactly.
+
+199
+00:09:10,361 --> 00:09:10,860
+>> Okay.
+>> And
+
+200
+00:09:10,861 --> 00:09:14,220
+it's important to note,
+[LAUGH] Bower
+
+201
+00:09:14,221 --> 00:09:17,590
+was kind of a preferred way of
+installing packages for a while.
+
+202
+00:09:17,591 --> 00:09:19,230
+It's kind of going away.
+
+203
+00:09:19,231 --> 00:09:22,320
+Bower is still maintained but
+it's not kind of
+
+204
+00:09:22,321 --> 00:09:24,330
+the recommended way really-
+>> Okay.
+
+205
+00:09:24,331 --> 00:09:25,570
+>> To get libraries
+going forward.
+
+206
+00:09:26,640 --> 00:09:28,940
+So, you'll see this probably
+change in the future.
+
+207
+00:09:28,941 --> 00:09:32,896
+But the important point here
+really is get this library and
+
+208
+00:09:32,897 --> 00:09:35,003
+put it in your dub dub dub root.
+
+209
+00:09:35,004 --> 00:09:35,542
+[LAUGH].
+
+210
+00:09:35,543 --> 00:09:39,085
+>> Okay.
+>> So now what we're going to do
+
+211
+00:09:39,086 --> 00:09:45,617
+is we're going to look in our
+pages account manage enable
+
+212
+00:09:45,618 --> 00:09:50,799
+authenticator view so
+I go to pages account.
+
+213
+00:09:53,131 --> 00:09:57,750
+Manage, Enable Authenticator.
+
+214
+00:09:57,751 --> 00:09:58,670
+So, and again,
+
+215
+00:09:58,671 --> 00:10:01,890
+that was that spelled out for
+me right here in the docs.
+
+216
+00:10:01,891 --> 00:10:04,690
+Next, I'm going to scroll down
+to the bottom of the script
+
+217
+00:10:04,691 --> 00:10:07,060
+section and
+I'm going to paste this.
+
+218
+00:10:07,061 --> 00:10:10,230
+And the important thing
+here is to make sure
+
+219
+00:10:10,231 --> 00:10:14,920
+that my path to this
+script is correct.
+
+220
+00:10:14,921 --> 00:10:19,600
+And I wanna put this below my
+ValidationScriptsPartial, okay?
+
+221
+00:10:19,601 --> 00:10:23,330
+So all I'm doing here is putting
+in the script that is going to
+
+222
+00:10:23,331 --> 00:10:26,050
+enable generating
+client side qrCode.
+
+223
+00:10:27,260 --> 00:10:29,910
+So now,
+I'm actually gonna go here and
+
+224
+00:10:29,911 --> 00:10:33,680
+I'll take advantage of
+Visual Studio's auto complete.
+
+225
+00:10:33,681 --> 00:10:37,344
+And auto complete
+completes that for me and
+
+226
+00:10:37,345 --> 00:10:39,490
+I know it's gonna work.
+
+227
+00:10:40,650 --> 00:10:43,820
+Right so now that that's there,
+I'll run this again.
+
+228
+00:10:46,190 --> 00:10:48,810
+And we'll see when
+we go to that page.
+
+229
+00:10:48,811 --> 00:10:53,199
+Well actually, when we go
+to enable two factor auth.
+
+230
+00:11:01,229 --> 00:11:04,220
+So if I say,
+configure authenticator app.
+
+231
+00:11:04,221 --> 00:11:06,280
+Now, this is my QR code.
+
+232
+00:11:06,281 --> 00:11:07,020
+>> Fancy.
+
+233
+00:11:07,021 --> 00:11:10,720
+>> Yeah, so that QR code
+just makes an easy way for
+
+234
+00:11:10,721 --> 00:11:12,650
+me to get this data
+onto my phone.
+
+235
+00:11:12,651 --> 00:11:13,180
+>> Okay.
+>> So
+
+236
+00:11:13,181 --> 00:11:15,210
+the next step that I
+would do is actually,
+
+237
+00:11:15,211 --> 00:11:18,750
+on my phone I would
+take a snapshot.
+
+238
+00:11:18,751 --> 00:11:20,550
+I would go into my
+authenticator app and
+
+239
+00:11:20,551 --> 00:11:23,800
+I would scan this QR code and
+it'll say great,
+
+240
+00:11:23,801 --> 00:11:26,245
+added and it'll do all
+the magic registration.
+
+241
+00:11:26,246 --> 00:11:28,320
+>> It'll start
+generating codes for me.
+
+242
+00:11:28,321 --> 00:11:29,240
+>> Yep.
+
+243
+00:11:29,241 --> 00:11:33,300
+Now, because we wanna kind of go
+through and show how this works,
+
+244
+00:11:33,301 --> 00:11:37,240
+I'm actually going to use
+a test online authenticator app
+
+245
+00:11:37,241 --> 00:11:38,370
+that can do this for me.
+
+246
+00:11:38,371 --> 00:11:38,900
+>> Okay.
+
+247
+00:11:38,901 --> 00:11:40,930
+>> So if I go in here and
+
+248
+00:11:40,931 --> 00:11:44,590
+I copy this code, this is
+something you might want to
+
+249
+00:11:44,591 --> 00:11:47,550
+do just in development in order
+to kind of make sure that your
+
+250
+00:11:47,551 --> 00:11:48,700
+two factor auth is working.
+
+251
+00:11:48,701 --> 00:11:51,650
+>> And then you don't
+end up polluting your
+
+252
+00:11:51,651 --> 00:11:54,760
+personal authenticator on your
+phone with all these test codes.
+
+253
+00:11:54,761 --> 00:11:56,120
+>> Exactly, exactly.
+
+254
+00:11:56,121 --> 00:11:58,300
+So I can call this
+whatever I want.
+
+255
+00:11:58,301 --> 00:12:05,370
+MVA 2FA, and
+then I paste in this secret key.
+
+256
+00:12:05,371 --> 00:12:10,350
+This secret key is kind of
+the seed that's going to create
+
+257
+00:12:10,351 --> 00:12:13,850
+these two factor auth numbers
+that I'm gonna actually type in.
+
+258
+00:12:13,851 --> 00:12:15,930
+>> So there's my six
+digit number I would use
+
+259
+00:12:15,931 --> 00:12:17,090
+to authenticate.
+
+260
+00:12:17,091 --> 00:12:18,080
+>> Exactly.
+
+261
+00:12:18,081 --> 00:12:22,100
+So now what I need
+to do is go into,
+
+262
+00:12:22,101 --> 00:12:25,695
+now you watch, see that just
+rolled over every 30 seconds.
+
+263
+00:12:25,696 --> 00:12:26,430
+>> Yeah.
+
+264
+00:12:26,431 --> 00:12:28,350
+>> So
+now I need to go into this and
+
+265
+00:12:28,351 --> 00:12:31,390
+I need to give it my off code.
+
+266
+00:12:31,391 --> 00:12:34,372
+Once I do this it verifies
+it and it says great,
+
+267
+00:12:34,373 --> 00:12:36,300
+two factor auth is set up.
+
+268
+00:12:36,301 --> 00:12:36,860
+>> Cool.
+
+269
+00:12:36,861 --> 00:12:37,750
+Now what are these?
+
+270
+00:12:37,751 --> 00:12:42,430
+>> Well,
+what happens if I lose my phone?
+
+271
+00:12:42,431 --> 00:12:44,080
+>> Or get a new phone,
+or whatever?
+
+272
+00:12:44,081 --> 00:12:48,940
+>> Right, you drop it in
+a stream or something, my gosh.
+
+273
+00:12:48,941 --> 00:12:50,660
+>> Exactly.
+So, what they do for
+
+274
+00:12:50,661 --> 00:12:53,660
+this is they give me
+these recovery keys.
+
+275
+00:12:53,661 --> 00:12:57,460
+So these recovery keys
+are something I can use, and
+
+276
+00:12:57,461 --> 00:13:00,360
+I recommend putting
+these in a secure place.
+
+277
+00:13:00,361 --> 00:13:04,260
+>> Those are two columns
+of five keys, right?
+
+278
+00:13:04,261 --> 00:13:05,300
+>> Total of ten keys.
+
+279
+00:13:05,301 --> 00:13:06,450
+>> Okay.
+>> Yup so
+
+280
+00:13:06,451 --> 00:13:10,290
+these are keys that you
+want to keep these, but
+
+281
+00:13:10,291 --> 00:13:12,370
+you want to keep them
+somewhere secure.
+
+282
+00:13:12,371 --> 00:13:13,580
+>> Sure.
+>> Somewhere secret and
+
+283
+00:13:13,581 --> 00:13:14,980
+somewhere secure.
+
+284
+00:13:14,981 --> 00:13:17,940
+So now let's log out and
+log in and
+
+285
+00:13:17,941 --> 00:13:20,580
+this time we'll see
+using two factor auth.
+
+286
+00:13:20,581 --> 00:13:21,520
+So I'm gonna hit log in.
+
+287
+00:13:21,521 --> 00:13:26,570
+I'm gonna type in test, and
+
+288
+00:13:26,571 --> 00:13:28,100
+we'll see if I can
+type my password.
+
+289
+00:13:30,498 --> 00:13:32,896
+>> You gotta get past that first
+factor authentication before we
+
+290
+00:13:32,897 --> 00:13:34,183
+get to the second.
+
+291
+00:13:34,184 --> 00:13:35,253
+No!
+
+292
+00:13:37,817 --> 00:13:38,600
+>> There it is.
+
+293
+00:13:38,601 --> 00:13:39,160
+>> All right.
+
+294
+00:13:40,270 --> 00:13:42,800
+>> It requires an uppercase,
+
+295
+00:13:42,801 --> 00:13:45,960
+a number and-
+>> Special character?
+
+296
+00:13:45,961 --> 00:13:46,711
+>> Special character.
+
+297
+00:13:46,712 --> 00:13:47,610
+Yeah.
+
+298
+00:13:47,611 --> 00:13:51,260
+So now, it says what's
+your authenticator code?
+
+299
+00:13:51,261 --> 00:13:54,572
+Now I would go on to my phone
+and I would look up my app that
+
+300
+00:13:54,573 --> 00:13:57,380
+I just registered and
+it'll give me a number.
+
+301
+00:13:57,381 --> 00:14:00,847
+So in this case, I'm going
+to my pretend phone and
+
+302
+00:14:00,848 --> 00:14:04,562
+I look here and I see this is
+my two factor auth number,
+
+303
+00:14:04,563 --> 00:14:06,780
+my authenticator code.
+
+304
+00:14:06,781 --> 00:14:07,846
+So I'll hit that.
+
+305
+00:14:07,847 --> 00:14:10,808
+Now, what I would normally want
+to do is say remember on this
+
+306
+00:14:10,809 --> 00:14:12,150
+machine.
+
+307
+00:14:12,151 --> 00:14:13,860
+I'd likely want to do
+that because I don't
+
+308
+00:14:13,861 --> 00:14:17,930
+want to necessarily have to
+type that in every single time.
+
+309
+00:14:17,931 --> 00:14:18,430
+>> And you're in.
+>> I'm in.
+
+310
+00:14:18,431 --> 00:14:20,620
+Now let's look one more time and
+
+311
+00:14:20,621 --> 00:14:22,210
+we'll see what happens.
+
+312
+00:14:22,211 --> 00:14:24,995
+Let's see if I can maybe
+type my password this time.
+
+313
+00:14:24,996 --> 00:14:26,070
+>> [LAUGH]
+>> I should've
+
+314
+00:14:26,071 --> 00:14:35,663
+saved my password? Okay.
+
+315
+00:14:35,664 --> 00:14:38,482
+So now, no, my phone exploded
+
+316
+00:14:38,483 --> 00:14:42,650
+into a thousand pieces,
+what am I gonna do?
+
+317
+00:14:42,651 --> 00:14:44,437
+So now I'm gonna
+actually go in here and
+
+318
+00:14:44,438 --> 00:14:45,960
+say log in using
+a recovery code.
+
+319
+00:14:47,250 --> 00:14:49,320
+So I can grab one of these and
+
+320
+00:14:49,321 --> 00:14:52,760
+what I recommend doing
+is actually delete it.
+
+321
+00:14:52,761 --> 00:14:54,220
+So I did CTRL + X.
+
+322
+00:14:54,221 --> 00:14:55,330
+>> These are one time use?
+
+323
+00:14:55,331 --> 00:14:56,360
+>> They're one time use.
+
+324
+00:14:56,361 --> 00:14:57,280
+>> Okay.
+>> Once I use that thing
+
+325
+00:14:57,281 --> 00:14:58,690
+then it's gone.
+
+326
+00:14:58,691 --> 00:15:01,540
+So then I'll go in here and
+go Log in.
+
+327
+00:15:01,541 --> 00:15:03,260
+And now,
+my two factor auth worked.
+
+328
+00:15:03,261 --> 00:15:04,950
+>> Okay.
+>> And what you can do,
+
+329
+00:15:04,951 --> 00:15:06,590
+if you want to at that point,
+
+330
+00:15:06,591 --> 00:15:09,750
+is you can actually go
+reset recovery codes.
+
+331
+00:15:09,751 --> 00:15:11,310
+>> And get a new
+collection of ten codes.
+
+332
+00:15:11,311 --> 00:15:14,510
+>> So now it regenerated
+all those old codes that I
+
+333
+00:15:14,511 --> 00:15:16,590
+generated, those are all
+worthless now, so
+
+334
+00:15:16,591 --> 00:15:19,990
+I'm just gonna paste those over.
+
+335
+00:15:19,991 --> 00:15:23,780
+And you can put this in, you
+know, say a OneDrive, OneNote,
+
+336
+00:15:23,781 --> 00:15:26,210
+somewhere secure though,
+because someone gets these,
+
+337
+00:15:26,211 --> 00:15:27,920
+they can bypass your
+two factor auth.
+
+338
+00:15:27,921 --> 00:15:29,210
+>> Absolutely.
+
+339
+00:15:29,211 --> 00:15:31,900
+>> So let's kind of
+review what we did here.
+
+340
+00:15:31,901 --> 00:15:32,970
+We went in and
+
+341
+00:15:32,971 --> 00:15:37,120
+we first saw the different
+options that are available.
+
+342
+00:15:37,121 --> 00:15:38,870
+We looked in our startup, and
+
+343
+00:15:38,871 --> 00:15:41,530
+we saw kind of how things
+are configured, and
+
+344
+00:15:41,531 --> 00:15:45,130
+that use authentication kind
+of is already wired up for me.
+
+345
+00:15:45,131 --> 00:15:47,560
+And this stuff about
+token providers and
+
+346
+00:15:47,561 --> 00:15:48,530
+stuff that's already there.
+
+347
+00:15:49,850 --> 00:15:53,270
+Then we went in,
+created a basic account, and
+
+348
+00:15:53,271 --> 00:15:56,430
+then we went in and
+did our authentication.
+
+349
+00:15:56,431 --> 00:15:59,180
+Now, one other thing,
+one other kind of minor thing,
+
+350
+00:15:59,181 --> 00:16:02,329
+but, there's the thing
+in there that says,
+
+351
+00:16:02,330 --> 00:16:05,900
+hey here's how you can create.
+
+352
+00:16:06,910 --> 00:16:10,740
+The first time when you go in
+and you set up two factor auth,
+
+353
+00:16:10,741 --> 00:16:15,130
+there's a little note there that
+says, here's how to enable it.
+
+354
+00:16:15,131 --> 00:16:17,310
+>> I think it was under
+Configure Authenticator app?
+
+355
+00:16:17,311 --> 00:16:19,700
+>> Configure Authenticator app,
+that's it.
+
+356
+00:16:19,701 --> 00:16:21,420
+So here,
+you'll delete this line.
+
+357
+00:16:21,421 --> 00:16:23,430
+>> Sure, we don't wanna
+ship that instruction.
+
+358
+00:16:23,431 --> 00:16:24,840
+>> Yeah, exactly.
+
+359
+00:16:24,841 --> 00:16:25,830
+But that's basically it.
+
+360
+00:16:25,831 --> 00:16:28,560
+So this is pretty sophisticated,
+
+361
+00:16:28,561 --> 00:16:34,461
+this will allow you to keep your
+customer's application secure.
+
+362
+00:16:36,340 --> 00:16:37,610
+Yeah, pretty great.
+
+363
+00:16:37,611 --> 00:16:38,290
+>> Cool.
+
+364
+00:16:38,291 --> 00:16:40,970
+All right, I hope you come back
+and join us in a little bit.
+
+365
+00:16:40,971 --> 00:16:44,131
+We're gonna take a look at
+more authentication options in
+
+366
+00:16:44,132 --> 00:16:45,039
+the next video.
+

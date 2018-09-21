@@ -1,0 +1,4656 @@
+WEBVTT
+
+0
+00:00:01,100 --> 00:00:04,680
+Hey there, welcome back to
+this course on ASP.NET Core.
+
+1
+00:00:04,681 --> 00:00:06,020
+My name is Jeff Fritz.
+
+2
+00:00:06,021 --> 00:00:07,560
+>> And I'm Scott Hanselman.
+
+3
+00:00:07,561 --> 00:00:08,470
+>> And in this module,
+
+4
+00:00:08,471 --> 00:00:12,075
+we're gonna take a look at
+building APIs with ASP.NET Core.
+
+5
+00:00:12,076 --> 00:00:13,670
+>> Yep, we're gonna try,
+
+6
+00:00:13,671 --> 00:00:18,320
+if we can, without any cuts or
+any editing.
+
+7
+00:00:18,321 --> 00:00:19,690
+>> One shot.
+
+8
+00:00:19,691 --> 00:00:21,784
+>> To build an API,
+we're gonna do it for real.
+
+9
+00:00:21,785 --> 00:00:24,311
+And if we make a mistake or
+if it doesn't compile, we'll
+
+10
+00:00:24,312 --> 00:00:26,800
+hopefully check each other,
+>> We'll fix it.
+
+11
+00:00:26,801 --> 00:00:28,780
+>> And the goal here to to
+build something that is
+
+12
+00:00:28,781 --> 00:00:29,830
+somewhat non trivial.
+
+13
+00:00:29,831 --> 00:00:33,590
+We'll build a real web API,
+we'll use real web API tools in
+
+14
+00:00:33,591 --> 00:00:36,400
+order to talk to it We'll show
+you Postman, we'll show you
+
+15
+00:00:36,401 --> 00:00:40,300
+Visual Studio, we're gonna do it
+all, of course, in ASP.NET Core.
+
+16
+00:00:40,301 --> 00:00:43,430
+You've seen us in other modules
+talk about Razor Pages.
+
+17
+00:00:43,431 --> 00:00:45,360
+In this one, we're gonna
+be talking about Web APIs.
+
+18
+00:00:45,361 --> 00:00:48,510
+And what's nice about it
+is it's all ASP.NET Core.
+
+19
+00:00:48,511 --> 00:00:51,480
+So if you have already made
+a Razor Page, you're gonna
+
+20
+00:00:51,481 --> 00:00:54,190
+discover that you can,
+in fact, have your Web API's
+
+21
+00:00:54,191 --> 00:00:57,070
+in your same project as your
+Razor Pages, which is nice.
+
+22
+00:00:57,071 --> 00:00:59,120
+>> Absolutely,
+it's the same technology.
+
+23
+00:00:59,121 --> 00:01:01,310
+You can put the pieces
+together that you need to
+
+24
+00:01:01,311 --> 00:01:02,620
+make the application
+
+25
+00:01:02,621 --> 00:01:05,560
+with those appropriate LEGO
+pieces that snap together.
+
+26
+00:01:05,561 --> 00:01:06,920
+>> Exactly, all right, so
+
+27
+00:01:06,921 --> 00:01:09,260
+we're gonna do one that is for
+ticketing.
+
+28
+00:01:09,261 --> 00:01:12,470
+Maria asked me to fit Beyonce
+in, in any way possible.
+
+29
+00:01:12,471 --> 00:01:15,330
+So we'll assume this some kind
+of a concert ticketing system.
+
+30
+00:01:15,331 --> 00:01:16,580
+But that's the general idea.
+
+31
+00:01:16,581 --> 00:01:20,817
+So I am here in
+Visual Studio 2017.
+
+32
+00:01:20,818 --> 00:01:22,966
+I happen to be using
+Visual Studio Community,
+
+33
+00:01:22,967 --> 00:01:25,140
+which is my preferred version.
+
+34
+00:01:25,141 --> 00:01:27,870
+So I'm gonna say
+File>New>Project.
+
+35
+00:01:27,871 --> 00:01:29,810
+And I'll just zoom in here.
+
+36
+00:01:29,811 --> 00:01:32,930
+I've got a choice under
+Visual C# for Web.
+
+37
+00:01:32,931 --> 00:01:35,610
+There's Web Applications using
+the full .NET framework,
+
+38
+00:01:35,611 --> 00:01:37,511
+the .NET framework
+that runs on Windows.
+
+39
+00:01:37,512 --> 00:01:40,976
+We're using, of course, ASP.NET
+Core, which runs on Windows, and
+
+40
+00:01:40,977 --> 00:01:42,490
+also Linux and Mac.
+
+41
+00:01:42,491 --> 00:01:43,550
+So we'll double click on that.
+
+42
+00:01:44,680 --> 00:01:47,300
+And that's gonna pop up
+a number of choices.
+
+43
+00:01:47,301 --> 00:01:49,950
+You're gonna want to,
+if you're following along,
+
+44
+00:01:49,951 --> 00:01:52,820
+confirm that you're using
+ASP.NET Core 2.0, or 2 1,
+
+45
+00:01:52,821 --> 00:01:55,530
+or whatever version
+is the newest.
+
+46
+00:01:55,531 --> 00:01:57,660
+You'll noticed if you
+pick a older version,
+
+47
+00:01:57,661 --> 00:02:00,030
+you have fewer choices.
+
+48
+00:02:00,031 --> 00:02:03,880
+Now these are just building
+on top of each other,
+
+49
+00:02:03,881 --> 00:02:04,710
+this is important.
+
+50
+00:02:06,440 --> 00:02:07,980
+They are all web applications.
+
+51
+00:02:09,310 --> 00:02:11,940
+They are all ASP.NET core.
+
+52
+00:02:11,941 --> 00:02:15,740
+If I pick this one, it's got the
+most stuff, and it's meant for
+
+53
+00:02:15,741 --> 00:02:17,760
+using React and Redux.
+
+54
+00:02:17,761 --> 00:02:19,460
+I'm not doing Angular.
+
+55
+00:02:19,461 --> 00:02:21,310
+I am gonna be using
+Model-View-Controller
+
+56
+00:02:21,311 --> 00:02:24,060
+because it's all part
+of the larger system.
+
+57
+00:02:24,061 --> 00:02:26,990
+But I'm not gonna have Razor
+Pages in my particular one, so
+
+58
+00:02:26,991 --> 00:02:28,750
+I just get a little bit smaller,
+
+59
+00:02:28,751 --> 00:02:31,950
+more of a core,
+the essence of my application.
+
+60
+00:02:31,951 --> 00:02:35,130
+But to be clear,
+even if you pick one of these,
+
+61
+00:02:35,131 --> 00:02:37,900
+you can can either add stuff or
+strip things out, can't you?
+
+62
+00:02:37,901 --> 00:02:41,190
+>> Yeah, these are all, we're
+building on the shoulders of
+
+63
+00:02:41,191 --> 00:02:43,450
+the previous project
+templates before them.
+
+64
+00:02:43,451 --> 00:02:44,680
+>> Exactly.
+
+65
+00:02:44,681 --> 00:02:48,090
+>> So the API, yes, it doesn't
+have Razor formatting for views.
+
+66
+00:02:48,091 --> 00:02:49,050
+>> But you can add it.
+
+67
+00:02:50,050 --> 00:02:52,070
+>> The Web Application has those
+features added on top of it.
+
+68
+00:02:52,071 --> 00:02:56,678
+>> Exactly, so for
+now we'll pick Web API.
+
+69
+00:02:56,679 --> 00:02:58,400
+And we'll go and
+create that project.
+
+70
+00:02:59,530 --> 00:03:03,468
+That is going to be an ASP.NET
+Core project running on .NET
+
+71
+00:03:03,469 --> 00:03:06,006
+Core here in Visual Studio 2017.
+
+72
+00:03:06,007 --> 00:03:09,364
+I wanna open up the solution
+explorer, and while that is
+
+73
+00:03:09,365 --> 00:03:13,790
+getting itself ready we will
+just zoom in and take a look.
+
+74
+00:03:13,791 --> 00:03:16,520
+We have got some default
+controllers here.
+
+75
+00:03:18,010 --> 00:03:20,480
+They gave us
+a ValuesController by default.
+
+76
+00:03:20,481 --> 00:03:23,170
+>> Yeah, very simple controller,
+looks and
+
+77
+00:03:23,171 --> 00:03:26,509
+feels like what we've seen in
+older versions of ASP.NET.
+
+78
+00:03:27,860 --> 00:03:29,610
+>> Doesn't do
+anything complicated,
+
+79
+00:03:29,611 --> 00:03:31,890
+returns a list of strings.
+
+80
+00:03:31,891 --> 00:03:34,190
+We can just take
+a brief look at that.
+
+81
+00:03:34,191 --> 00:03:37,502
+I'm gonna hit Ctrl+F5.
+
+82
+00:03:37,503 --> 00:03:41,003
+Ctrl+F5, of course,
+starts without debugging,
+
+83
+00:03:41,004 --> 00:03:43,111
+F5 will start with debugging.
+
+84
+00:03:43,112 --> 00:03:45,796
+So we're gonna do a quick build,
+pop up in that, and
+
+85
+00:03:45,797 --> 00:03:48,299
+then you can see that
+returned those two values,
+
+86
+00:03:48,300 --> 00:03:50,390
+there's a little bit
+of chase in there.
+
+87
+00:03:51,580 --> 00:03:53,300
+That's these values here.
+
+88
+00:03:54,490 --> 00:03:58,970
+>> So we returned an array, and
+on the way out, Web API and
+
+89
+00:03:58,971 --> 00:04:02,340
+the API controller format
+those as a JSON array
+
+90
+00:04:02,341 --> 00:04:05,390
+to meet that JSON mime type
+that we're delivering in.
+
+91
+00:04:05,391 --> 00:04:08,460
+>> Now I've got this browser
+here, which is Microsoft Edge.
+
+92
+00:04:08,461 --> 00:04:09,930
+I've also got Chrome.
+
+93
+00:04:09,931 --> 00:04:13,160
+But when you are making APIs,
+it's a good idea to have
+
+94
+00:04:13,161 --> 00:04:15,760
+a client that's a little
+smarter about APIs.
+
+95
+00:04:15,761 --> 00:04:19,170
+Otherwise, you're just gonna get
+either an edge here, black and
+
+96
+00:04:19,171 --> 00:04:22,380
+white text, or in Chrome you
+might have some colored text.
+
+97
+00:04:22,381 --> 00:04:24,494
+But it's nice, I use Postman,
+
+98
+00:04:24,495 --> 00:04:27,403
+which is a great tool
+that let's me do a GET.
+
+99
+00:04:27,404 --> 00:04:30,592
+So I'm just gonna go and
+paste in that same url.
+
+100
+00:04:30,593 --> 00:04:33,165
+Notice that I'm doing
+it while it's running.
+
+101
+00:04:33,166 --> 00:04:34,370
+Gotta make sure
+that it's running.
+
+102
+00:04:34,371 --> 00:04:35,100
+And I hit send,
+
+103
+00:04:35,101 --> 00:04:40,240
+and they send me back this
+Pretty printed version.
+
+104
+00:04:40,241 --> 00:04:42,649
+That was the Raw text
+we saw in the browser.
+
+105
+00:04:42,650 --> 00:04:45,230
+The benefits here is that
+I can say it's Pretty, and
+
+106
+00:04:45,231 --> 00:04:48,161
+then if I didn't get it back the
+way I wanted I could hint it in
+
+107
+00:04:48,162 --> 00:04:49,410
+different directions.
+
+108
+00:04:49,411 --> 00:04:52,750
+So Postman is gonna be kind
+of our browser of choice.
+
+109
+00:04:52,751 --> 00:04:55,580
+>> Right, it gives us
+the ability to add authorization
+
+110
+00:04:55,581 --> 00:04:59,680
+into our request, or change
+headers, and specify different
+
+111
+00:04:59,681 --> 00:05:03,310
+ways that we want to interact
+that are not quite those default
+
+112
+00:05:03,311 --> 00:05:05,770
+things that the browser
+is gonna use every time.
+
+113
+00:05:05,771 --> 00:05:07,940
+>> Right, right, there ways to
+do this in the browser, but
+
+114
+00:05:07,941 --> 00:05:10,220
+Postman's such
+a great API checker.
+
+115
+00:05:10,221 --> 00:05:11,400
+So you can install that.
+
+116
+00:05:11,401 --> 00:05:14,639
+We notice, of course,
+that this has a 200 OK,
+
+117
+00:05:14,640 --> 00:05:18,200
+it took no time at all, and
+it's really no size at all.
+
+118
+00:05:18,201 --> 00:05:22,590
+>> Right, that 200 is
+a standard HTTP status code.
+
+119
+00:05:22,591 --> 00:05:24,620
+200 means OK.
+There's other status codes that
+
+120
+00:05:24,621 --> 00:05:27,460
+we'll run into a little bit
+later here in the video
+
+121
+00:05:27,461 --> 00:05:31,300
+where we'll use other status
+codes to indicate how
+
+122
+00:05:31,301 --> 00:05:34,705
+the processing of the API
+succeeded or failed.
+
+123
+00:05:34,706 --> 00:05:36,130
+>> Mm-hm.
+All right, so
+
+124
+00:05:36,131 --> 00:05:42,140
+we are going to make a model for
+this that is called tickets,
+
+125
+00:05:42,141 --> 00:05:43,520
+and we're gonna use
+a little database.
+
+126
+00:05:43,521 --> 00:05:46,170
+But the database we're gonna
+use is gonna be an in memory
+
+127
+00:05:46,171 --> 00:05:46,890
+database.
+
+128
+00:05:46,891 --> 00:05:50,160
+Because we're not doing
+an entity framework course here,
+
+129
+00:05:50,161 --> 00:05:51,650
+this is a Web API course.
+
+130
+00:05:51,651 --> 00:05:55,680
+For simplicity's sake, I'm gonna
+just use an in memory database.
+
+131
+00:05:55,681 --> 00:05:58,140
+And I'm gonna make a new class.
+
+132
+00:05:59,880 --> 00:06:04,840
+And I'm gonna call it, we'll
+call it TicketItem, TicketItem.
+
+133
+00:06:04,841 --> 00:06:09,632
+I should have renamed
+that better, TicketItem.
+
+134
+00:06:09,633 --> 00:06:15,912
+All right, and I know that I'm
+gonna use the entity framework, the
+
+135
+00:06:15,913 --> 00:06:20,454
+Microsoft.EntityFrameworkCore
+
+136
+00:06:20,455 --> 00:06:21,860
+here, so bring that in.
+
+137
+00:06:21,861 --> 00:06:26,000
+And I'm gonna say zoom in a bit.
+
+138
+00:06:26,001 --> 00:06:27,560
+Let's think about what
+a ticket would have.
+
+139
+00:06:27,561 --> 00:06:30,399
+Were gonna say prop, tab, tab.
+
+140
+00:06:32,200 --> 00:06:35,480
+Give it a long for an Id.
+
+141
+00:06:37,370 --> 00:06:38,576
+Id is good.
+
+142
+00:06:38,577 --> 00:06:44,071
+Prop, tab, tab, string,
+maybe a, oops, I'm not doing so
+
+143
+00:06:44,072 --> 00:06:48,650
+good with my props there,
+Concert, maybe?
+
+144
+00:06:48,651 --> 00:06:51,216
+>> Sure, that Id might be
+like be the ticket number-
+
+145
+00:06:51,217 --> 00:06:52,330
+>> The ticket number, yeah.
+
+146
+00:06:52,331 --> 00:06:55,164
+>> That you's see printed
+on someones stub.
+
+147
+00:06:55,165 --> 00:06:56,000
+>> Artist.
+
+148
+00:06:56,001 --> 00:06:56,500
+>> Of course.
+
+149
+00:06:57,550 --> 00:07:00,540
+>> And then let's do
+a prop that is a Boolean.
+
+150
+00:07:02,100 --> 00:07:03,450
+I don't know, maybe Available.
+
+151
+00:07:03,451 --> 00:07:06,390
+This is just kind of
+some nonsense for
+
+152
+00:07:06,391 --> 00:07:07,340
+what we're doing here.
+
+153
+00:07:08,430 --> 00:07:10,098
+So there's the shape
+of a ticket.
+
+154
+00:07:10,099 --> 00:07:12,736
+That's cool.
+
+155
+00:07:12,737 --> 00:07:16,160
+And we can put our,
+we need a database class,
+
+156
+00:07:16,161 --> 00:07:17,080
+we can put that anywhere.
+
+157
+00:07:17,081 --> 00:07:19,917
+I could put it in
+the same folder here, or
+
+158
+00:07:19,918 --> 00:07:22,470
+I could put it in the same file.
+
+159
+00:07:22,471 --> 00:07:24,180
+But I could also put it
+somewhere else, I suppose.
+
+160
+00:07:24,181 --> 00:07:25,720
+Public class.
+
+161
+00:07:25,721 --> 00:07:27,300
+I can move it later.
+
+162
+00:07:27,301 --> 00:07:28,700
+TicketContext.
+
+163
+00:07:28,701 --> 00:07:31,570
+>> There's actually a Visual
+Studio tool that will help
+
+164
+00:07:31,571 --> 00:07:35,540
+you refactor and move that to
+a different file if you'd like.
+
+165
+00:07:35,541 --> 00:07:39,436
+>> All right, so then we'll
+have a constructor for
+
+166
+00:07:39,437 --> 00:07:41,151
+our ticket context.
+
+167
+00:07:41,152 --> 00:07:44,390
+And that is gonna
+take in some options,
+
+168
+00:07:44,391 --> 00:07:49,040
+some DbContextOptions for
+this TicketContext.
+
+169
+00:07:49,041 --> 00:07:51,040
+We'll just name them options.
+
+170
+00:07:51,041 --> 00:07:54,430
+And at this point, it's just
+gonna pass them up to the base,
+
+171
+00:07:54,431 --> 00:07:57,090
+pass them up to the base
+library there, options.
+
+172
+00:07:57,091 --> 00:08:01,240
+So that's gonna go up
+to the class above us.
+
+173
+00:08:01,241 --> 00:08:02,700
+>> The Db context class.
+
+174
+00:08:02,701 --> 00:08:03,300
+>> Db context,
+
+175
+00:08:03,301 --> 00:08:05,720
+cuz we are derived from
+Db context, exactly.
+
+176
+00:08:05,721 --> 00:08:07,976
+And then our ticket items,
+
+177
+00:08:07,977 --> 00:08:12,889
+we're gonna have not just one,
+but multiple TicketItem.
+
+178
+00:08:12,890 --> 00:08:19,901
+And we'll call them TicketItems,
+plural, plural. Cool.
+
+179
+00:08:19,902 --> 00:08:21,141
+>> Does that look legit to you?
+
+180
+00:08:21,142 --> 00:08:22,877
+Let's take a look.
+>> Looks good to me.
+
+181
+00:08:22,878 --> 00:08:26,836
+>> So we got a ticket item,
+little database to put it in and our,
+
+182
+00:08:29,120 --> 00:08:30,028
+>> Yeah those options,
+
+183
+00:08:30,029 --> 00:08:32,703
+it's important you receive that
+in the constructor, because
+
+184
+00:08:32,704 --> 00:08:35,630
+that's gonna contain things like
+the database connection string,
+
+185
+00:08:35,631 --> 00:08:38,220
+and the database provider that
+it needs to configure for us.
+
+186
+00:08:38,221 --> 00:08:40,526
+>> Yep, and we don't have to do
+anything with it in this case,
+
+187
+00:08:40,527 --> 00:08:42,670
+we can receive it and
+then we pass it along.
+
+188
+00:08:42,671 --> 00:08:43,570
+>> Yep, just pass it along.
+
+189
+00:08:43,571 --> 00:08:47,711
+>> Okay, let's take
+a look at our startup.
+
+190
+00:08:47,712 --> 00:08:51,468
+Now, in previous courses and
+previous modules,
+
+191
+00:08:51,469 --> 00:08:55,590
+we talked about how you add
+the services that you want.
+
+192
+00:08:55,591 --> 00:08:58,466
+You add them into your pile and
+then you use them or
+
+193
+00:08:58,467 --> 00:09:01,070
+you set them up to do
+whatever you want to do.
+
+194
+00:09:01,071 --> 00:09:04,540
+So here, of course, we add NVC
+which includes our web API and
+
+195
+00:09:04,541 --> 00:09:07,690
+all those things and
+then down here we use it, and
+
+196
+00:09:07,691 --> 00:09:10,300
+in other videos, we saw that
+we added in routing and
+
+197
+00:09:10,301 --> 00:09:12,034
+other kind of stuff
+that you can add, but
+
+198
+00:09:12,035 --> 00:09:14,950
+I think the default routes will
+be okay for what we're doing.
+
+199
+00:09:14,951 --> 00:09:18,770
+Now, on top of this NVC service
+and this pile of services,
+
+200
+00:09:18,771 --> 00:09:21,850
+this collection of services,
+we're gonna go and
+
+201
+00:09:21,851 --> 00:09:24,450
+add in that DbContext
+that we made there.
+
+202
+00:09:24,451 --> 00:09:28,680
+We gonna say hey there's this
+TicketContext out there and
+
+203
+00:09:28,681 --> 00:09:29,870
+remember those options.
+
+204
+00:09:31,320 --> 00:09:32,830
+We're gonna go and
+make a little setting there,
+
+205
+00:09:32,831 --> 00:09:33,800
+we're gonna say use and
+
+206
+00:09:33,801 --> 00:09:36,900
+you notice here I wanna say
+use in memory database.
+
+207
+00:09:36,901 --> 00:09:41,050
+But it doesn't show up because
+InMemoryDatabase is an add on,
+
+208
+00:09:41,051 --> 00:09:43,530
+okay, it's a thing that you
+would go and get later.
+
+209
+00:09:44,630 --> 00:09:49,396
+Now here it says well we don't
+have the InMemoryDatabase and
+
+210
+00:09:49,397 --> 00:09:52,160
+nothing is available,
+maybe it's over here in
+
+211
+00:09:52,161 --> 00:09:54,100
+entity framework core
+in that new space.
+
+212
+00:09:54,101 --> 00:09:54,800
+So it will go and
+
+213
+00:09:54,801 --> 00:09:57,940
+add that namespace, that
+namespace show it up at the top.
+
+214
+00:09:59,490 --> 00:10:04,410
+So I go back down here and
+I can hit Control
+
+215
+00:10:06,140 --> 00:10:08,840
+dot again and seeing that I,
+there you go.
+
+216
+00:10:08,841 --> 00:10:11,960
+InMemoryDatabase and
+we'll give it a name TicketList.
+
+217
+00:10:13,840 --> 00:10:15,675
+OK and then we close it and
+close it.
+
+218
+00:10:15,676 --> 00:10:17,450
+>> Yep.
+
+219
+00:10:17,451 --> 00:10:19,470
+>> And then we're good, okay?
+
+220
+00:10:19,471 --> 00:10:21,540
+And I don't think we need
+to bring out models cuz I
+
+221
+00:10:21,541 --> 00:10:23,150
+don't think we're
+gonna use them here.
+
+222
+00:10:23,151 --> 00:10:27,010
+So that should work to see if
+that compiles looks like it did.
+
+223
+00:10:27,011 --> 00:10:28,515
+So, clearly we can ship it.
+
+224
+00:10:28,516 --> 00:10:30,720
+[LAUGH]
+>> Absolutely, we're done.
+
+225
+00:10:30,721 --> 00:10:31,730
+>> We've done nothing.
+
+226
+00:10:31,731 --> 00:10:33,440
+>> We can ship to values.
+
+227
+00:10:33,441 --> 00:10:34,880
+>> All right.
+
+228
+00:10:34,881 --> 00:10:38,750
+Now we've got our ticket, we've
+told it we're gonna use an in
+
+229
+00:10:38,751 --> 00:10:41,500
+memory database for
+our ticket context.
+
+230
+00:10:41,501 --> 00:10:43,891
+We can add a controller so
+I'm gonna right click, and
+
+231
+00:10:43,892 --> 00:10:45,340
+I'll say add.
+
+232
+00:10:45,341 --> 00:10:48,900
+Now before I said add new item,
+and then picked from the list.
+
+233
+00:10:48,901 --> 00:10:51,450
+Here we're gonna say
+add controller and
+
+234
+00:10:51,451 --> 00:10:53,090
+this is an interesting one.
+
+235
+00:10:53,091 --> 00:10:55,930
+There's a bunch of different
+scaffolding choices you can use,
+
+236
+00:10:55,931 --> 00:10:57,920
+you can do like your
+MVC Controllers for
+
+237
+00:10:57,921 --> 00:11:00,000
+your Razor in your html.
+
+238
+00:11:00,001 --> 00:11:04,320
+You can do an API Controller,
+now here we've got Empty but
+
+239
+00:11:04,321 --> 00:11:06,000
+I've also got one called
+Entity Framework.
+
+240
+00:11:06,001 --> 00:11:07,680
+I could cheat, couldn't I?
+
+241
+00:11:07,681 --> 00:11:08,510
+>> Yeah.
+>> Not, cheat.
+
+242
+00:11:08,511 --> 00:11:10,895
+Cheat is not a right word,
+I could fast forward time.
+
+243
+00:11:10,896 --> 00:11:11,840
+>> Mm-hm.
+>> And
+
+244
+00:11:11,841 --> 00:11:16,340
+say, Scaffold it all I would
+make a complete crawd.
+
+245
+00:11:16,341 --> 00:11:18,030
+Create, read, update, delete.
+
+246
+00:11:18,031 --> 00:11:18,820
+Do you want me to do that, or
+
+247
+00:11:18,821 --> 00:11:20,590
+are we going to build
+this from scratch?
+
+248
+00:11:20,591 --> 00:11:22,820
+>> Let's do this by hand just so
+we can walk through and talk
+
+249
+00:11:22,821 --> 00:11:25,600
+a little bit more towards what
+each one of the methods are, and
+
+250
+00:11:25,601 --> 00:11:28,120
+how you need to interact
+with those items.
+
+251
+00:11:28,121 --> 00:11:30,140
+>> Okay, so we'll do that.
+
+252
+00:11:30,141 --> 00:11:33,680
+We'll make a new empty
+controller, so it's going to go
+
+253
+00:11:33,681 --> 00:11:38,980
+think about that and we'll
+call it the ticket controller.
+
+254
+00:11:38,981 --> 00:11:40,440
+>> Yeah.
+
+255
+00:11:40,441 --> 00:11:42,780
+>> Now, because it's firing
+up the scaffolding system,
+
+256
+00:11:42,781 --> 00:11:44,770
+this will just take a moment and
+
+257
+00:11:44,771 --> 00:11:49,210
+also want to make sure that the
+project can build after effect.
+
+258
+00:11:49,211 --> 00:11:51,570
+This is a little bit slower than
+just and saying add new item and
+
+259
+00:11:51,571 --> 00:11:54,680
+making a text file cuz right
+now, it's looking at my
+
+260
+00:11:54,681 --> 00:11:57,020
+system and if it was gonna
+scout for a bunch of stuff.
+
+261
+00:11:57,021 --> 00:11:57,520
+>> It's adding
+
+262
+00:11:57,521 --> 00:11:58,910
+in those features-
+>> Mm-hm.
+
+263
+00:11:58,911 --> 00:12:00,650
+>> That weren't
+previously in there.
+
+264
+00:12:00,651 --> 00:12:01,280
+If you were to go and
+
+265
+00:12:01,281 --> 00:12:03,210
+add another controller
+at this point,
+
+266
+00:12:03,211 --> 00:12:05,370
+those features have already
+been added to this project.
+
+267
+00:12:05,371 --> 00:12:06,590
+>> Yep.
+>> It doesn't need to re-add
+
+268
+00:12:06,591 --> 00:12:07,215
+them at this point.
+
+269
+00:12:07,216 --> 00:12:08,430
+>> Mm-hm.
+This is interesting.
+
+270
+00:12:08,431 --> 00:12:11,944
+Here is says, well I'm gonna
+assume this is a route at route
+
+271
+00:12:11,945 --> 00:12:16,330
+api/Ticket, so
+it's described in the URL.
+
+272
+00:12:16,331 --> 00:12:20,900
+Little tip here for you though,
+you could also go like this and
+
+273
+00:12:20,901 --> 00:12:24,540
+that's saying whatever the name
+of that controller is.
+
+274
+00:12:24,541 --> 00:12:27,830
+>> That thing before controller
+in the name of the class.
+
+275
+00:12:27,831 --> 00:12:30,840
+>> Right, so the word controller
+in that case is a well known
+
+276
+00:12:30,841 --> 00:12:36,115
+name, magic name but
+I could also make this Foo, so
+
+277
+00:12:36,116 --> 00:12:38,780
+api/Foo would go to
+ticket controller.
+
+278
+00:12:38,781 --> 00:12:43,530
+In this case api/Ticket or
+
+279
+00:12:43,531 --> 00:12:47,190
+I could hard code api/Ticket, so
+you got a lot of choices there.
+
+280
+00:12:47,191 --> 00:12:50,730
+Routing and attribute routing
+gives you a lot of choices there
+
+281
+00:12:50,731 --> 00:12:53,140
+and then this seems
+pretty clear.
+
+282
+00:12:53,141 --> 00:12:56,110
+Produces application/json,
+makes some json.
+
+283
+00:12:56,111 --> 00:12:58,080
+>> We're forcing
+the mime type that
+
+284
+00:12:58,081 --> 00:12:59,750
+we're gonna be interacting with.
+
+285
+00:12:59,751 --> 00:13:03,790
+We're, if we didn't use that,
+it could actually adapt and
+
+286
+00:13:03,791 --> 00:13:07,720
+respond appropriately if it
+requests xml, instead of json.
+
+287
+00:13:07,721 --> 00:13:10,950
+>> So we could even
+remove that then and
+
+288
+00:13:10,951 --> 00:13:12,960
+possibly return xml
+instead of json?
+
+289
+00:13:12,961 --> 00:13:13,680
+>> Yes.
+
+290
+00:13:13,681 --> 00:13:15,272
+>> We'll leave it there for now.
+
+291
+00:13:15,273 --> 00:13:16,136
+>> Sure.
+>> Okay, so we're inside of
+
+292
+00:13:16,137 --> 00:13:18,170
+our ticket controller and
+our ticket controller
+
+293
+00:13:20,060 --> 00:13:23,370
+is gonna need that database
+context, that ticket context.
+
+294
+00:13:23,371 --> 00:13:25,853
+I'll just name it
+ticket context,
+
+295
+00:13:25,854 --> 00:13:30,490
+we'll make it private and we'll
+say public TicketController and
+
+296
+00:13:30,491 --> 00:13:34,877
+that'll pass in the database
+context and then at which point,
+
+297
+00:13:34,878 --> 00:13:37,960
+as I like to say,
+I will squirrel that away.
+
+298
+00:13:37,961 --> 00:13:40,977
+And then for the purposes of
+testing, this is just for
+
+299
+00:13:40,978 --> 00:13:43,928
+testing, but this is
+something to do because we're
+
+300
+00:13:43,929 --> 00:13:45,615
+using an in memory database.
+
+301
+00:13:45,616 --> 00:13:46,707
+We'll say,
+
+302
+00:13:46,708 --> 00:13:51,076
+hey if there's not any ticket
+items in there at all,
+
+303
+00:13:51,077 --> 00:13:56,460
+if the count of those tickets is
+zero, let's just throw one in.
+
+304
+00:13:56,461 --> 00:13:57,080
+So that way,
+
+305
+00:13:57,081 --> 00:14:00,740
+when we first start the app up,
+it'll have something.
+
+306
+00:14:00,741 --> 00:14:02,310
+This is cheesy.
+
+307
+00:14:02,311 --> 00:14:04,880
+There are other ways to do this.
+
+308
+00:14:04,881 --> 00:14:05,980
+>> Sure.
+>> But for what we're doing,
+
+309
+00:14:05,981 --> 00:14:06,760
+I think it's fine.
+
+310
+00:14:06,761 --> 00:14:08,280
+>> Well yeah.
+We could've also included
+
+311
+00:14:08,281 --> 00:14:11,660
+there a test, if this is
+the development environment,
+
+312
+00:14:11,661 --> 00:14:14,305
+then add a ticket so that we
+have something to work with.
+
+313
+00:14:14,306 --> 00:14:15,080
+>> Mm-hm.
+That is a good point.
+
+314
+00:14:17,010 --> 00:14:19,968
+And then, so we're just saying
+if there's nothing there,
+
+315
+00:14:19,969 --> 00:14:21,220
+add something in.
+
+316
+00:14:21,221 --> 00:14:22,600
+>> Sure.
+
+317
+00:14:22,601 --> 00:14:25,770
+>> Probably not something you
+want to do in the constructor,
+
+318
+00:14:25,771 --> 00:14:27,670
+but not too bad.
+
+319
+00:14:27,671 --> 00:14:34,133
+Okay, all right, now do we
+have any ticket controller?
+
+320
+00:14:34,134 --> 00:14:35,246
+Does that look good?
+
+321
+00:14:35,247 --> 00:14:37,880
+>> Yep, we have
+a TicketController that is gonna
+
+322
+00:14:37,881 --> 00:14:38,890
+start up.
+
+323
+00:14:38,891 --> 00:14:41,080
+If there aren't any tickets
+currently in the database,
+
+324
+00:14:41,081 --> 00:14:43,000
+we're gonna create one for
+the Beyonce concert.
+
+325
+00:14:43,001 --> 00:14:44,600
+>> So we should make a get all.
+
+326
+00:14:45,660 --> 00:14:47,630
+>> Sure, so that we can
+actually see those tickets that
+
+327
+00:14:47,631 --> 00:14:48,320
+are in the database.
+
+328
+00:14:48,321 --> 00:14:49,920
+>> Because right now,
+it doesn't really do anything.
+
+329
+00:14:49,921 --> 00:14:51,060
+There's no way to get anything.
+
+330
+00:14:51,061 --> 00:14:51,680
+>> No.
+
+331
+00:14:51,681 --> 00:14:54,230
+>> Okay, so we're going to
+go and make a public and
+
+332
+00:14:54,231 --> 00:14:59,270
+it's going to be a list or
+IEnumerable of ticket items.
+
+333
+00:14:59,271 --> 00:15:01,090
+>> A collection that
+we can through.
+
+334
+00:15:01,091 --> 00:15:01,838
+>> A list of.
+
+335
+00:15:01,839 --> 00:15:04,410
+We say IEnumberable because
+it's going to go forward only,
+
+336
+00:15:04,411 --> 00:15:07,541
+and we'll just call it GetAll(),
+and
+
+337
+00:15:07,542 --> 00:15:11,558
+we'll do the least that
+it can possibly do.
+
+338
+00:15:11,559 --> 00:15:16,170
+It'll say
+TicketItems.ToList(); and
+
+339
+00:15:16,171 --> 00:15:21,910
+as I recall I think if you
+wanna be super correct,
+
+340
+00:15:21,911 --> 00:15:28,600
+was there not an order tracking,
+do you remember what this was?
+
+341
+00:15:28,601 --> 00:15:32,330
+I did this yesterday, there's
+a little tip that you can give
+
+342
+00:15:33,880 --> 00:15:39,240
+your context on whether or
+not you wanna do order tracking.
+
+343
+00:15:39,241 --> 00:15:40,530
+I think it was context.
+
+344
+00:15:44,683 --> 00:15:47,260
+Change tracker
+>> I think it's change tracker.
+
+345
+00:15:47,261 --> 00:15:49,070
+>> I don't think it's change tracker
+
+346
+00:15:49,071 --> 00:15:49,570
+>> You can Disable it.
+
+347
+00:15:52,270 --> 00:15:53,520
+>> I'll leave that,
+
+348
+00:15:53,521 --> 00:15:55,080
+actually I just want to
+know this for myself.
+
+349
+00:15:57,170 --> 00:16:01,040
+For a brief moment here,
+let's take a look at this.
+
+350
+00:16:01,041 --> 00:16:06,136
+Because basically if you're
+just returning some stuff,
+
+351
+00:16:06,137 --> 00:16:10,608
+in this case you're
+returning just some tickets,
+
+352
+00:16:10,609 --> 00:16:13,838
+you're not gonna
+be changing them.
+
+353
+00:16:13,839 --> 00:16:16,487
+You don't need to be
+taking any time and
+
+354
+00:16:16,488 --> 00:16:20,120
+wasting anytime on
+watching them for changes.
+
+355
+00:16:20,121 --> 00:16:22,610
+So, yesterday when we did this.
+
+356
+00:16:24,545 --> 00:16:29,465
+Take a look here in my
+pages I believe I put it in
+
+357
+00:16:29,466 --> 00:16:34,655
+index there you go,
+customers as no tracking.
+
+358
+00:16:34,656 --> 00:16:35,409
+>> Yeah.
+
+359
+00:16:35,410 --> 00:16:39,421
+>> Okay, let's see if that's
+available so back over here.
+
+360
+00:16:39,422 --> 00:16:43,322
+I'll say
+TicketItems.AsNoTracking.
+
+361
+00:16:43,323 --> 00:16:44,160
+>> Keep typing it.
+
+362
+00:16:44,161 --> 00:16:46,680
+There's a extension there
+that you're missing from
+
+363
+00:16:46,681 --> 00:16:47,880
+Entity Framework.
+
+364
+00:16:47,881 --> 00:16:48,762
+>> Okay,
+is that what's going on?
+
+365
+00:16:48,763 --> 00:16:49,534
+>> Mm-hm.
+
+366
+00:16:51,444 --> 00:16:53,440
+AsNoTracking is a method.
+
+367
+00:16:53,441 --> 00:16:55,650
+>> Okay, and
+where is AsNoTracking located?
+
+368
+00:16:57,450 --> 00:16:58,693
+>> There you go.
+>> EntityFrameworkCore,
+
+369
+00:16:58,694 --> 00:16:59,410
+there you go.
+
+370
+00:16:59,411 --> 00:17:02,760
+So we hover over that and it
+says, returns a new query, and
+
+371
+00:17:02,761 --> 00:17:03,800
+this is important,
+
+372
+00:17:03,801 --> 00:17:07,210
+where the change tracker
+won't track the entities,
+
+373
+00:17:07,211 --> 00:17:10,100
+meaning it's not going to
+watch for them to be modified.
+
+374
+00:17:10,101 --> 00:17:10,852
+>> Right.
+>> Now,
+
+375
+00:17:10,853 --> 00:17:12,851
+if you find adding
+that is annoying,
+
+376
+00:17:12,852 --> 00:17:15,308
+the other option is that
+you flip it, right?
+
+377
+00:17:15,309 --> 00:17:18,468
+So you change query tracking
+behavior to have this disabled
+
+378
+00:17:18,469 --> 00:17:21,320
+all the time, and then you
+turn it on when you need to.
+
+379
+00:17:21,321 --> 00:17:21,930
+>> Yes.
+
+380
+00:17:21,931 --> 00:17:25,270
+Okay, not necessary, but
+certainly never hurts to be
+
+381
+00:17:25,271 --> 00:17:29,035
+a little bit, a little premature
+optimization never hurt anybody.
+
+382
+00:17:29,036 --> 00:17:31,440
+>> [LAUGH]
+>> Until it totally did.
+
+383
+00:17:32,580 --> 00:17:34,080
+Cool, so this might work.
+
+384
+00:17:35,920 --> 00:17:37,453
+>> It might because we're,
+
+385
+00:17:37,454 --> 00:17:40,179
+we've named our method
+with the keyword get.
+
+386
+00:17:40,180 --> 00:17:44,180
+>> What would then doing this,
+HttpGet do?
+
+387
+00:17:44,181 --> 00:17:47,860
+So by adding the attribute
+HttpGet above it,
+
+388
+00:17:47,861 --> 00:17:53,510
+it's explicitly telling
+the API handlers inside of NVC
+
+389
+00:17:53,511 --> 00:17:59,130
+that we're handling the HTTP GET
+verb with this method.
+
+390
+00:17:59,131 --> 00:18:03,680
+We could also specify
+with that HttpGet
+
+391
+00:18:03,681 --> 00:18:06,310
+the route that we wanna listen
+on if we wanted to listen
+
+392
+00:18:06,311 --> 00:18:08,630
+somewhere different
+than the default.
+
+393
+00:18:08,631 --> 00:18:11,710
+>> Right, okay, so here.
+
+394
+00:18:11,711 --> 00:18:12,310
+There we go.
+
+395
+00:18:12,311 --> 00:18:16,011
+>> There you go.
+>> So I just hit /api/Ticket.
+
+396
+00:18:16,012 --> 00:18:17,980
+And then we got back
+our JSON again.
+
+397
+00:18:17,981 --> 00:18:19,715
+And this is our raw JSON.
+
+398
+00:18:19,716 --> 00:18:20,500
+>> Mm-hm.
+
+399
+00:18:20,501 --> 00:18:22,220
+>> Here's our Pretty JSON.
+
+400
+00:18:23,330 --> 00:18:24,280
+Doing that from, and
+
+401
+00:18:24,281 --> 00:18:27,520
+you notice what I'm doing is I'm
+hitting Ctrl F5, in this case,
+
+402
+00:18:27,521 --> 00:18:28,940
+I'm ignoring what
+the browser says and
+
+403
+00:18:28,941 --> 00:18:30,500
+I'm going back over to Postman.
+
+404
+00:18:30,501 --> 00:18:31,160
+>> Sure, the browsers
+
+405
+00:18:31,161 --> 00:18:33,650
+still showing that values
+controller you were working on.
+
+406
+00:18:33,651 --> 00:18:36,650
+>> I could also change
+the default URL.
+
+407
+00:18:36,651 --> 00:18:40,163
+Right now, it's showing up as
+the default is slash value.
+
+408
+00:18:40,164 --> 00:18:44,691
+I could also, if I wanted to,
+basically tell
+
+409
+00:18:44,692 --> 00:18:50,500
+Visual Studio that there is
+a browser called Postman.
+
+410
+00:18:50,501 --> 00:18:51,300
+>> Yes.
+
+411
+00:18:51,301 --> 00:18:55,760
+>> So I could go in here and
+add postman as a browser and
+
+412
+00:18:55,761 --> 00:18:57,300
+then try to open it
+from there as well.
+
+413
+00:18:57,301 --> 00:18:57,970
+>> Absolutely.
+
+414
+00:18:57,971 --> 00:19:00,870
+>> Okay, All right, so
+that's all of tickets.
+
+415
+00:19:00,871 --> 00:19:04,618
+>> One more thing that I wanted
+to look at when we're in
+
+416
+00:19:04,619 --> 00:19:05,408
+postman.
+
+417
+00:19:05,409 --> 00:19:08,797
+So check it out, even though
+we only set a value for
+
+418
+00:19:08,798 --> 00:19:12,939
+the Beyonce concert, we got
+an ID of one because it's an ID.
+
+419
+00:19:12,940 --> 00:19:16,852
+Entity framework sees that has
+an auto incrementing primary key
+
+420
+00:19:16,853 --> 00:19:18,900
+and it generated a number for
+us.
+
+421
+00:19:18,901 --> 00:19:20,333
+>> So entity framework
+gave us that one.
+
+422
+00:19:20,334 --> 00:19:21,670
+We did not make that one.
+
+423
+00:19:21,671 --> 00:19:25,140
+>> Exactly, where those default
+values for the artist property
+
+424
+00:19:25,141 --> 00:19:28,630
+and available property were
+generated as just null and
+
+425
+00:19:28,631 --> 00:19:30,870
+false, because those
+are the default values.
+
+426
+00:19:30,871 --> 00:19:31,830
+>> For those data types.
+
+427
+00:19:31,831 --> 00:19:33,160
+>> Right, they came along for
+
+428
+00:19:33,161 --> 00:19:35,660
+the ride cuz we
+returned that object.
+
+429
+00:19:35,661 --> 00:19:36,690
+>> Okay, that makes sense.
+
+430
+00:19:38,590 --> 00:19:40,760
+Hopefully, people will forgive
+me as they did yesterday for
+
+431
+00:19:40,761 --> 00:19:45,780
+not putting the accent on
+the e in Beyonce, all right.
+
+432
+00:19:45,781 --> 00:19:48,560
+Cool, now let's do a GetByID.
+
+433
+00:19:48,561 --> 00:19:51,010
+>> Sure,
+I wanna get a specific ticket.
+
+434
+00:19:51,011 --> 00:19:53,200
+>> All right, so
+this one's gonna be public.
+
+435
+00:19:54,320 --> 00:19:57,400
+And just like before, when we
+did this with Razor Pages,
+
+436
+00:19:57,401 --> 00:19:58,755
+we have IActionResult.
+
+437
+00:19:58,756 --> 00:20:01,354
+We're gonna say GetById.
+
+438
+00:20:01,355 --> 00:20:03,436
+We'll pass in long id.
+
+439
+00:20:03,437 --> 00:20:05,784
+We don't know where that's being
+passed in from though yet.
+
+440
+00:20:05,785 --> 00:20:09,591
+We haven't figured out how
+does this ID get populated.
+
+441
+00:20:09,592 --> 00:20:11,989
+Now initially,
+it's gonna warn me.
+
+442
+00:20:11,990 --> 00:20:12,991
+Well this is bad.
+
+443
+00:20:12,992 --> 00:20:14,658
+You're gonna think
+you made a mistake.
+
+444
+00:20:14,659 --> 00:20:18,356
+It's just saying you have
+not yet returned a value.
+
+445
+00:20:18,357 --> 00:20:23,102
+We're gonna say, go get
+a ticket, borrow a ticket,
+
+446
+00:20:23,103 --> 00:20:27,427
+context., pull them out
+of the TicketItems and
+
+447
+00:20:27,428 --> 00:20:32,492
+then we'll say FirstOrDefault,
+where that ticket such
+
+448
+00:20:32,493 --> 00:20:37,792
+that that ticket ID is the same
+as the ID that we then pass in.
+
+449
+00:20:37,793 --> 00:20:41,405
+So we're gonna go and find the
+ticket item that matches the one
+
+450
+00:20:41,406 --> 00:20:42,807
+that we just passed in.
+
+451
+00:20:42,808 --> 00:20:45,114
+>> And important to use
+FirstOrDefault because if
+
+452
+00:20:45,115 --> 00:20:48,286
+it doesn't find one, we'll get a
+default ticket that is null and
+
+453
+00:20:48,287 --> 00:20:49,740
+doesn't contain anything.
+
+454
+00:20:49,741 --> 00:20:51,512
+>> Right, and
+then we'll check for that null.
+
+455
+00:20:51,513 --> 00:20:54,391
+If the ticket is null, now is
+interesting, what you wanna do
+
+456
+00:20:54,392 --> 00:20:57,360
+is you're thinking from
+a pseudo code perspective.
+
+457
+00:20:57,361 --> 00:20:59,340
+I wanna return a 404, right?
+
+458
+00:20:59,341 --> 00:21:02,090
+I wanna figure out
+how to change my
+
+459
+00:21:02,091 --> 00:21:06,590
+HTTP response to indicate a 404,
+as opposed to a 200 Okay.
+
+460
+00:21:06,591 --> 00:21:09,060
+>> Right, that 404 indicates
+that this object wasn't
+
+461
+00:21:09,061 --> 00:21:09,910
+found, right?
+
+462
+00:21:09,911 --> 00:21:11,450
+If this was a file system,
+
+463
+00:21:11,451 --> 00:21:13,990
+there isn't a file with
+that name here on disk.
+
+464
+00:21:13,991 --> 00:21:15,220
+>> Right, and
+that's a good reminder.
+
+465
+00:21:15,221 --> 00:21:19,550
+If you think about your 200
+series is mostly things are OK.
+
+466
+00:21:19,551 --> 00:21:20,070
+>> Yeah.
+
+467
+00:21:20,071 --> 00:21:23,178
+>> Your 300 series is
+something has changed, and
+
+468
+00:21:23,179 --> 00:21:25,328
+you need to do
+something about it.
+
+469
+00:21:25,329 --> 00:21:27,870
+Your 400 series is, and
+I like to say it this,
+
+470
+00:21:27,871 --> 00:21:29,970
+it's probably your fault.
+
+471
+00:21:29,971 --> 00:21:33,750
+And your 500 series is,
+it's probably my fault.
+
+472
+00:21:33,751 --> 00:21:40,610
+And by that, I mean 400 is
+don't know where that is.
+
+473
+00:21:40,611 --> 00:21:41,900
+I'm pretty much sure it was you.
+
+474
+00:21:41,901 --> 00:21:44,832
+You gave me the wrong URL,
+couldn't find it.
+
+475
+00:21:44,833 --> 00:21:46,522
+500 is something horrible
+happened on the server.
+
+476
+00:21:46,523 --> 00:21:48,180
+So you could separate this.
+
+477
+00:21:48,181 --> 00:21:51,360
+This is client stuff, and
+this is server side stuff.
+
+478
+00:21:51,361 --> 00:21:55,980
+So one of the great things
+about web APIs when you
+
+479
+00:21:55,981 --> 00:22:00,040
+write them with ASP.NET core
+is a whole bunch of cool
+
+480
+00:22:00,041 --> 00:22:02,800
+things like not found
+a helper functions.
+
+481
+00:22:02,801 --> 00:22:04,697
+I can say, look not found.
+
+482
+00:22:04,698 --> 00:22:09,212
+And if I hover it, it returns
+StatusCodes.Status404NotFound,
+
+483
+00:22:09,213 --> 00:22:11,660
+which is an enumeration.
+
+484
+00:22:11,661 --> 00:22:18,440
+I go and say, StatusCodes.,
+see look at all that.
+
+485
+00:22:18,441 --> 00:22:19,665
+>> I don't wanna
+remember all that.
+
+486
+00:22:19,666 --> 00:22:20,951
+>> No.
+>> Plus I don't want to
+
+487
+00:22:20,952 --> 00:22:22,250
+dig into it anew.
+
+488
+00:22:22,251 --> 00:22:24,755
+So we've got a nice little
+helper, return not found,
+
+489
+00:22:24,756 --> 00:22:25,797
+does the right thing.
+
+490
+00:22:25,798 --> 00:22:29,248
+That implies,
+well it doesn't imply,
+
+491
+00:22:29,249 --> 00:22:30,480
+it is-
+>> It is.
+
+492
+00:22:30,481 --> 00:22:31,692
+>> A 404.
+
+493
+00:22:31,693 --> 00:22:33,305
+>> But
+if you need that granularity for
+
+494
+00:22:33,306 --> 00:22:35,686
+those other status codes,
+they're there for you.
+
+495
+00:22:35,687 --> 00:22:37,080
+>> You've got it, good point.
+
+496
+00:22:37,081 --> 00:22:39,440
+If I did find it, well then
+I want to return that, and
+
+497
+00:22:39,441 --> 00:22:41,046
+that is an object
+that I just found.
+
+498
+00:22:41,047 --> 00:22:43,690
+So then I'm gonna return
+an ObjectResult, and
+
+499
+00:22:43,691 --> 00:22:46,040
+I'll put a ticket in there, and
+
+500
+00:22:46,041 --> 00:22:49,600
+that ObjectResult is gonna
+come back with a 200 and
+
+501
+00:22:49,601 --> 00:22:53,490
+say hey, here's that object
+that I asked for, okay?
+
+502
+00:22:54,750 --> 00:22:55,960
+Where's that ID come from?
+
+503
+00:22:56,960 --> 00:22:59,920
+Up here we said get,
+we're very explicit.
+
+504
+00:22:59,921 --> 00:23:00,520
+>> Yeah.
+
+505
+00:23:00,521 --> 00:23:02,050
+>> We need to give
+some hints cuz we wanna
+
+506
+00:23:02,051 --> 00:23:04,050
+know what our URL's look like,
+dont we?
+
+507
+00:23:04,051 --> 00:23:05,650
+So we know it's gonna be a Get,
+don't we?
+
+508
+00:23:05,651 --> 00:23:06,190
+>> Absolutely.
+
+509
+00:23:07,300 --> 00:23:14,420
+>> We open that Get up, and we
+say, we're gonna pull id out of
+
+510
+00:23:14,421 --> 00:23:19,540
+the URL and then we can also
+change the name if we want to.
+
+511
+00:23:19,541 --> 00:23:21,160
+This is kinda cool.
+
+512
+00:23:21,161 --> 00:23:24,110
+You could say ticket slash
+this or ticket slash that.
+
+513
+00:23:24,111 --> 00:23:25,521
+I'm gonna go ahead and
+change this.
+
+514
+00:23:25,522 --> 00:23:26,634
+We'll just say it so we can.
+
+515
+00:23:26,635 --> 00:23:31,200
+I'm gonna say Name = GetTicket.
+
+516
+00:23:31,201 --> 00:23:33,860
+And this is showing you
+that you can make it so
+
+517
+00:23:33,861 --> 00:23:36,240
+the URL is different
+from the function name.
+
+518
+00:23:36,241 --> 00:23:39,390
+>> Actually that name should
+be inside the parenthesis.
+
+519
+00:23:39,391 --> 00:23:40,270
+>> Pardon me, thank you.
+
+520
+00:23:43,940 --> 00:23:48,880
+>> All right, so we say
+HttpGet id, Name = Get Ticket.
+
+521
+00:23:48,881 --> 00:23:51,120
+Zoom out, let's hit Ctrl+F5 and
+
+522
+00:23:51,121 --> 00:23:53,217
+see if we can
+access that method.
+
+523
+00:23:53,218 --> 00:23:55,531
+>> All right.
+>> Cuz we know that we have by
+
+524
+00:23:55,532 --> 00:23:58,219
+default one item
+to beyonce ticket.
+
+525
+00:23:58,220 --> 00:23:59,566
+>> Mm-hm, okay.
+
+526
+00:23:59,567 --> 00:24:04,230
+>> All right, so before we did
+this, which was api/Ticket.
+
+527
+00:24:04,231 --> 00:24:05,870
+>> Right,
+return all of my tickets.
+
+528
+00:24:05,871 --> 00:24:06,440
+>> Okay.
+
+529
+00:24:06,441 --> 00:24:09,348
+>> So now we know
+there's just the one.
+
+530
+00:24:09,349 --> 00:24:12,870
+>> Okay, and
+here I said GetTicket.
+
+531
+00:24:13,940 --> 00:24:15,608
+You think it's Ticket.
+
+532
+00:24:15,609 --> 00:24:16,199
+>> There you go.
+
+533
+00:24:16,200 --> 00:24:17,420
+>> There it is.
+
+534
+00:24:17,421 --> 00:24:21,309
+So what is the term GetTicket
+then in that context?
+
+535
+00:24:21,310 --> 00:24:25,109
+>> GetTicket is actually
+the name of the route that we've
+
+536
+00:24:25,110 --> 00:24:28,615
+create, because we're
+using the HTTP GET verb.
+
+537
+00:24:28,616 --> 00:24:29,660
+>> Mm-hm.
+
+538
+00:24:29,661 --> 00:24:32,320
+>> And we're specifying,
+we're adding another route onto
+
+539
+00:24:32,321 --> 00:24:35,360
+the default route table,
+defining it right here,
+
+540
+00:24:35,361 --> 00:24:38,330
+next to the method that we
+want to respond to that route.
+
+541
+00:24:38,331 --> 00:24:41,640
+>> Okay, so is that necessary?
+
+542
+00:24:41,641 --> 00:24:43,180
+>> Nope, it's optional.
+
+543
+00:24:43,181 --> 00:24:44,898
+>> And that is there so
+that I can give it a name and
+
+544
+00:24:44,899 --> 00:24:46,721
+then manipulate it later,
+refer to it by name.
+
+545
+00:24:46,722 --> 00:24:49,577
+>> Exactly, so if you were
+to pass a reference to this
+
+546
+00:24:49,578 --> 00:24:52,637
+somewhere into maybe
+a JavaScript file, you wanna be
+
+547
+00:24:52,638 --> 00:24:56,046
+able to say, you know what,
+use the URL, I'd get ticket.
+
+548
+00:24:56,047 --> 00:24:58,985
+>> Or to generate a URL based on
+that route, now I have it named.
+
+549
+00:24:58,986 --> 00:25:00,534
+Now you have a name that you can
+easily reference and remember.
+
+550
+00:25:00,535 --> 00:25:05,302
+>> All right, cool, so
+here we said api/Ticket
+
+551
+00:25:05,303 --> 00:25:09,920
+where this 1,
+that's that ID, okay?
+
+552
+00:25:09,921 --> 00:25:11,780
+>> That template that we're-
+>> That template.
+
+553
+00:25:11,781 --> 00:25:12,670
+>> Trying to capture.
+
+554
+00:25:12,671 --> 00:25:15,370
+>> Exactly, and
+that worked great.
+
+555
+00:25:15,371 --> 00:25:17,940
+And we got that back, okay?
+
+556
+00:25:17,941 --> 00:25:19,120
+So that works out pretty nicely.
+
+557
+00:25:20,675 --> 00:25:23,401
+Now how do we create new
+tickets with an API, Scott?
+
+558
+00:25:23,402 --> 00:25:25,320
+>> All right, let's do that.
+
+559
+00:25:27,220 --> 00:25:29,050
+All right, so
+I've got my notes here.
+
+560
+00:25:30,470 --> 00:25:32,370
+Well, actually, one thing
+that I do want to show,
+
+561
+00:25:32,371 --> 00:25:35,660
+we're in Postman but
+let's take a moment and
+
+562
+00:25:35,661 --> 00:25:38,660
+let's look at this in
+the other browsers.
+
+563
+00:25:38,661 --> 00:25:40,808
+Because you might not
+want to use Postman,
+
+564
+00:25:40,809 --> 00:25:44,099
+maybe you don't have Postman,
+let's just take a look briefly.
+
+565
+00:25:44,100 --> 00:25:48,090
+We're in Microsoft Edge, okay.
+
+566
+00:25:48,091 --> 00:25:51,780
+I can go and say dot dot
+dot F12 developer tools.
+
+567
+00:25:51,781 --> 00:25:53,760
+>> Okay.
+>> All right.
+
+568
+00:25:53,761 --> 00:25:58,730
+And I can look at the network,
+hit refresh, can come
+
+569
+00:25:58,731 --> 00:26:03,670
+down here we can see it was a
+200 We can see how long it took.
+
+570
+00:26:03,671 --> 00:26:05,390
+>> It was JSON that it returned?
+
+571
+00:26:05,391 --> 00:26:07,630
+>> Yeah, we can see that
+content type, you can go in and
+
+572
+00:26:07,631 --> 00:26:09,670
+filter based on those things.
+
+573
+00:26:09,671 --> 00:26:15,390
+If I go over here,
+we can see the request headers.
+
+574
+00:26:15,391 --> 00:26:17,440
+Notice that it said I can
+take pretty much anything.
+
+575
+00:26:19,170 --> 00:26:20,420
+Return to JSON.
+
+576
+00:26:20,421 --> 00:26:21,690
+You can see that Kestrel,
+
+577
+00:26:21,691 --> 00:26:24,500
+the name of our little
+web server there.
+
+578
+00:26:24,501 --> 00:26:26,720
+And there's powered-by ASP.NET.
+
+579
+00:26:26,721 --> 00:26:35,576
+If I do the same thing
+in Chrome There's
+
+580
+00:26:35,577 --> 00:26:42,411
+my JSON And I'm gonna say
+More Tools > Developer Tools.
+
+581
+00:26:45,290 --> 00:26:46,450
+And hit Refresh again.
+
+582
+00:26:48,297 --> 00:26:50,979
+Similar kind of thing,
+real similar developer tools,
+
+583
+00:26:50,980 --> 00:26:53,841
+your request, your response,
+and all that kind of stuff.
+
+584
+00:26:53,842 --> 00:26:58,570
+So you can, to a point,
+manipulate web APIs.
+
+585
+00:26:58,571 --> 00:26:59,310
+I like Postman.
+
+586
+00:26:59,311 --> 00:27:04,130
+Use what makes you happy, but be
+aware that F12 tools are great
+
+587
+00:27:04,131 --> 00:27:06,530
+basically in all the browsers,
+and you can enjoy those.
+
+588
+00:27:07,560 --> 00:27:09,350
+Now you said,
+how do we make one?
+
+589
+00:27:09,351 --> 00:27:12,010
+Because right now we just have
+the auto-generated Beyonce one.
+
+590
+00:27:12,011 --> 00:27:14,750
+>> Yeah, let's put somebody else
+in the seats there for Beyonce.
+
+591
+00:27:14,751 --> 00:27:16,010
+>> Let's mix it up.
+
+592
+00:27:16,011 --> 00:27:18,260
+Lets be for everyone.
+
+593
+00:27:18,261 --> 00:27:21,000
+So lets do another one that
+returns an IActionResult, and
+
+594
+00:27:21,001 --> 00:27:23,270
+this one will be called Create.
+
+595
+00:27:23,271 --> 00:27:26,730
+And it's gonna take
+in a TicketItem.
+
+596
+00:27:26,731 --> 00:27:28,030
+Just like ID,
+
+597
+00:27:28,031 --> 00:27:30,955
+we haven't decided where
+it's coming from yet, okay?
+
+598
+00:27:30,956 --> 00:27:31,488
+>> Okay.
+
+599
+00:27:31,489 --> 00:27:38,160
+>> And we'll say if (ticket ==
+null), that'll be a problem.
+
+600
+00:27:38,161 --> 00:27:41,039
+So that'll probably
+a BadRequest.
+
+601
+00:27:41,040 --> 00:27:43,130
+Remember, we talked about
+these different versions.
+
+602
+00:27:43,131 --> 00:27:43,750
+What is that?
+
+603
+00:27:43,751 --> 00:27:44,630
+That's a 400.
+
+604
+00:27:44,631 --> 00:27:45,450
+>> There you go.
+
+605
+00:27:45,451 --> 00:27:47,780
+That's the your made a mistake.
+
+606
+00:27:47,781 --> 00:27:48,570
+>> Your fault.
+
+607
+00:27:48,571 --> 00:27:49,240
+Not my fault.
+
+608
+00:27:49,241 --> 00:27:49,990
+That's not a 500.
+
+609
+00:27:49,991 --> 00:27:53,440
+Not a server error, that's,
+you messed up, not me.
+
+610
+00:27:54,460 --> 00:27:56,610
+Context, you,
+meaning the client, to be clear.
+
+611
+00:27:57,750 --> 00:27:59,070
+We'll go and add that ticket.
+
+612
+00:28:01,140 --> 00:28:03,900
+And then I'm gonna go and
+say, SaveChanges.
+
+613
+00:28:04,900 --> 00:28:06,530
+And this is a great one,
+I like this,
+
+614
+00:28:06,531 --> 00:28:08,110
+this is a convenient
+little method here.
+
+615
+00:28:08,111 --> 00:28:09,010
+You ready for this?
+
+616
+00:28:09,011 --> 00:28:09,570
+>> Okay.
+
+617
+00:28:09,571 --> 00:28:15,380
+>> CreatedAtRoute, GetTicket.
+
+618
+00:28:15,381 --> 00:28:17,320
+This answers my first
+question which is the,
+
+619
+00:28:17,321 --> 00:28:18,530
+why would I name a route?
+
+620
+00:28:18,531 --> 00:28:19,540
+>> There you go.
+
+621
+00:28:19,541 --> 00:28:22,810
+>> Like that, and
+then I would then pass in
+
+622
+00:28:22,811 --> 00:28:25,450
+the shape of this object
+that I just created,
+
+623
+00:28:25,451 --> 00:28:27,250
+this is kind of
+an anonymous object there.
+
+624
+00:28:29,210 --> 00:28:34,366
+And I say I made one, and
+here's my little projected ID,
+
+625
+00:28:34,367 --> 00:28:37,810
+and then I pass in
+the one we just made.
+
+626
+00:28:39,000 --> 00:28:39,610
+>> So
+
+627
+00:28:39,611 --> 00:28:43,650
+the first two arguments of that
+method, are building a route.
+
+628
+00:28:43,651 --> 00:28:44,347
+We had the GetTicket route.
+
+629
+00:28:44,348 --> 00:28:45,400
+>> [CROSSTALK]
+>> It's building a URL.
+
+630
+00:28:45,401 --> 00:28:47,980
+>> Exactly, yes,
+we had the GetTicket route,
+
+631
+00:28:47,981 --> 00:28:51,080
+we need to specify the ID to
+be passed into that method.
+
+632
+00:28:51,081 --> 00:28:53,820
+So, you have your object
+defining that and
+
+633
+00:28:53,821 --> 00:28:56,070
+then the actual object
+we're returning.
+
+634
+00:28:56,071 --> 00:29:02,628
+>> So, let's be real clear, you
+could do something like this.
+
+635
+00:29:05,656 --> 00:29:08,319
+And you'd have to build
+this up yourself.
+
+636
+00:29:11,538 --> 00:29:12,038
+All right.
+>> Yeah.
+
+637
+00:29:12,039 --> 00:29:14,531
+>> But now-
+
+638
+00:29:14,532 --> 00:29:15,577
+>> With the appropriate status code.
+
+639
+00:29:15,578 --> 00:29:16,886
+>> With the appropriate status code.
+
+640
+00:29:16,887 --> 00:29:17,891
+>> You need the status code.
+
+641
+00:29:17,892 --> 00:29:20,690
+You need to go and make the URL.
+
+642
+00:29:20,691 --> 00:29:22,960
+What if you change
+your URL names?
+
+643
+00:29:22,961 --> 00:29:24,130
+What if you move things around?
+
+644
+00:29:24,131 --> 00:29:26,270
+What if you wanna rename
+things in a different way?
+
+645
+00:29:26,271 --> 00:29:29,140
+If you want to do that,
+do you really want
+
+646
+00:29:29,141 --> 00:29:31,900
+to be in the business of
+string-concatenating URLs?
+
+647
+00:29:31,901 --> 00:29:32,490
+>> Yeah, let's get
+
+648
+00:29:32,491 --> 00:29:34,900
+rid of those magic strings
+as much as possible.
+
+649
+00:29:34,901 --> 00:29:37,420
+>> So, I like that you
+referred to it as a route,
+
+650
+00:29:37,421 --> 00:29:38,990
+which is more abstract.
+
+651
+00:29:38,991 --> 00:29:40,670
+The URL is underneath that.
+
+652
+00:29:40,671 --> 00:29:41,320
+Yeah.
+
+653
+00:29:41,321 --> 00:29:42,360
+>> That's good.
+
+654
+00:29:42,361 --> 00:29:45,460
+>> I try to avoid working with
+URLs directly when I'm writing
+
+655
+00:29:45,461 --> 00:29:47,040
+my asp.net.
+
+656
+00:29:47,041 --> 00:29:48,850
+>> As much as we
+are in the business of
+
+657
+00:29:48,851 --> 00:29:51,130
+concatenating strings, let's
+try to pretend that we're not.
+
+658
+00:29:51,131 --> 00:29:52,930
+>> Yeah, let something
+else manage those strings.
+
+659
+00:29:52,931 --> 00:29:55,530
+>> Yeah, and that's where we
+use our framework like this.
+
+660
+00:29:55,531 --> 00:29:58,650
+So the only thing that I think
+we're missing here is the,
+
+661
+00:29:58,651 --> 00:30:00,170
+where has this come from?
+
+662
+00:30:00,171 --> 00:30:00,840
+All right.
+
+663
+00:30:00,841 --> 00:30:02,946
+>> Yeah, so, before,
+we actually,
+
+664
+00:30:02,947 --> 00:30:04,713
+we put it on the query string.
+
+665
+00:30:04,714 --> 00:30:07,309
+I don't think we can put on
+the query string on the URL
+
+666
+00:30:07,310 --> 00:30:08,077
+a full ticket.
+
+667
+00:30:08,078 --> 00:30:09,436
+>> You probably don't want to.
+
+668
+00:30:09,437 --> 00:30:10,950
+>> No.
+>> You could theoretically have
+
+669
+00:30:10,951 --> 00:30:15,960
+name equals value name equal
+value, a disassembled ticket
+
+670
+00:30:15,961 --> 00:30:18,350
+on a very long query string,
+but really, it's the body.
+
+671
+00:30:19,740 --> 00:30:23,630
+It's the body of the post.
+
+672
+00:30:23,631 --> 00:30:27,340
+We want to put the ticket
+inside the body of the post.
+
+673
+00:30:27,341 --> 00:30:30,901
+And then we want to have this-
+>> Object
+
+674
+00:30:30,902 --> 00:30:31,805
+>> De-serialized
+
+675
+00:30:31,806 --> 00:30:32,547
+>> Yes
+
+676
+00:30:32,548 --> 00:30:35,137
+>> It's rehydrated-
+
+677
+00:30:35,138 --> 00:30:37,897
+>> Converted from the JSON string
+
+678
+00:30:37,898 --> 00:30:39,630
+>> The JSON, exactly.
+
+679
+00:30:39,631 --> 00:30:42,730
+>> And you were mentioning
+this should be a post.
+
+680
+00:30:42,731 --> 00:30:44,950
+We should probably
+put a URL on this,
+
+681
+00:30:44,951 --> 00:30:47,590
+a verb on it to indicate that
+this should handle a post.
+
+682
+00:30:47,591 --> 00:30:48,920
+>> Good post, good point.
+
+683
+00:30:48,921 --> 00:30:49,860
+Good point, good post.
+
+684
+00:30:50,880 --> 00:30:53,420
+We said HttpGet before,
+we will say post this time.
+
+685
+00:30:53,421 --> 00:30:55,200
+We don't wanna
+accidentally make it so
+
+686
+00:30:55,201 --> 00:31:00,360
+someone could hit
+/ticket/Create with a get.
+
+687
+00:31:00,361 --> 00:31:01,370
+>> Correct, yeah.
+
+688
+00:31:01,371 --> 00:31:02,730
+>> And have it do anything.
+
+689
+00:31:02,731 --> 00:31:08,270
+So let's do this,
+let's put a break point here and
+
+690
+00:31:08,271 --> 00:31:09,910
+let's start a debugging session.
+
+691
+00:31:09,911 --> 00:31:12,099
+>> Very good.
+>> Equivalent of pressing F5.
+
+692
+00:31:14,334 --> 00:31:18,390
+So it's still of course going
+to /api/values which is fine.
+
+693
+00:31:18,391 --> 00:31:19,330
+>> Yeah.
+
+694
+00:31:19,331 --> 00:31:21,500
+>> We've already proven
+that we can go and
+
+695
+00:31:21,501 --> 00:31:23,950
+see our Beyonce ticket here.
+
+696
+00:31:23,951 --> 00:31:26,080
+I'm gonna cheat and
+I'm gonna copy that.
+
+697
+00:31:26,081 --> 00:31:26,860
+>> Okay.
+
+698
+00:31:26,861 --> 00:31:30,130
+>> Cuz I wanna be doing a post
+of the opposite of that, right?
+
+699
+00:31:30,131 --> 00:31:33,100
+>> Sure.
+>> So what I wanna do here, and
+
+700
+00:31:33,101 --> 00:31:34,200
+you can correct me if I'm wrong.
+
+701
+00:31:34,201 --> 00:31:41,610
+Is I'm gonna post to api/ticket
+Not a get, but a post.
+
+702
+00:31:41,611 --> 00:31:42,630
+>> Yep.
+
+703
+00:31:42,631 --> 00:31:50,061
+>> In the body,
+we're gonna have This JSON.
+
+704
+00:31:50,062 --> 00:31:52,970
+So I told it we're
+putting JSON in the body,
+
+705
+00:31:54,240 --> 00:31:56,110
+I don't think I
+need to say an ID.
+
+706
+00:31:56,111 --> 00:31:58,250
+>> Nope,
+it's gonna generate that for us.
+
+707
+00:31:58,251 --> 00:32:00,196
+>> Okay, who's in concert?
+
+708
+00:32:03,287 --> 00:32:05,625
+You just blanked
+on all musicians.
+
+709
+00:32:05,626 --> 00:32:06,540
+>> [LAUGH]
+>> Coldplay.
+
+710
+00:32:06,541 --> 00:32:10,104
+>> There you go [LAUGH]
+>> Well let's just do this,
+
+711
+00:32:10,105 --> 00:32:12,980
+let's just be haters,
+it's Beyonce with Nickelback.
+
+712
+00:32:12,981 --> 00:32:14,440
+[LAUGH]
+>> I love Canadians.
+
+713
+00:32:15,790 --> 00:32:18,730
+>> There you go,
+what's it called?
+
+714
+00:32:18,731 --> 00:32:19,810
+>> Rush.
+
+715
+00:32:19,811 --> 00:32:23,530
+>> There you go, that's, I've
+no idea who that is, all right.
+
+716
+00:32:23,531 --> 00:32:25,140
+>> There are Canadians
+that are now-
+
+717
+00:32:25,141 --> 00:32:26,100
+>> Are they Canadian?
+
+718
+00:32:26,101 --> 00:32:27,060
+>> Very.
+
+719
+00:32:27,061 --> 00:32:30,550
+>> Okay, so
+we're gonna post this body.
+
+720
+00:32:30,551 --> 00:32:33,670
+Actually I'll make it true
+as well as why not, right?
+
+721
+00:32:33,671 --> 00:32:36,120
+Okay and just before I hit send
+I wanna just come back over here
+
+722
+00:32:36,121 --> 00:32:39,310
+and make sure that I've
+got a break point there.
+
+723
+00:32:39,311 --> 00:32:41,340
+>> Yup.
+>> Because I'm hoping that I
+
+724
+00:32:41,341 --> 00:32:44,230
+will hit send then it will pop
+over into that break point.
+
+725
+00:32:44,231 --> 00:32:44,870
+>> No problem.
+
+726
+00:32:44,871 --> 00:32:45,570
+>> No problem, you confident?
+
+727
+00:32:45,571 --> 00:32:46,600
+>> You got this, yeah.
+
+728
+00:32:46,601 --> 00:32:47,170
+>> A hundred percent.
+
+729
+00:32:49,300 --> 00:32:49,905
+All right, look at that.
+
+730
+00:32:49,906 --> 00:32:53,330
+So I'm gonna zoom in here,
+I'm gonna hover over ticket.
+
+731
+00:32:56,009 --> 00:32:56,976
+>> It's a ticket item.
+
+732
+00:32:56,977 --> 00:32:58,690
+>> Look at that.
+
+733
+00:32:58,691 --> 00:33:00,190
+This is another little tip I
+
+734
+00:33:00,191 --> 00:33:01,610
+was talking to Maria
+about yesterday.
+
+735
+00:33:02,940 --> 00:33:04,202
+You could this.
+
+736
+00:33:04,203 --> 00:33:05,290
+>> Yeah.
+
+737
+00:33:05,291 --> 00:33:07,055
+>> So we'll keep that around and
+
+738
+00:33:07,056 --> 00:33:09,816
+that makes little easier
+to do our debugging.
+
+739
+00:33:09,817 --> 00:33:12,401
+>> Well if you don't want it
+there hanging over your code,
+
+740
+00:33:12,402 --> 00:33:14,986
+that's actually the same
+things that you might see down
+
+741
+00:33:14,987 --> 00:33:16,639
+in the locals window
+at the bottom.
+
+742
+00:33:16,640 --> 00:33:20,537
+>> That's a good point come down
+here and there it is there.
+
+743
+00:33:20,538 --> 00:33:21,880
+All right.
+
+744
+00:33:21,881 --> 00:33:24,690
+So just to be clear,
+if we go back to post banner,
+
+745
+00:33:24,691 --> 00:33:27,365
+right now it's loading
+because the request,
+
+746
+00:33:27,366 --> 00:33:29,782
+it's a long-running request,
+right?
+
+747
+00:33:29,783 --> 00:33:30,975
+It's never actually finished.
+
+748
+00:33:30,976 --> 00:33:33,272
+>> Yeah, we're blocking it
+right now with our debugger.
+
+749
+00:33:33,273 --> 00:33:34,717
+>> Let's just go ahead and
+continue so
+
+750
+00:33:34,718 --> 00:33:36,071
+that this finishes, all right.
+
+751
+00:33:36,072 --> 00:33:37,210
+There's our returned.
+
+752
+00:33:39,433 --> 00:33:41,161
+>> Right.
+Look at what came back.
+
+753
+00:33:41,162 --> 00:33:45,652
+We created the object and
+returned it all in one request.
+
+754
+00:33:45,653 --> 00:33:48,781
+Our new object that we created-
+>> That was here.
+
+755
+00:33:48,782 --> 00:33:53,176
+We said CreatedAtRoute and then
+passed in that object value,
+
+756
+00:33:53,177 --> 00:33:54,111
+got it back.
+
+757
+00:33:54,112 --> 00:33:58,282
+>> Right, and the created add is
+a different status code, right?
+
+758
+00:33:58,283 --> 00:33:59,862
+See that 201 created?
+
+759
+00:33:59,863 --> 00:34:01,163
+>> Right, so look at this.
+
+760
+00:34:01,164 --> 00:34:04,120
+When you said CreatedAtRoute,
+
+761
+00:34:04,121 --> 00:34:07,522
+what you got back
+was a new location.
+
+762
+00:34:07,523 --> 00:34:10,377
+You got back the location
+of this new thing.
+
+763
+00:34:10,378 --> 00:34:14,320
+Cuz when you're making a web API
+it's all about being restful.
+
+764
+00:34:14,321 --> 00:34:16,912
+REST, Representational
+State Transfer.
+
+765
+00:34:16,913 --> 00:34:19,331
+And basically if
+I uploaded a GIF,
+
+766
+00:34:19,332 --> 00:34:22,090
+I want the URL of
+the GIF where it is now.
+
+767
+00:34:22,091 --> 00:34:23,940
+I just uploaded a new concert.
+
+768
+00:34:23,941 --> 00:34:26,603
+Tell me the location
+of that new thing.
+
+769
+00:34:26,604 --> 00:34:28,722
+>> It's telling you
+the location as a header.
+
+770
+00:34:28,723 --> 00:34:31,102
+It's not actually
+navigated you to that.
+
+771
+00:34:31,103 --> 00:34:32,741
+>> Right,
+cuz it's on me to go and decide.
+
+772
+00:34:32,742 --> 00:34:35,622
+So then I could come up here and
+then do a GET.
+
+773
+00:34:37,561 --> 00:34:43,651
+Okay and let's, oops.
+
+774
+00:34:43,652 --> 00:34:44,543
+There in our body.
+
+775
+00:34:44,544 --> 00:34:47,921
+And there, I just got a GET
+from that new location,
+
+776
+00:34:47,922 --> 00:34:50,132
+to prove that it
+is in fact there.
+
+777
+00:34:50,133 --> 00:34:51,742
+>> There's still tickets
+available for that Rush event.
+
+778
+00:34:51,743 --> 00:34:52,739
+>> I don't know why.
+
+779
+00:34:52,740 --> 00:34:53,411
+>> Beyonce was sold out.
+
+780
+00:34:53,412 --> 00:34:54,129
+>> Beyonce's
+completely sold out.
+
+781
+00:34:54,130 --> 00:34:55,386
+It's funny how that works.
+
+782
+00:34:55,387 --> 00:34:56,837
+Yeah, cool.
+
+783
+00:34:56,838 --> 00:34:58,601
+That worked really well.
+
+784
+00:34:58,602 --> 00:35:03,079
+So then the next thing I might
+wanna do would be to update it,
+
+785
+00:35:03,080 --> 00:35:03,623
+okay?
+
+786
+00:35:03,624 --> 00:35:06,542
+>> Sure, we sold the last
+ticket in that Rush event.
+
+787
+00:35:06,543 --> 00:35:07,852
+>> Right.
+
+788
+00:35:07,853 --> 00:35:13,253
+And when we are doing CRUD,
+right?
+
+789
+00:35:13,254 --> 00:35:17,441
+That's Create Read
+Update Delete, and
+
+790
+00:35:17,442 --> 00:35:21,021
+we are mapping that
+to HTTP Verbs.
+
+791
+00:35:21,022 --> 00:35:25,974
+Create is usually a POST,
+read is usually a GET, Update is
+
+792
+00:35:25,975 --> 00:35:31,142
+usually a PUT and delete is
+surprisingly enough, a DELETE.
+
+793
+00:35:31,143 --> 00:35:31,781
+>> Naming's hard.
+
+794
+00:35:31,782 --> 00:35:33,112
+>> Naming is hard.
+
+795
+00:35:33,113 --> 00:35:35,863
+But that's how we mapped
+CRUD to HTTP Verbs.
+
+796
+00:35:35,864 --> 00:35:37,491
+So then we're gonna
+do an update.
+
+797
+00:35:37,492 --> 00:35:40,693
+>> Yeah,
+PGPD is not a cool acronym.
+
+798
+00:35:40,694 --> 00:35:43,014
+>> No, that's not
+a cool acronym at all.
+
+799
+00:35:43,015 --> 00:35:44,875
+So let's try this.
+
+800
+00:35:44,876 --> 00:35:48,776
+We shall make a public
+IActionResult.
+
+801
+00:35:48,777 --> 00:35:50,301
+Now we're doing this manually.
+
+802
+00:35:50,302 --> 00:35:54,411
+I still think there's value
+in doing that, but before,
+
+803
+00:35:54,412 --> 00:35:58,095
+we did see that we could
+potentially have the system
+
+804
+00:35:58,096 --> 00:35:59,562
+scaffold this out.
+
+805
+00:35:59,563 --> 00:36:00,942
+So it's good to know
+how to do it once.
+
+806
+00:36:00,943 --> 00:36:05,045
+You learn how to drive
+a manual shift car once, and
+
+807
+00:36:05,046 --> 00:36:08,082
+then you get
+an automatic shift car.
+
+808
+00:36:08,083 --> 00:36:11,316
+You don't get to drive the
+automatic until you learn how to
+
+809
+00:36:11,317 --> 00:36:12,113
+drive stick.
+
+810
+00:36:12,114 --> 00:36:14,713
+>> I like still
+driving my manual car.
+
+811
+00:36:14,714 --> 00:36:16,442
+>> I take the bus.
+
+812
+00:36:16,443 --> 00:36:19,131
+FromBody, right.
+
+813
+00:36:19,132 --> 00:36:21,361
+So here we're gonna go and
+do an update.
+
+814
+00:36:21,362 --> 00:36:24,487
+We're passing in the new updated
+item along with the id of
+
+815
+00:36:24,488 --> 00:36:26,061
+the thing we want to update.
+
+816
+00:36:26,062 --> 00:36:29,170
+So we're saying here's the Rush
+tickets, that's number two.
+
+817
+00:36:29,171 --> 00:36:30,273
+>> Right.
+
+818
+00:36:30,274 --> 00:36:32,141
+>> With what it
+should look like now.
+
+819
+00:36:32,142 --> 00:36:33,563
+>> Mm-hm.
+>> Okay?
+
+820
+00:36:33,564 --> 00:36:37,642
+All right,
+now we gotta do the usual.
+
+821
+00:36:37,643 --> 00:36:41,551
+If ticket equals null, or maybe
+that the ticket that you passed
+
+822
+00:36:41,552 --> 00:36:45,312
+in doesn't actually match the ID
+that you want me to change,
+
+823
+00:36:45,313 --> 00:36:46,520
+that's not cool.
+
+824
+00:36:46,521 --> 00:36:49,121
+>> Trying to sabotage
+the content there.
+
+825
+00:36:49,122 --> 00:36:50,740
+>> Can't do that,
+that's a bad request.
+
+826
+00:36:50,741 --> 00:36:53,582
+So not cool, all right?
+
+827
+00:36:53,583 --> 00:36:55,542
+Now, let's go and
+get the ticket there,
+
+828
+00:36:55,543 --> 00:36:57,001
+might be more than one ticket.
+
+829
+00:36:57,002 --> 00:37:01,180
+But let's go and
+say var tic = _context.
+
+830
+00:37:01,181 --> 00:37:03,907
+And then we're gonna
+go just like before,
+
+831
+00:37:03,908 --> 00:37:06,186
+we're gonna say FirstOrDefault.
+
+832
+00:37:06,187 --> 00:37:10,740
+Oops, FirstOrDefault.
+
+833
+00:37:10,741 --> 00:37:17,382
+T such that, that id equals
+the id that you passed in.
+
+834
+00:37:17,383 --> 00:37:20,028
+>> Now here we can't do
+the turn off of the tracking,
+
+835
+00:37:20,029 --> 00:37:23,241
+because we are actually gonna
+track the changes on this one.
+
+836
+00:37:23,242 --> 00:37:24,531
+>> Yeah, that's a good point.
+
+837
+00:37:24,532 --> 00:37:25,840
+So here we're gonna go and
+
+838
+00:37:25,841 --> 00:37:27,811
+make sure that that
+ticket Is not null.
+
+839
+00:37:27,812 --> 00:37:34,611
+If it is null, then we're going
+to NotFound(); that, okay?
+
+840
+00:37:34,612 --> 00:37:35,984
+So that's not found.
+
+841
+00:37:35,985 --> 00:37:38,064
+Now we make changes.
+
+842
+00:37:38,065 --> 00:37:43,271
+So, multiple ways that you
+could potentially do this.
+
+843
+00:37:43,272 --> 00:37:46,449
+I'm gonna do just what they call
+left hand, right hand code.
+
+844
+00:37:46,450 --> 00:37:50,292
+This is simple enough that
+it's not a huge deal.
+
+845
+00:37:50,293 --> 00:37:53,160
+I could do different
+bits of work here.
+
+846
+00:37:53,161 --> 00:37:55,503
+I could compare things,
+be more sophisticated.
+
+847
+00:37:55,504 --> 00:37:57,236
+There are mapping tools and
+
+848
+00:37:57,237 --> 00:38:00,330
+mapping systems that would
+go and do that for me.
+
+849
+00:38:00,331 --> 00:38:03,778
+If I had dozens of items or-
+>> Properties.
+
+850
+00:38:03,779 --> 00:38:04,708
+>> Properties.
+>> That you had to map.
+
+851
+00:38:04,709 --> 00:38:10,278
+>> Deep, but for now, we're
+gonna go and say, all right
+
+852
+00:38:10,279 --> 00:38:16,107
+_context.TicketItems.Update with
+the new ticket.
+
+853
+00:38:16,108 --> 00:38:19,614
+_context.SaveChanges.
+
+854
+00:38:21,330 --> 00:38:24,225
+And then because an update
+doesn't really do anything,
+
+855
+00:38:24,226 --> 00:38:26,832
+we're just gonna say,
+NoContentResult();.
+
+856
+00:38:26,833 --> 00:38:29,110
+So we did it, and
+we're done, and it worked.
+
+857
+00:38:29,111 --> 00:38:31,423
+>> Just gonna acknowledge
+that we finished.
+
+858
+00:38:31,424 --> 00:38:34,452
+>> We finished, and it's cool,
+and I think that is,
+
+859
+00:38:34,453 --> 00:38:38,403
+I think it's a 201 but it's not
+a 200 It's just gonna look.
+
+860
+00:38:38,404 --> 00:38:41,790
+Yep, we're cool, it worked..
+
+861
+00:38:41,791 --> 00:38:45,890
+All right, let's give it try,
+and this is gonna be with a PUT.
+
+862
+00:38:45,891 --> 00:38:49,044
+And let's actually try
+it with a debug session.
+
+863
+00:38:59,382 --> 00:39:00,982
+So we're up and running.
+
+864
+00:39:02,952 --> 00:39:04,923
+First, and this is kinda cool,
+
+865
+00:39:04,924 --> 00:39:07,191
+you can go back over
+your histories.
+
+866
+00:39:07,192 --> 00:39:09,367
+And you can like replay stuff.
+
+867
+00:39:12,360 --> 00:39:17,838
+So here we'll replay our,
+Rush creation.
+
+868
+00:39:17,839 --> 00:39:19,332
+>> Yeah.
+
+869
+00:39:19,333 --> 00:39:21,681
+>> And this is another nice
+thing about Postman and
+
+870
+00:39:21,682 --> 00:39:23,441
+tools like it,
+is that you can go and
+
+871
+00:39:23,442 --> 00:39:26,452
+create collections and then kind
+of do unit testing on that.
+
+872
+00:39:26,453 --> 00:39:27,442
+Now here's what we're gonna do.
+
+873
+00:39:27,443 --> 00:39:30,681
+Rush, it says
+available equals true.
+
+874
+00:39:30,682 --> 00:39:32,669
+Let's go and do a PUT.
+
+875
+00:39:35,363 --> 00:39:37,178
+Here's gonna be the body.
+
+876
+00:39:38,524 --> 00:39:41,881
+We will say that it
+is now sold out.
+
+877
+00:39:46,841 --> 00:39:48,796
+So we're gonna PUT
+to that location,
+
+878
+00:39:48,797 --> 00:39:50,332
+and I think what would we say?
+
+879
+00:39:50,333 --> 00:39:51,730
+>> We have to specify the id.
+
+880
+00:39:51,731 --> 00:39:53,031
+>> Do we have to say id?
+
+881
+00:39:53,032 --> 00:39:54,522
+It depends on how we wrote it,
+we did.
+
+882
+00:39:54,523 --> 00:39:55,152
+>> Actually you know what?
+
+883
+00:39:55,153 --> 00:39:56,527
+>> No, we did not actually.
+
+884
+00:39:56,528 --> 00:39:57,971
+And you know what else we did?
+
+885
+00:39:57,972 --> 00:40:00,099
+We didn't put any of the route
+information at the top.
+
+886
+00:40:00,100 --> 00:40:01,172
+>> We forgot a route.
+
+887
+00:40:01,173 --> 00:40:02,902
+>> All right, this is good.
+
+888
+00:40:02,903 --> 00:40:04,737
+>> So
+where you were saying earlier,
+
+889
+00:40:04,738 --> 00:40:08,102
+that's actually a GET because
+it doesn't have the verb on it.
+
+890
+00:40:08,103 --> 00:40:10,316
+>> That would have been a GET
+had we not done anything,
+
+891
+00:40:10,317 --> 00:40:10,891
+good point.
+
+892
+00:40:10,892 --> 00:40:16,616
+So we will say put with the id,
+
+893
+00:40:16,617 --> 00:40:20,743
+then do we need this?
+
+894
+00:40:20,744 --> 00:40:22,132
+>> No, we don't need
+a name on this one.
+
+895
+00:40:22,133 --> 00:40:23,221
+>> Don't think we need a name.
+
+896
+00:40:23,222 --> 00:40:25,461
+But that's PUT with an id, okay?
+
+897
+00:40:25,462 --> 00:40:26,130
+>> There you go.
+
+898
+00:40:26,131 --> 00:40:29,310
+>> All right.
+
+899
+00:40:29,311 --> 00:40:30,083
+F5.
+
+900
+00:40:33,518 --> 00:40:36,148
+Launch.
+
+901
+00:40:36,149 --> 00:40:41,431
+Back out here, replay my post.
+
+902
+00:40:41,432 --> 00:40:44,244
+Available true,
+now we're gonna do a PUT.
+
+903
+00:40:44,245 --> 00:40:45,927
+Available false.
+
+904
+00:40:48,663 --> 00:40:50,679
+>> So what came back?
+
+905
+00:40:50,680 --> 00:40:52,170
+What's down there?
+
+906
+00:40:52,171 --> 00:40:54,518
+>> So
+I didn't get a break point.
+
+907
+00:40:54,519 --> 00:40:56,673
+Unsupported media type.
+
+908
+00:40:56,674 --> 00:40:58,046
+All right, that's great.
+
+909
+00:40:58,047 --> 00:40:59,015
+So this is really useful.
+
+910
+00:40:59,016 --> 00:41:01,030
+So see it says
+unsupported media type?
+
+911
+00:41:01,031 --> 00:41:05,697
+When I said PUT and
+I clicked raw,
+
+912
+00:41:05,698 --> 00:41:09,712
+I did not tell it it was JSON.
+
+913
+00:41:09,713 --> 00:41:10,344
+>> Yeah.
+
+914
+00:41:10,345 --> 00:41:11,035
+>> Okay?
+
+915
+00:41:11,036 --> 00:41:12,936
+That would change the headers.
+
+916
+00:41:12,937 --> 00:41:16,032
+Cuz in the headers,
+by saying it's JSON,
+
+917
+00:41:16,033 --> 00:41:19,301
+we say the content type
+of this thing is JSON.
+
+918
+00:41:19,302 --> 00:41:25,922
+So I pushed raw text edit and it
+said what it should have said.
+
+919
+00:41:25,923 --> 00:41:28,620
+400, remember the 400 series
+of errors are my fault?
+
+920
+00:41:28,621 --> 00:41:29,354
+>> Yep.
+
+921
+00:41:29,355 --> 00:41:30,729
+>> Unsupported media type.
+
+922
+00:41:30,730 --> 00:41:31,859
+>> Looked at that text and
+
+923
+00:41:31,860 --> 00:41:33,885
+didn't know how to
+rehydrate a ticket.
+
+924
+00:41:33,886 --> 00:41:35,608
+>> And what's nice is that
+I didn't write that code,
+
+925
+00:41:35,609 --> 00:41:36,823
+I didn't write any
+code to do that.
+
+926
+00:41:36,824 --> 00:41:37,791
+It figured it out on its own.
+
+927
+00:41:37,792 --> 00:41:38,377
+>> Yep.
+
+928
+00:41:38,378 --> 00:41:40,201
+>> Send.
+
+929
+00:41:40,202 --> 00:41:40,912
+Here we go.
+
+930
+00:41:40,913 --> 00:41:42,400
+>> All right.
+
+931
+00:41:42,401 --> 00:41:45,073
+>> We are in update number two.
+
+932
+00:41:45,074 --> 00:41:46,340
+Here is the new ticket.
+
+933
+00:41:47,670 --> 00:41:49,510
+Available false.
+
+934
+00:41:49,511 --> 00:41:51,550
+Let's go and do some stepping.
+
+935
+00:41:51,551 --> 00:41:53,380
+Step over, step over.
+
+936
+00:41:53,381 --> 00:41:55,220
+Found the ticket.
+
+937
+00:41:55,221 --> 00:41:57,709
+Now here is the available
+true and the available false.
+
+938
+00:41:59,150 --> 00:42:04,310
+Now it's falsely updated, and
+we return the no content result.
+
+939
+00:42:04,311 --> 00:42:08,040
+Let's return back to Postman.
+
+940
+00:42:09,720 --> 00:42:11,830
+And again,
+as I suspected, a 200.
+
+941
+00:42:11,831 --> 00:42:16,163
+But it's a 204, which means it's
+okay, because it's a 200 series.
+
+942
+00:42:16,164 --> 00:42:18,690
+04, no content.
+
+943
+00:42:18,691 --> 00:42:19,730
+That's great.
+
+944
+00:42:19,731 --> 00:42:22,370
+So at this point,
+we're almost done.
+
+945
+00:42:22,371 --> 00:42:23,030
+Let's go back.
+
+946
+00:42:23,031 --> 00:42:25,700
+Let's bang out a delete.
+
+947
+00:42:27,530 --> 00:42:28,337
+And take a little break.
+>> [CROSSTALK] Final
+
+948
+00:42:28,338 --> 00:42:28,898
+part of that, correct.
+
+949
+00:42:28,899 --> 00:42:30,770
+>> We'll take a break
+cuz good for us.
+
+950
+00:42:30,771 --> 00:42:33,250
+This time,
+since we know what we're doing,
+
+951
+00:42:33,251 --> 00:42:35,485
+we'll put HttpDelete
+right at the top.
+
+952
+00:42:35,486 --> 00:42:41,118
+And I'll say public
+IActionResultDelete(long id).
+
+953
+00:42:41,119 --> 00:42:44,187
+>> We need to specify that id's
+gonna come in off a route.
+
+954
+00:42:44,188 --> 00:42:45,186
+>> Okay, good point.
+
+955
+00:42:45,187 --> 00:42:46,134
+So we add that here.
+
+956
+00:42:48,401 --> 00:42:49,080
+Id.
+
+957
+00:42:49,081 --> 00:42:49,761
+>> There you go.
+
+958
+00:42:49,762 --> 00:42:51,255
+>> Thank you, sir.
+
+959
+00:42:51,256 --> 00:42:56,530
+And then we will say, var tics
+=, pull it out of the context,
+
+960
+00:42:56,531 --> 00:42:59,888
+get it out of there,
+FirstOrDefault.
+
+961
+00:42:59,889 --> 00:43:01,758
+Oops, get my little
+IntelliSense there.
+
+962
+00:43:01,759 --> 00:43:07,867
+FirstOrDefault t
+such that t.Id= id.
+
+963
+00:43:07,868 --> 00:43:09,430
+>> Yeah, there you go.
+
+964
+00:43:09,431 --> 00:43:11,411
+>> And then, again, if I wanted
+to make this a little simpler.
+
+965
+00:43:11,412 --> 00:43:13,890
+You notice that I've done
+this a couple of times now.
+
+966
+00:43:13,891 --> 00:43:17,220
+It might be nice to move that
+into another location, or
+
+967
+00:43:17,221 --> 00:43:19,190
+have someone else be
+responsible for that.
+
+968
+00:43:19,191 --> 00:43:21,448
+Maybe that would be
+a factory pattern.
+
+969
+00:43:21,449 --> 00:43:25,701
+There's a half dozen different
+ways that you could write that
+
+970
+00:43:25,702 --> 00:43:26,202
+code.
+
+971
+00:43:26,203 --> 00:43:28,406
+As well as hiding
+this not found,
+
+972
+00:43:28,407 --> 00:43:31,730
+cuz we've been a little
+bit repetitive, right?
+
+973
+00:43:31,731 --> 00:43:33,100
+Wouldn't you say?
+
+974
+00:43:33,101 --> 00:43:33,760
+>> Absolutely.
+
+975
+00:43:33,761 --> 00:43:35,260
+>> Now, this one's easy.
+
+976
+00:43:35,261 --> 00:43:37,388
+Go and get that ticket item,
+and we're just gonna say,
+
+977
+00:43:37,389 --> 00:43:38,078
+remove this one.
+
+978
+00:43:42,062 --> 00:43:43,828
+And then, once we've removed it.
+
+979
+00:43:46,298 --> 00:43:47,681
+>> Don't need the TicketItems,
+
+980
+00:43:47,682 --> 00:43:49,520
+they're just
+context.SaveChanges.
+
+981
+00:43:49,521 --> 00:43:52,040
+>> Thank you sir, SaveChanges().
+
+982
+00:43:52,041 --> 00:43:57,250
+And then, again,
+another return NoContentResult.
+
+983
+00:43:58,590 --> 00:44:00,600
+>> Awesome, fabulous.
+
+984
+00:44:00,601 --> 00:44:03,440
+>> And in the interest of time,
+when I write code,
+
+985
+00:44:03,441 --> 00:44:05,390
+I don't always write code.
+
+986
+00:44:05,391 --> 00:44:08,262
+When I do though, I immediately
+deploy it to production.
+
+987
+00:44:08,263 --> 00:44:09,570
+So assume that that works.
+
+988
+00:44:10,670 --> 00:44:11,700
+All right, so
+
+989
+00:44:11,701 --> 00:44:15,850
+there, and not too bad,
+we've made a ticket controller.
+
+990
+00:44:17,760 --> 00:44:21,050
+We have a little bit of code
+here that adds Beyonce,
+
+991
+00:44:21,051 --> 00:44:23,670
+because all concerts
+should have Beyonce.
+
+992
+00:44:23,671 --> 00:44:28,096
+We've got our GetAll,
+our GetById, our Create,
+
+993
+00:44:28,097 --> 00:44:31,760
+our Update, finally our Delete.
+
+994
+00:44:31,761 --> 00:44:33,868
+All in this case,
+using Entity Framework and
+
+995
+00:44:33,869 --> 00:44:35,095
+an in-memory database.
+
+996
+00:44:35,096 --> 00:44:38,203
+But it could easily be moved
+into a Postgres, or SQL, or
+
+997
+00:44:38,204 --> 00:44:40,330
+MySQL, or
+whatever makes you happy.
+
+998
+00:44:40,331 --> 00:44:41,000
+>> Absolutely.
+
+999
+00:44:41,001 --> 00:44:43,460
+>> Yeah, and
+let's take a short break, and
+
+1000
+00:44:43,461 --> 00:44:45,740
+then we'll come back and add
+a little documentation for this.
+
+1001
+00:44:45,741 --> 00:44:46,450
+>> Sounds good.
+
+1002
+00:44:46,451 --> 00:44:47,330
+>> All right, hope you
+
+1003
+00:44:47,331 --> 00:44:49,180
+join us here on
+Microsoft Virtual Academy.
+

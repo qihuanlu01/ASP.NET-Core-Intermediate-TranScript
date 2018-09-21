@@ -1,0 +1,4351 @@
+WEBVTT
+
+0
+00:00:01,130 --> 00:00:03,740
+Hey Andrew, good to see you.
+
+1
+00:00:03,741 --> 00:00:05,000
+>> Hey Diego.
+
+2
+00:00:05,001 --> 00:00:07,960
+>> We are going to be talking
+about Entity Framework Core
+
+3
+00:00:07,961 --> 00:00:09,190
+today, right?
+
+4
+00:00:09,191 --> 00:00:11,670
+>> That's right,
+should we introduce ourselves?
+
+5
+00:00:11,671 --> 00:00:13,840
+>> Yeah, sure,
+I am Diego Vega and
+
+6
+00:00:13,841 --> 00:00:16,840
+I work as the Program Manager
+on the Entity Framework team.
+
+7
+00:00:16,841 --> 00:00:21,452
+I have been working on this for
+a long time, so what about you?
+
+8
+00:00:21,453 --> 00:00:23,316
+>> Hi everyone,
+my name is Andrew Peters and
+
+9
+00:00:23,317 --> 00:00:26,290
+I'm an Engineer on
+the Entity Framework team.
+
+10
+00:00:26,291 --> 00:00:29,868
+>> Cool, so before we start,
+I think that there are some
+
+11
+00:00:29,869 --> 00:00:33,765
+people that are going to be
+watching this video that don't
+
+12
+00:00:33,766 --> 00:00:37,283
+know very much what
+Entity Framework Core is about.
+
+13
+00:00:37,284 --> 00:00:40,508
+So I think we should give
+a very short introduction,
+
+14
+00:00:40,509 --> 00:00:43,290
+explaining what it is and
+what it is for.
+
+15
+00:00:43,291 --> 00:00:44,430
+>> Sure, sounds good.
+
+16
+00:00:44,431 --> 00:00:49,737
+>> Okay, why don't we just jump
+to the code and create a simple
+
+17
+00:00:49,738 --> 00:00:55,056
+app, the minimal possible app
+that you can write using EF.
+
+18
+00:00:55,057 --> 00:00:56,818
+>> Sure, so
+Entity Framework Core is
+
+19
+00:00:56,819 --> 00:00:59,580
+what we call
+an object-relational mapper.
+
+20
+00:00:59,581 --> 00:01:05,310
+So it's really a library that
+helps you to basically get and
+
+21
+00:01:05,311 --> 00:01:06,820
+put data into a database.
+
+22
+00:01:06,821 --> 00:01:10,820
+It's all about querying data and
+allowing you to modify that
+
+23
+00:01:10,821 --> 00:01:13,540
+data, and then saving
+that to the database.
+
+24
+00:01:13,541 --> 00:01:16,850
+And what we really give you
+is a programming model.
+
+25
+00:01:16,851 --> 00:01:19,246
+So would you like to kind of
+talk a bit more about that?
+
+26
+00:01:19,247 --> 00:01:25,925
+>> I was trying to talk about
+it while you show the code.
+
+27
+00:01:25,926 --> 00:01:29,540
+>> So, let's start down here,
+I think.
+
+28
+00:01:29,541 --> 00:01:35,360
+>> Okay, so this is a model
+what we call a set of classes
+
+29
+00:01:35,361 --> 00:01:38,930
+that represent a domain that
+your application is allowed.
+
+30
+00:01:38,931 --> 00:01:40,065
+This case is a very
+simple model,
+
+31
+00:01:40,066 --> 00:01:41,250
+it's actually oversimplified.
+
+32
+00:01:41,251 --> 00:01:45,080
+It talks about blogs,
+because it's a model for
+
+33
+00:01:45,081 --> 00:01:48,070
+an application that
+does blogging.
+
+34
+00:01:48,071 --> 00:01:52,260
+And blogs have a bunch
+of properties in them.
+
+35
+00:01:52,261 --> 00:01:56,835
+They have an ID that is a unique
+identifier for that blog.
+
+36
+00:01:56,836 --> 00:02:00,262
+And they also have a URL
+as well because we know in
+
+37
+00:02:00,263 --> 00:02:04,560
+the Internet URLs are also
+unique identifiers for things.
+
+38
+00:02:04,561 --> 00:02:07,550
+It becomes a way to
+access the blog.
+
+39
+00:02:07,551 --> 00:02:08,690
+And in this case,
+
+40
+00:02:08,691 --> 00:02:11,930
+it doesn't even have a name
+because it's super simplified.
+
+41
+00:02:11,931 --> 00:02:16,184
+But we have a theme because one
+our demos is about how to change
+
+42
+00:02:16,185 --> 00:02:17,027
+the theme.
+
+43
+00:02:17,028 --> 00:02:20,038
+And a theme is also a very
+simplified representation of
+
+44
+00:02:20,039 --> 00:02:23,200
+what the appearance
+of the blog will be.
+
+45
+00:02:23,201 --> 00:02:26,710
+And in this case, it has
+a name and it has a color for
+
+46
+00:02:26,711 --> 00:02:30,170
+the title, but it could have
+many, many more properties.
+
+47
+00:02:30,171 --> 00:02:34,480
+>> Yeah, so this is showing one
+of the high level features of
+
+48
+00:02:34,481 --> 00:02:37,530
+Entity Framework and that's the
+ability to set up relationships
+
+49
+00:02:37,531 --> 00:02:40,320
+between your
+different C# classes.
+
+50
+00:02:40,321 --> 00:02:42,875
+So we call these
+navigation properties and
+
+51
+00:02:42,876 --> 00:02:45,580
+EF takes care of
+managing these for you.
+
+52
+00:02:45,581 --> 00:02:49,670
+So if I create a blog and
+set its theme, then you should
+
+53
+00:02:49,671 --> 00:02:52,230
+be able to save both of those
+things to the database easily
+
+54
+00:02:52,231 --> 00:02:54,220
+and query them together
+if you need to.
+
+55
+00:02:54,221 --> 00:02:57,530
+>> Yeah, it's also showing that
+you can have very simple classes
+
+56
+00:02:57,531 --> 00:03:00,010
+that have properties on them and
+
+57
+00:03:00,011 --> 00:03:01,740
+have them work with
+Entity Framework.
+
+58
+00:03:01,741 --> 00:03:04,310
+We are going to talk more about
+what you can do with them,
+
+59
+00:03:04,311 --> 00:03:06,300
+but it's very important,
+
+60
+00:03:06,301 --> 00:03:09,610
+and it was not always
+the case that these classes
+
+61
+00:03:09,611 --> 00:03:11,841
+don't need to know anything
+about the Entity Framework Core.
+
+62
+00:03:12,870 --> 00:03:14,434
+>> Yeah and so
+there's a special name for that,
+
+63
+00:03:14,435 --> 00:03:15,180
+what do we call that?
+
+64
+00:03:15,181 --> 00:03:19,010
+>> Yeah we call it POCO, or
+persistent ignorant classes,
+
+65
+00:03:19,011 --> 00:03:21,862
+because they don't
+need to know anything
+
+66
+00:03:21,863 --> 00:03:26,190
+about the persistence framework
+that we are going to use.
+
+67
+00:03:26,191 --> 00:03:29,513
+POCO comes from Plain Old CLR
+Object, which is an adaptation
+
+68
+00:03:29,514 --> 00:03:32,790
+from POJO, which was
+the Java version of that.
+
+69
+00:03:32,791 --> 00:03:35,730
+But that is a history,
+basically.
+
+70
+00:03:35,731 --> 00:03:38,450
+Now everybody assumes
+that you can do this.
+
+71
+00:03:38,451 --> 00:03:40,420
+>> Yeah, and what it
+really means here is that
+
+72
+00:03:41,790 --> 00:03:43,360
+these classes,
+
+73
+00:03:43,361 --> 00:03:46,700
+you can't really tell that any
+framework core can use them.
+
+74
+00:03:46,701 --> 00:03:48,460
+So you don't have to
+do anything special.
+
+75
+00:03:48,461 --> 00:03:51,640
+There are special things you
+can do to kind of unlock
+
+76
+00:03:51,641 --> 00:03:54,110
+more advanced scenarios,
+but right off the bat
+
+77
+00:03:54,111 --> 00:03:56,860
+you can just write the classes
+in a very idiomatic way.
+
+78
+00:03:56,861 --> 00:03:59,607
+>> Yeah, why don't we
+switch to the view context?
+
+79
+00:03:59,608 --> 00:04:00,603
+>> Okay so yeah,
+
+80
+00:04:00,604 --> 00:04:04,836
+the next sort of entry point
+here is in the Entity Framework,
+
+81
+00:04:04,837 --> 00:04:08,660
+we have a very high level
+object called the DbContext.
+
+82
+00:04:08,661 --> 00:04:10,778
+And this is the entry
+point that you create for
+
+83
+00:04:10,779 --> 00:04:12,350
+the data access in your program.
+
+84
+00:04:13,630 --> 00:04:16,477
+>> Yeah, the simplest parameter
+that you can write to UCF is
+
+85
+00:04:16,478 --> 00:04:19,028
+going to have a type that
+derives from the DbContext
+
+86
+00:04:19,029 --> 00:04:22,020
+class that is defined
+in Entity Framework.
+
+87
+00:04:22,021 --> 00:04:25,683
+And it's going to have a bunch
+of properties of this type DbSet
+
+88
+00:04:25,684 --> 00:04:29,070
+that's generic on the classes
+that you want to persist.
+
+89
+00:04:30,830 --> 00:04:34,703
+So if you set up a class like
+this then you also need to write
+
+90
+00:04:34,704 --> 00:04:36,169
+a couple of methods.
+
+91
+00:04:36,170 --> 00:04:40,147
+I mean, you don't always need
+to write both, but you need to
+
+92
+00:04:40,148 --> 00:04:43,892
+write at least the override for
+OnConfiguring, which is
+
+93
+00:04:43,893 --> 00:04:48,250
+going to tell us about how to
+connect to the database, mainly.
+
+94
+00:04:48,251 --> 00:04:52,910
+It can also be used to set up
+a bunch of configuration for
+
+95
+00:04:52,911 --> 00:04:54,790
+different details and
+settings that EF has.
+
+96
+00:04:55,820 --> 00:04:58,840
+And in the particular case of
+an ASP.NET Core application,
+
+97
+00:04:58,841 --> 00:05:02,390
+the code that you would
+normally put there, actually,
+
+98
+00:05:02,391 --> 00:05:05,650
+we usually put it in the
+dependency injection container.
+
+99
+00:05:05,651 --> 00:05:08,130
+We can talk about
+that more later.
+
+100
+00:05:08,131 --> 00:05:10,342
+>> Yeah,
+I think we can show that later.
+
+101
+00:05:10,343 --> 00:05:13,806
+So, the key point here is
+that the programming model
+
+102
+00:05:13,807 --> 00:05:15,538
+is inheritance based, so
+
+103
+00:05:15,539 --> 00:05:18,870
+it typically you inherit
+off our type DbContext.
+
+104
+00:05:18,871 --> 00:05:22,328
+And this allows you to create
+a strongly typed DbContext for
+
+105
+00:05:22,329 --> 00:05:24,411
+your specific application needs.
+
+106
+00:05:24,412 --> 00:05:26,130
+And in this case it's
+the blogging context,
+
+107
+00:05:26,131 --> 00:05:28,540
+because it's for the blogging
+software that we want to write.
+
+108
+00:05:29,590 --> 00:05:31,240
+And blogs and themes,
+as Diego said,
+
+109
+00:05:31,241 --> 00:05:33,090
+allow us to get at the data.
+
+110
+00:05:33,091 --> 00:05:36,255
+And then two template
+methods that you can override
+
+111
+00:05:36,256 --> 00:05:39,642
+OnConfiguring, for configuring
+how you connect, for example.
+
+112
+00:05:39,643 --> 00:05:41,095
+And OnModelCreating for
+
+113
+00:05:41,096 --> 00:05:43,930
+configuring how you would
+like to map the blog and
+
+114
+00:05:43,931 --> 00:05:47,682
+theme objects to the specific
+tables in the relation database.
+
+115
+00:05:47,683 --> 00:05:49,658
+>> Yeah,
+I was saying before that,
+
+116
+00:05:49,659 --> 00:05:52,630
+you don't always need
+to write both methods.
+
+117
+00:05:52,631 --> 00:05:57,440
+The idea is that as soon as you
+specify these two properties of
+
+118
+00:05:57,441 --> 00:06:00,412
+type DbSet, of your class,
+
+119
+00:06:00,413 --> 00:06:04,680
+EF is going to,
+at runtime when it starts,
+
+120
+00:06:04,681 --> 00:06:07,720
+use reflection to look at
+the properties of those types.
+
+121
+00:06:07,721 --> 00:06:09,950
+And infer what needs
+to be persisted and
+
+122
+00:06:09,951 --> 00:06:13,260
+what types to use on the
+database, depending especially
+
+123
+00:06:13,261 --> 00:06:18,310
+on the database that
+you tell EF to use.
+
+124
+00:06:18,311 --> 00:06:21,030
+So in this case,
+we had OnConfiguring.
+
+125
+00:06:21,031 --> 00:06:23,022
+I don't know if you
+can show it there,
+
+126
+00:06:23,023 --> 00:06:26,013
+we have a code to a method
+that's called UseSqlServer and
+
+127
+00:06:26,014 --> 00:06:28,030
+it passes the connection string.
+
+128
+00:06:28,031 --> 00:06:31,380
+So we know that we need to use
+SqlServer and based on the types
+
+129
+00:06:31,381 --> 00:06:34,670
+of the properties on blog and
+themes, we're going to figure
+
+130
+00:06:34,671 --> 00:06:37,110
+out what types of columns
+we should create.
+
+131
+00:06:38,170 --> 00:06:40,830
+And by convention, we can
+figure out a lot of things,
+
+132
+00:06:40,831 --> 00:06:44,399
+we can figure out that those
+properties, and we can figure
+
+133
+00:06:44,400 --> 00:06:47,180
+out that they set a relationship
+between theme and blog,
+
+134
+00:06:47,181 --> 00:06:50,760
+because you have a property
+of type theme on the blog.
+
+135
+00:06:50,761 --> 00:06:52,407
+But there are some
+details that we cannot
+
+136
+00:06:52,408 --> 00:06:53,574
+figure out automatically.
+
+137
+00:06:53,575 --> 00:06:56,685
+And then we have an API that
+you can use to tell us.
+
+138
+00:06:56,686 --> 00:07:00,386
+And every time you need
+to tell us those details,
+
+139
+00:07:00,387 --> 00:07:04,585
+that is when you have to put
+code inside a more grading.
+
+140
+00:07:04,586 --> 00:07:10,320
+>> Yeah, so why don't we show
+how this works more concretely.
+
+141
+00:07:10,321 --> 00:07:14,012
+So right now,
+we don't have a database.
+
+142
+00:07:14,013 --> 00:07:17,511
+What we can also do is use
+another piece of our stack that
+
+143
+00:07:17,512 --> 00:07:19,510
+we call migrations.
+
+144
+00:07:19,511 --> 00:07:24,424
+Migrations provide
+a code-based way of building
+
+145
+00:07:24,425 --> 00:07:27,937
+a database schema and
+evolving it.
+
+146
+00:07:27,938 --> 00:07:29,930
+One way we can
+create a migration.
+
+147
+00:07:32,191 --> 00:07:34,620
+Is in the package
+manager console.
+
+148
+00:07:38,484 --> 00:07:42,380
+I'm just gonna quickly set
+this as my start up project.
+
+149
+00:07:44,791 --> 00:07:45,344
+There.
+
+150
+00:07:47,632 --> 00:07:50,566
+Now what I'm doing here is I'm
+generating some code that's
+
+151
+00:07:50,567 --> 00:07:52,660
+going to land in our project.
+
+152
+00:07:52,661 --> 00:07:55,400
+And this is what we call
+a migration file and
+
+153
+00:07:55,401 --> 00:07:57,504
+we can show you
+what it looks like.
+
+154
+00:08:00,961 --> 00:08:01,713
+Okay, so
+
+155
+00:08:01,714 --> 00:08:06,049
+over here we can see that it
+generated these two files.
+
+156
+00:08:07,540 --> 00:08:09,762
+And it opened up the one
+we are interested in.
+
+157
+00:08:09,763 --> 00:08:12,060
+One of them we can consider
+a Code Behind file, so
+
+158
+00:08:12,061 --> 00:08:15,530
+it's one that we managed
+that you never usually edit.
+
+159
+00:08:15,531 --> 00:08:17,539
+But this is the one
+that you can't edit.
+
+160
+00:08:17,540 --> 00:08:19,725
+We've scaffolded it by default,
+and
+
+161
+00:08:19,726 --> 00:08:23,170
+what we've scaffolded
+are these fluent API calls.
+
+162
+00:08:23,171 --> 00:08:28,100
+So we have a bunch of APIs that
+correspond to typical database
+
+163
+00:08:28,101 --> 00:08:29,557
+DDL operations.
+
+164
+00:08:29,558 --> 00:08:32,458
+>> Yeah, DDL being the ability
+to define tables and
+
+165
+00:08:32,459 --> 00:08:33,950
+objects on the data.
+
+166
+00:08:33,951 --> 00:08:35,000
+>> Yeah, exactly.
+
+167
+00:08:36,140 --> 00:08:39,257
+>> So these two calls here
+represent the creation of
+
+168
+00:08:39,258 --> 00:08:41,164
+the tables for the database.
+
+169
+00:08:41,165 --> 00:08:43,934
+It's the initial migration,
+so it's the migration that
+
+170
+00:08:43,935 --> 00:08:46,815
+you would use in order to create
+a database with all the schema
+
+171
+00:08:46,816 --> 00:08:49,520
+that you need in order to
+persist these classes.
+
+172
+00:08:49,521 --> 00:08:52,060
+We can execute it, I guess.
+
+173
+00:08:52,061 --> 00:08:53,910
+>> Yeah, so
+we started from a blank slate.
+
+174
+00:08:53,911 --> 00:08:56,400
+We didn't even have a database,
+so we called this one initial,
+
+175
+00:08:56,401 --> 00:08:58,130
+and this is kind
+of our first one.
+
+176
+00:08:58,131 --> 00:08:59,990
+So we've got some
+create tables here,
+
+177
+00:08:59,991 --> 00:09:01,500
+we're gonna create
+the themes table, so
+
+178
+00:09:01,501 --> 00:09:05,898
+ef has, by convention, decided
+to call the table themes.
+
+179
+00:09:05,899 --> 00:09:08,470
+It's scaffolded a bunch
+of columns, and
+
+180
+00:09:08,471 --> 00:09:09,800
+it's figured out what
+their type should be.
+
+181
+00:09:09,801 --> 00:09:13,460
+You can see here we're doing
+a value generation strategy as
+
+182
+00:09:13,461 --> 00:09:17,690
+well, so what this is is, in SQL
+Server, our convention is that
+
+183
+00:09:17,691 --> 00:09:20,440
+you want an identity
+column if your primary key
+
+184
+00:09:20,441 --> 00:09:25,340
+is non composite, and
+of an integral type like int.
+
+185
+00:09:25,341 --> 00:09:25,840
+>> Okay,
+
+186
+00:09:35,992 --> 00:09:38,559
+>> So we have this second
+command here, update database.
+
+187
+00:09:41,021 --> 00:09:44,615
+Okay, that's telling us that
+there's already an object named
+
+188
+00:09:44,616 --> 00:09:46,020
+themes in the database.
+
+189
+00:09:46,021 --> 00:09:48,218
+So it could be that
+the database is already there.
+
+190
+00:09:48,219 --> 00:09:49,320
+>> Yep.
+
+191
+00:09:49,321 --> 00:09:52,580
+>> So
+let's just quickly drop that.
+
+192
+00:09:56,350 --> 00:09:57,620
+Wait for this to load.
+
+193
+00:09:59,530 --> 00:10:00,240
+No, thank you.
+
+194
+00:10:05,771 --> 00:10:07,460
+So I think it's this one.
+
+195
+00:10:12,558 --> 00:10:13,590
+Let's try that again.
+
+196
+00:10:17,471 --> 00:10:20,567
+So we've run these demos a few
+times, and we need to make sure
+
+197
+00:10:20,568 --> 00:10:23,260
+to clean out the database
+back to a clean slate.
+
+198
+00:10:23,261 --> 00:10:24,420
+>> Okay.
+
+199
+00:10:24,421 --> 00:10:27,070
+>> So there we go,
+we applied the migration.
+
+200
+00:10:27,071 --> 00:10:32,070
+So what that did was ef
+consumed all of these calls and
+
+201
+00:10:32,071 --> 00:10:34,650
+executed them, and basically
+part that was to generate
+
+202
+00:10:34,651 --> 00:10:35,830
+the SQL corresponding to them,
+and
+
+203
+00:10:35,831 --> 00:10:38,545
+apply it to the target database
+from the connection string.
+
+204
+00:10:40,870 --> 00:10:41,710
+Should see it in here now.
+
+205
+00:10:48,769 --> 00:10:51,540
+There's the two tables, and
+what's this one, Diego?
+
+206
+00:10:51,541 --> 00:10:55,592
+>> That one keeps track of all
+the migrations that have already
+
+207
+00:10:55,593 --> 00:10:57,791
+been applied to this database.
+
+208
+00:10:57,792 --> 00:11:00,751
+So that we can also reason
+about that when you say,
+
+209
+00:11:00,752 --> 00:11:04,488
+okay update database, we know
+exactly what migration you have
+
+210
+00:11:04,489 --> 00:11:08,530
+already in the database and
+which ones need to be applied.
+
+211
+00:11:08,531 --> 00:11:11,780
+>> Yeah, so we kind of implement
+a versioning strategy there.
+
+212
+00:11:11,781 --> 00:11:14,960
+So we can see the idea of
+the migration here corresponds
+
+213
+00:11:14,961 --> 00:11:18,490
+to this name here.
+
+214
+00:11:18,491 --> 00:11:22,383
+>> You will also see that at the
+bottom of the screen now we have
+
+215
+00:11:22,384 --> 00:11:24,299
+some create index methods.
+
+216
+00:11:24,300 --> 00:11:29,104
+That means that we inferred that
+we needed to create an index for
+
+217
+00:11:29,105 --> 00:11:33,820
+the relationship that makes
+operations like delete faster on
+
+218
+00:11:33,821 --> 00:11:35,570
+those tables.
+
+219
+00:11:35,571 --> 00:11:38,950
+What else can we show for this?
+
+220
+00:11:38,951 --> 00:11:43,720
+>> I think we can show this,
+too.
+
+221
+00:11:43,721 --> 00:11:44,470
+This is pretty cool.
+
+222
+00:11:44,471 --> 00:11:46,670
+So this is a new
+feature that's coming.
+
+223
+00:11:46,671 --> 00:11:49,190
+And this is the ability
+to also have data
+
+224
+00:11:49,191 --> 00:11:52,080
+put into the database
+when you migrate it.
+
+225
+00:11:52,081 --> 00:11:53,185
+So we'll call this seed data,
+
+226
+00:11:53,186 --> 00:11:55,950
+and here we're setting up
+a bunch of things by default.
+
+227
+00:11:55,951 --> 00:12:00,250
+>> So if you are familiar
+with you would remember that
+
+228
+00:12:00,251 --> 00:12:05,550
+we had migrations also, and
+we had a seeding capability.
+
+229
+00:12:05,551 --> 00:12:08,520
+You can say, okay, whenever
+we create this database, or
+
+230
+00:12:08,521 --> 00:12:09,230
+apply variations,
+
+231
+00:12:09,231 --> 00:12:12,760
+we're going to prepopulate some
+details around the database with
+
+232
+00:12:12,761 --> 00:12:17,000
+data that then you can use
+as reference data mostly.
+
+233
+00:12:17,001 --> 00:12:18,900
+We decided to implement
+something different.
+
+234
+00:12:18,901 --> 00:12:23,180
+To have a different design on
+EF Core that we believe is
+
+235
+00:12:23,181 --> 00:12:27,390
+much better and can give
+you much more flexibility.
+
+236
+00:12:27,391 --> 00:12:31,120
+So this is basically, the seed
+data is part of the model.
+
+237
+00:12:32,300 --> 00:12:36,225
+And whenever we are calculating
+the difference between
+
+238
+00:12:36,226 --> 00:12:39,064
+two models,
+seed data also becomes part
+
+239
+00:12:39,065 --> 00:12:41,998
+of that computation
+of the differences.
+
+240
+00:12:41,999 --> 00:12:45,582
+So whenever you add data or
+you remove data from the model,
+
+241
+00:12:45,583 --> 00:12:49,120
+we figure out what we need to
+do in the migrations as well.
+
+242
+00:12:49,121 --> 00:12:50,150
+>> Yeah, so we can show that.
+
+243
+00:12:51,150 --> 00:12:53,600
+It also works with
+changing the data.
+
+244
+00:12:53,601 --> 00:12:58,461
+So here we're gonna change theme
+1 to actually use AliceBlue
+
+245
+00:12:58,462 --> 00:13:00,220
+as the color.
+
+246
+00:13:00,221 --> 00:13:02,690
+And this will also
+kind of give an example
+
+247
+00:13:02,691 --> 00:13:05,480
+of the migration's workflow.
+
+248
+00:13:05,481 --> 00:13:08,510
+So now we've made this change,
+we wanna share it with
+
+249
+00:13:08,511 --> 00:13:11,080
+other developers on our team,
+potentially.
+
+250
+00:13:11,081 --> 00:13:13,360
+And so what we do is we can
+create another migration.
+
+251
+00:13:15,046 --> 00:13:17,987
+Build.
+
+252
+00:13:17,988 --> 00:13:21,636
+So each time you make a change
+that will change the database
+
+253
+00:13:21,637 --> 00:13:25,285
+schema or seed data, you can
+generate a new migration that
+
+254
+00:13:25,286 --> 00:13:27,682
+will now be shared
+amongst your team.
+
+255
+00:13:27,683 --> 00:13:29,060
+And they can just run that, and
+
+256
+00:13:29,061 --> 00:13:31,300
+their local databases will
+be brought up to date.
+
+257
+00:13:31,301 --> 00:13:35,344
+You can also use it to deploy
+to production via script, or
+
+258
+00:13:35,345 --> 00:13:36,276
+using code.
+
+259
+00:13:36,277 --> 00:13:37,967
+>> I think we need to
+add migration
+
+260
+00:13:37,968 --> 00:13:39,426
+>> Yes, generate.
+
+261
+00:13:48,690 --> 00:13:49,418
+Okay, so
+
+262
+00:13:49,419 --> 00:13:54,250
+here you can see it looks a lot
+different than the last one.
+
+263
+00:13:54,251 --> 00:13:56,800
+That's because we deduced
+that the only thing that's
+
+264
+00:13:56,801 --> 00:13:59,400
+changed since we applied
+the last one was this change to
+
+265
+00:13:59,401 --> 00:13:59,960
+the seed data.
+
+266
+00:14:02,140 --> 00:14:05,346
+>> Yeah, you see also there's
+an up and a down method.
+
+267
+00:14:05,347 --> 00:14:09,750
+The up method will make
+this migration the current,
+
+268
+00:14:09,751 --> 00:14:12,620
+if we execute that, we
+are going to make the database
+
+269
+00:14:12,621 --> 00:14:14,520
+be of this current version.
+
+270
+00:14:14,521 --> 00:14:15,640
+>> Bring it up to date, yep.
+
+271
+00:14:15,641 --> 00:14:19,100
+>> Yeah, if you tell us that
+you want to reword that,
+
+272
+00:14:19,101 --> 00:14:21,750
+then we're going to execute the
+down method that is going to set
+
+273
+00:14:21,751 --> 00:14:23,490
+the color back to
+what it was before.
+
+274
+00:14:23,491 --> 00:14:25,640
+So we need to record
+that in the migration.
+
+275
+00:14:25,641 --> 00:14:30,170
+>> So down is really about
+rolling back to previous states,
+
+276
+00:14:30,171 --> 00:14:34,110
+which might happen if you deploy
+to production, for example, and
+
+277
+00:14:34,111 --> 00:14:35,270
+something goes wrong.
+
+278
+00:14:35,271 --> 00:14:40,030
+Down provides a way to back out
+the change that was made by up.
+
+279
+00:14:40,031 --> 00:14:45,520
+>> Yeah, can we show the script
+that we generate the SQL?
+
+280
+00:14:45,521 --> 00:14:47,610
+>> Sure, for this migration?
+
+281
+00:14:47,611 --> 00:14:49,880
+>> I think so, yeah.
+
+282
+00:14:49,881 --> 00:14:51,110
+>> Script migration.
+
+283
+00:14:51,111 --> 00:14:52,307
+>> Yeah.
+
+284
+00:14:52,308 --> 00:14:55,181
+>> So this is nice because you
+can just generate a script,
+
+285
+00:14:55,182 --> 00:14:58,179
+a SQL script, and hand it off
+to someone if you don't have
+
+286
+00:14:58,180 --> 00:15:01,117
+direct access to run against
+the production database,
+
+287
+00:15:01,118 --> 00:15:02,740
+which is pretty normal.
+
+288
+00:15:02,741 --> 00:15:04,756
+>> Yeah, this gives you,
+actually,
+
+289
+00:15:04,757 --> 00:15:08,187
+the way we execute this command
+gives you the whole script for
+
+290
+00:15:08,188 --> 00:15:10,352
+creating the database
+from scratch.
+
+291
+00:15:10,353 --> 00:15:11,162
+>> Yup.
+
+292
+00:15:11,163 --> 00:15:14,086
+>> But it's going to
+include the values for
+
+293
+00:15:14,087 --> 00:15:18,160
+the data that we have, the seed
+data that we have there.
+
+294
+00:15:18,161 --> 00:15:20,320
+>> Exactly, and
+we should see it.
+
+295
+00:15:20,321 --> 00:15:24,820
+Yeah, you can see
+the color change from red.
+
+296
+00:15:24,821 --> 00:15:27,591
+This is the first migration,
+and then down at the end,
+
+297
+00:15:27,592 --> 00:15:29,780
+we should have
+the second migration.
+
+298
+00:15:29,781 --> 00:15:31,312
+So here.
+
+299
+00:15:31,313 --> 00:15:32,270
+>> Yeah.
+
+300
+00:15:32,271 --> 00:15:35,021
+>> So you can see it's really
+sequential, it's not that we
+
+301
+00:15:35,022 --> 00:15:37,728
+just deduced that the color
+should start at AliceBlue.
+
+302
+00:15:37,729 --> 00:15:41,078
+>> Yeah, there is also another
+interesting detail there,
+
+303
+00:15:41,079 --> 00:15:44,287
+in this script, that we
+are setting identity insert,
+
+304
+00:15:44,288 --> 00:15:46,900
+on the themes table, OFF and ON.
+
+305
+00:15:46,901 --> 00:15:48,400
+That's something that
+we do automatically,
+
+306
+00:15:48,401 --> 00:15:51,940
+because in SQL Server,
+if you know about that,
+
+307
+00:15:51,941 --> 00:15:54,000
+identity columns normally
+cannot be updated.
+
+308
+00:15:55,880 --> 00:15:59,068
+In this version of seeding
+we have the ability to do it
+
+309
+00:15:59,069 --> 00:16:02,700
+because you are asking for
+a specific ID value.
+
+310
+00:16:02,701 --> 00:16:06,100
+We are going to do whatever it
+takes to make it of that value.
+
+311
+00:16:06,101 --> 00:16:07,644
+>> Yeah.
+>> And in this case,
+
+312
+00:16:07,645 --> 00:16:11,098
+we need to go around it and
+apply the workaround for
+
+313
+00:16:11,099 --> 00:16:12,010
+SQL Server.
+
+314
+00:16:13,790 --> 00:16:18,129
+The previous version of EF
+didn't have the capability, so
+
+315
+00:16:18,130 --> 00:16:19,528
+it could not do it.
+
+316
+00:16:19,529 --> 00:16:23,368
+>> I wonder it might be better
+to not introduce identity
+
+317
+00:16:23,369 --> 00:16:25,410
+columns for seed data.
+
+318
+00:16:25,411 --> 00:16:26,840
+>> That could be
+an option there.
+
+319
+00:16:26,841 --> 00:16:27,340
+>> Yeah.
+
+320
+00:16:29,916 --> 00:16:30,821
+Okay.
+
+321
+00:16:35,269 --> 00:16:37,849
+Let's, we might as
+well apply that one,
+
+322
+00:16:37,850 --> 00:16:39,157
+I guess,
+>> Yeah.
+
+323
+00:16:39,158 --> 00:16:40,231
+>> Bring us up to date.
+
+324
+00:16:46,933 --> 00:16:50,870
+Okay, now,
+what else have we got here?
+
+325
+00:16:50,871 --> 00:16:54,030
+Okay, so this is just
+a little program that we'll
+
+326
+00:16:54,031 --> 00:16:56,450
+leverage on you blog in context.
+
+327
+00:16:56,451 --> 00:16:59,931
+And all it does is look for the
+themes, and print them out, so
+
+328
+00:16:59,932 --> 00:17:02,609
+we should just run that
+to see where we're at.
+
+329
+00:17:06,430 --> 00:17:11,349
+Okay great, so we can see that
+was blue, it's been updated, and
+
+330
+00:17:11,350 --> 00:17:15,642
+we can see basically that
+querying the database was super
+
+331
+00:17:15,643 --> 00:17:16,900
+easy.
+
+332
+00:17:16,901 --> 00:17:18,860
+We were able to
+write a normal for
+
+333
+00:17:18,861 --> 00:17:23,180
+each loop over that DbSet
+property that we created.
+
+334
+00:17:23,181 --> 00:17:25,950
+Underneath, Has done a lot of
+work, it's generating a query to
+
+335
+00:17:25,951 --> 00:17:28,910
+the database, it's figured out
+how to create the theme objects
+
+336
+00:17:28,911 --> 00:17:31,600
+efficiently, performs
+really fast.
+
+337
+00:17:31,601 --> 00:17:33,060
+And the end result is,
+
+338
+00:17:33,061 --> 00:17:35,100
+that you'd just get back
+a stream of themes.
+
+339
+00:17:36,120 --> 00:17:40,980
+>> Okay, I think we
+should try also to do one
+
+340
+00:17:40,981 --> 00:17:44,740
+hour demo that shows some of
+the basic operations that we do,
+
+341
+00:17:44,741 --> 00:17:46,360
+besides the features.
+
+342
+00:17:46,361 --> 00:17:47,990
+>> Okay, sounds good.
+
+343
+00:17:47,991 --> 00:17:49,130
+>> Which one do you
+think we can do?
+
+344
+00:17:50,480 --> 00:17:54,420
+>> Flexible mapping
+might be a good one.
+
+345
+00:17:54,421 --> 00:17:59,721
+We can talk about some different
+styles of creating a pokas.
+
+346
+00:17:59,722 --> 00:18:02,638
+>> Yeah, sounds good.
+
+347
+00:18:02,639 --> 00:18:04,001
+>> So I'm just gonna reset.
+
+348
+00:18:08,988 --> 00:18:10,469
+All right, should we start
+with the entity types?
+
+349
+00:18:11,990 --> 00:18:12,945
+Or entity type?
+
+350
+00:18:12,946 --> 00:18:17,900
+>> Yeah, this model has only
+one class, that is a blog.
+
+351
+00:18:17,901 --> 00:18:20,230
+And it's a little bit more
+complete than the other one,
+
+352
+00:18:20,231 --> 00:18:23,310
+because the purpose of this,
+they must be defined.
+
+353
+00:18:23,311 --> 00:18:24,990
+We have more properties
+like the name,
+
+354
+00:18:24,991 --> 00:18:26,860
+and things that you
+will expect to see.
+
+355
+00:18:28,140 --> 00:18:32,420
+But we decided to do something
+special for the URL, right?
+
+356
+00:18:32,421 --> 00:18:34,670
+>> Yeah, so I think we were
+
+357
+00:18:36,850 --> 00:18:38,950
+interested in using a field
+mapping for the URL.
+
+358
+00:18:39,970 --> 00:18:42,750
+So what that means is,
+by default,
+
+359
+00:18:42,751 --> 00:18:46,390
+you would often write your
+classes with properties.
+
+360
+00:18:46,391 --> 00:18:49,600
+But you don't have to, you can
+also map directly to fields.
+
+361
+00:18:49,601 --> 00:18:52,170
+And this provides kind of a more
+encapsulated way of structuring
+
+362
+00:18:52,171 --> 00:18:54,255
+data inside your Poka.
+
+363
+00:18:54,256 --> 00:18:59,310
+>> Yeah, also there is
+a continuum of features
+
+364
+00:18:59,311 --> 00:19:01,450
+that we call flexible
+object mapping.
+
+365
+00:19:03,370 --> 00:19:07,850
+We have only gotten
+started with these.
+
+366
+00:19:07,851 --> 00:19:12,479
+In the beginning we
+started with a Support
+
+367
+00:19:12,480 --> 00:19:14,909
+simple classes or pokas.
+
+368
+00:19:16,010 --> 00:19:20,190
+Then we started supporting
+simple objects with properties.
+
+369
+00:19:20,191 --> 00:19:22,330
+Now, we support field mapping.
+
+370
+00:19:22,331 --> 00:19:26,625
+And there are certain features
+that we're going to be working
+
+371
+00:19:26,626 --> 00:19:30,423
+on, that make it even more
+flexible, and can allow you
+
+372
+00:19:30,424 --> 00:19:34,530
+to have more freedom or
+how you design your domain more.
+
+373
+00:19:34,531 --> 00:19:38,660
+If you want to use, dictionaries
+maybe some day will support that
+
+374
+00:19:38,661 --> 00:19:44,510
+also for your properties,
+if you want to use a constructor
+
+375
+00:19:44,511 --> 00:19:49,390
+that takes some of this property
+values in, will recognize it.
+
+376
+00:19:49,391 --> 00:19:53,340
+That's not something that we
+do in the conversion, but
+
+377
+00:19:53,341 --> 00:19:56,180
+something we're going
+to be working on.
+
+378
+00:19:56,181 --> 00:19:59,980
+>> So, our goal is
+really to allow you to
+
+379
+00:19:59,981 --> 00:20:03,220
+define your classes, the way
+they way that you would like to.
+
+380
+00:20:03,221 --> 00:20:07,690
+And then, allow you to configure
+EF to be able to map them
+
+381
+00:20:07,691 --> 00:20:09,140
+to the database
+structure that you want.
+
+382
+00:20:09,141 --> 00:20:11,020
+And those things
+can kind of evolve,
+
+383
+00:20:11,021 --> 00:20:12,995
+and be shaped separately.
+
+384
+00:20:12,996 --> 00:20:14,378
+>> Okay.
+
+385
+00:20:15,838 --> 00:20:19,162
+So in this case I see that
+you added a private string
+
+386
+00:20:19,163 --> 00:20:21,765
+on this call URL property.
+
+387
+00:20:21,766 --> 00:20:22,910
+>> Yeah, so I created the field.
+
+388
+00:20:22,911 --> 00:20:28,170
+I made the property read only,
+and
+
+389
+00:20:28,171 --> 00:20:31,420
+then we have this method that
+we call when we wanna set it.
+
+390
+00:20:31,421 --> 00:20:33,990
+And this is useful, maybe we
+want to perform some custom
+
+391
+00:20:33,991 --> 00:20:36,390
+validation here,
+so domain logic.
+
+392
+00:20:36,391 --> 00:20:39,170
+This allows us to kind of
+create more of an encapsulated
+
+393
+00:20:39,171 --> 00:20:42,900
+implementation of what
+it means to sit the URL.
+
+394
+00:20:42,901 --> 00:20:45,820
+>> Okay, but from the
+perspective of persistence you
+
+395
+00:20:45,821 --> 00:20:48,540
+may want your persistence
+
+396
+00:20:48,541 --> 00:20:53,350
+library to just access the field
+to set the value there,
+
+397
+00:20:53,351 --> 00:20:55,590
+that it's read from
+the column and the data.
+
+398
+00:20:55,591 --> 00:20:56,340
+>> Yeah for sure.
+
+399
+00:20:57,570 --> 00:20:59,392
+So I think we need a bit
+of configuration, right?
+
+400
+00:20:59,393 --> 00:21:00,249
+>> Mm-hm.
+
+401
+00:21:09,341 --> 00:21:11,770
+>> So here we've got
+a bit more fluent API.
+
+402
+00:21:11,771 --> 00:21:16,519
+It's hopefully pretty readable,
+what we're saying is for
+
+403
+00:21:16,520 --> 00:21:20,335
+the entity blog,
+it has a property of type string
+
+404
+00:21:20,336 --> 00:21:23,608
+called URL, and
+is backed by this field.
+
+405
+00:21:23,609 --> 00:21:27,399
+>> Yeah, when we specify that
+name URl with uppercase,
+
+406
+00:21:27,400 --> 00:21:31,359
+we usually talk about those
+as basically the conceptual
+
+407
+00:21:31,360 --> 00:21:35,570
+property, that is a property
+conceptually on this class,
+
+408
+00:21:35,571 --> 00:21:38,435
+although the dotNet
+class doesn't have
+
+409
+00:21:38,436 --> 00:21:40,820
+the property setter.
+
+410
+00:21:40,821 --> 00:21:43,780
+We still reason about the fact
+that there is a property there.
+
+411
+00:21:43,781 --> 00:21:47,240
+>> Yeah, so this is kind of, I
+guess would say hybrid mapping,
+
+412
+00:21:47,241 --> 00:21:49,550
+because the property
+is there for reading.
+
+413
+00:21:49,551 --> 00:21:53,356
+We have the actual underlying
+storage in the class is this
+
+414
+00:21:53,357 --> 00:21:54,950
+underscore URL field.
+
+415
+00:21:57,976 --> 00:22:02,833
+>> We also recognize some
+different common conventions for
+
+416
+00:22:02,834 --> 00:22:05,570
+naming fields automatically.
+
+417
+00:22:05,571 --> 00:22:08,620
+So in this case,
+actually the HasField
+
+418
+00:22:08,621 --> 00:22:11,260
+is only there to tell
+us to use the field.
+
+419
+00:22:11,261 --> 00:22:12,390
+>> Yeah.
+
+420
+00:22:12,391 --> 00:22:17,132
+>> I guess but even, that kind
+of underscore url, with lower
+
+421
+00:22:17,133 --> 00:22:19,570
+cases, has something that we
+will recognize by convention.
+
+422
+00:22:19,571 --> 00:22:23,827
+>> Yeah, for sure so I got us
+illustration of that would be,
+
+423
+00:22:23,828 --> 00:22:26,677
+I guess if we did
+something like this.
+
+424
+00:22:29,178 --> 00:22:29,738
+>> Yeah.
+>> So
+
+425
+00:22:29,739 --> 00:22:32,554
+we're kind of varying
+the names to no longer match,
+
+426
+00:22:32,555 --> 00:22:34,731
+what EF you think they
+should be called?
+
+427
+00:22:34,732 --> 00:22:35,310
+>> Yeah.
+>> But
+
+428
+00:22:35,311 --> 00:22:36,490
+you could still set
+it up that way.
+
+429
+00:22:36,491 --> 00:22:38,470
+>> There are some other
+variation that we support,
+
+430
+00:22:38,471 --> 00:22:40,690
+which is to not have
+the field at all.
+
+431
+00:22:42,070 --> 00:22:45,340
+I mean in this case, we all
+ready have like a property
+
+432
+00:22:45,341 --> 00:22:47,230
+at all, that depends
+on the field in there,
+
+433
+00:22:47,231 --> 00:22:51,060
+but there is another variation
+which is call entity of
+
+434
+00:22:51,061 --> 00:22:54,850
+blog has a property of
+type string with name URL.
+
+435
+00:22:54,851 --> 00:22:57,750
+And there's nothing in
+the class at all that
+
+436
+00:22:57,751 --> 00:22:59,080
+is holding that value.
+
+437
+00:22:59,081 --> 00:23:00,410
+>> Yeah.
+>> But that's something that we
+
+438
+00:23:00,411 --> 00:23:03,430
+call shadow properties,
+and when you have those,
+
+439
+00:23:03,431 --> 00:23:07,190
+what happens is that EF, on the
+change structure, that reduces
+
+440
+00:23:07,191 --> 00:23:11,660
+to tracking modifications
+that you make on the data.
+
+441
+00:23:11,661 --> 00:23:13,460
+It will keep track
+of that value,
+
+442
+00:23:13,461 --> 00:23:18,020
+keep it on the instance
+of the of the entity.
+
+443
+00:23:18,021 --> 00:23:20,590
+So basically, we keep additional
+properties like extension
+
+444
+00:23:20,591 --> 00:23:22,050
+properties for you.
+
+445
+00:23:22,051 --> 00:23:22,650
+>> Yeah exactly.
+
+446
+00:23:22,651 --> 00:23:25,530
+So yes, there you'll see
+the shadow properties,
+
+447
+00:23:25,531 --> 00:23:30,130
+where we keep the data totally
+outside of the instance.
+
+448
+00:23:30,131 --> 00:23:34,360
+So here, there is no place for
+the URL to be stored on this.
+
+449
+00:23:34,361 --> 00:23:37,790
+When we retrieve a blog,
+we will give you the blog, and
+
+450
+00:23:37,791 --> 00:23:40,410
+we will also keep track
+internally of the value
+
+451
+00:23:40,411 --> 00:23:43,130
+of URL for
+each blog that we gave you.
+
+452
+00:23:43,131 --> 00:23:46,830
+So it kind of makes your object
+dependent on the DB context.
+
+453
+00:23:46,831 --> 00:23:50,700
+There's another mode you can
+run, which is no tracking.
+
+454
+00:23:50,701 --> 00:23:53,530
+Where we will keep track of
+the values in a different way
+
+455
+00:23:53,531 --> 00:23:54,890
+during the query.
+
+456
+00:23:54,891 --> 00:24:00,340
+But in that way, we will
+allow you to still query for
+
+457
+00:24:00,341 --> 00:24:01,600
+different URLs, for example.
+
+458
+00:24:01,601 --> 00:24:06,780
+>> Would you like to show
+how to use this model or
+
+459
+00:24:06,781 --> 00:24:07,350
+something else?
+
+460
+00:24:08,460 --> 00:24:12,460
+>> Yeah, I think we can quickly,
+I'll run it.
+
+461
+00:24:12,461 --> 00:24:14,330
+It's not, I can probably
+just back it all out.
+
+462
+00:24:16,310 --> 00:24:16,810
+>> Okay.
+
+463
+00:24:18,610 --> 00:24:20,630
+>> So
+let's have a look at our main.
+
+464
+00:24:20,631 --> 00:24:22,720
+We just do some database set up.
+
+465
+00:24:22,721 --> 00:24:25,850
+So here, we should probably
+quickly discuss this.
+
+466
+00:24:25,851 --> 00:24:27,925
+So we showed migrations.
+
+467
+00:24:27,926 --> 00:24:31,510
+These sort of a red way like
+a red application development
+
+468
+00:24:31,511 --> 00:24:34,830
+style, where for example
+if you're running test, so
+
+469
+00:24:34,831 --> 00:24:36,440
+you're running prototype at.
+
+470
+00:24:36,441 --> 00:24:38,850
+So you wanna get something
+off and running quickly.
+
+471
+00:24:38,851 --> 00:24:40,330
+We have these database APIs,
+
+472
+00:24:40,331 --> 00:24:44,560
+which we'll just delete the
+whole database and recreate it.
+
+473
+00:24:44,561 --> 00:24:47,928
+>> Yeah, it's not recommended
+for production or for
+
+474
+00:24:47,929 --> 00:24:50,828
+anything super serious and
+complicated but
+
+475
+00:24:50,829 --> 00:24:54,207
+it's the right way for
+testing and proof reading.
+
+476
+00:24:54,208 --> 00:24:55,249
+>> Yeah.
+
+477
+00:24:55,250 --> 00:24:57,083
+To show.
+
+478
+00:24:57,084 --> 00:25:00,600
+So a lot of this pattern where
+we just recreate the database.
+
+479
+00:25:02,950 --> 00:25:05,607
+And so we're creating up
+BloggingContext again,
+
+480
+00:25:05,608 --> 00:25:08,890
+creating a blog, setting its
+URL, adding it to the database.
+
+481
+00:25:08,891 --> 00:25:11,473
+So, I guess we're showing a few
+APIs we haven't seen yet.
+
+482
+00:25:11,474 --> 00:25:14,949
+So we saw querying of a DBC,
+but the DBC,
+
+483
+00:25:14,950 --> 00:25:19,820
+you can also add new items
+into and remove items from.
+
+484
+00:25:19,821 --> 00:25:21,490
+So it's kind of
+a programming model,
+
+485
+00:25:21,491 --> 00:25:23,410
+a collection like programming
+model for your data.
+
+486
+00:25:24,720 --> 00:25:28,190
+So what you typically do is,
+you have a bunch of these calls,
+
+487
+00:25:28,191 --> 00:25:31,270
+manipulating which objects you
+want to save in which way.
+
+488
+00:25:31,271 --> 00:25:33,890
+And then, save changes
+at the end is going to
+
+489
+00:25:33,891 --> 00:25:36,120
+figure out what all those
+changes were and apply them.
+
+490
+00:25:43,087 --> 00:25:44,347
+So, we've got login on as well,
+
+491
+00:25:44,348 --> 00:25:45,880
+it's another thing
+worth mentioning.
+
+492
+00:25:47,240 --> 00:25:48,830
+Entity Framework Core
+has rich blogging.
+
+493
+00:25:48,831 --> 00:25:50,420
+And this really
+helps you understand
+
+494
+00:25:50,421 --> 00:25:53,250
+the kind of interactions that
+EF is having with your backend.
+
+495
+00:25:54,360 --> 00:25:58,890
+So here, you can see, for
+example, in short, created.
+
+496
+00:25:58,891 --> 00:26:02,090
+So we're creating
+a database here.
+
+497
+00:26:02,091 --> 00:26:03,707
+This is our save changes insert.
+
+498
+00:26:06,706 --> 00:26:09,640
+As per usual blogs has
+an identity column, so
+
+499
+00:26:09,641 --> 00:26:11,811
+we need to select
+back the value.
+
+500
+00:26:14,493 --> 00:26:16,381
+And then, at the end our query.
+
+501
+00:26:16,382 --> 00:26:20,220
+So this is the query over
+the blogs and then, the value.
+
+502
+00:26:21,360 --> 00:26:24,880
+So you can see if Core really
+helps here because this kind of
+
+503
+00:26:24,881 --> 00:26:27,470
+automates a bunch of stuff that
+you would normally need to do.
+
+504
+00:26:27,471 --> 00:26:30,588
+For example, if you're
+using identity columns, and
+
+505
+00:26:30,589 --> 00:26:32,629
+also just the unit
+of word pattern.
+
+506
+00:26:32,630 --> 00:26:35,045
+I've made a bunch of changes
+on the client and memory.
+
+507
+00:26:35,046 --> 00:26:38,285
+And I want to understand
+those changes and apply them.
+
+508
+00:26:38,286 --> 00:26:41,470
+>> Yep, so in this case,
+in this simple demo,
+
+509
+00:26:41,471 --> 00:26:44,840
+we only had this one operation
+before the SaveChanges, but
+
+510
+00:26:44,841 --> 00:26:48,192
+you can have multiple operations
+there or multiple entities.
+
+511
+00:26:48,193 --> 00:26:52,280
+And when there are relationships
+between them, we will figure out
+
+512
+00:26:52,281 --> 00:26:55,850
+the right order to apply those
+modifications in the database.
+
+513
+00:26:55,851 --> 00:26:57,531
+So that, for instance,
+
+514
+00:26:57,532 --> 00:27:01,293
+child entity is always get
+inserted after the parents so
+
+515
+00:27:01,294 --> 00:27:04,908
+that the primary key already
+exists in the database.
+
+516
+00:27:04,909 --> 00:27:06,600
+And whenever we need
+to delete something,
+
+517
+00:27:06,601 --> 00:27:08,016
+we'll do it in
+the previous order.
+
+518
+00:27:08,017 --> 00:27:10,508
+>> That's right.
+
+519
+00:27:10,509 --> 00:27:14,256
+>> Okay, so, you think we should
+switch to another demo, or
+
+520
+00:27:14,257 --> 00:27:18,090
+is there anything interesting
+on this one that we can show?
+
+521
+00:27:18,091 --> 00:27:23,530
+>> We probably need to add
+posts for it to be a blog.
+
+522
+00:27:23,531 --> 00:27:24,182
+>> Okay.
+>> So we could do that.
+
+523
+00:27:27,257 --> 00:27:33,235
+So, We're kind of
+evolving schema here,
+
+524
+00:27:33,236 --> 00:27:35,109
+so we're gonna create a post.
+
+525
+00:27:40,377 --> 00:27:45,980
+This one we'll have a,
+Second Id.
+
+526
+00:27:49,936 --> 00:27:55,381
+Maybe a string Title,
+
+527
+00:27:55,382 --> 00:28:00,257
+and maybe the Body.
+
+528
+00:28:04,730 --> 00:28:06,520
+What are we missing?
+
+529
+00:28:06,521 --> 00:28:09,250
+So, we wanna link it to blog,
+right?
+
+530
+00:28:11,032 --> 00:28:13,870
+This kinda comes back to what
+programming model we want
+
+531
+00:28:13,871 --> 00:28:15,070
+now in our app.
+
+532
+00:28:15,071 --> 00:28:18,676
+So if you suggests in our
+application, we get the blog,
+
+533
+00:28:18,677 --> 00:28:21,898
+and we want to always access
+the posts of the blog,
+
+534
+00:28:21,899 --> 00:28:23,460
+we can do that, right?
+
+535
+00:28:25,700 --> 00:28:29,660
+>> Yep, probably,
+we can have a public list or-
+
+536
+00:28:29,661 --> 00:28:30,944
+>> Something like that.
+
+537
+00:28:30,945 --> 00:28:34,860
+Collection of blog,
+of posts, sorry.
+
+538
+00:28:37,656 --> 00:28:38,162
+Posts.
+
+539
+00:28:46,722 --> 00:28:50,850
+Okay so,
+let's imports ICollection.
+
+540
+00:28:54,747 --> 00:28:56,230
+Now, do we need to
+do anything else?
+
+541
+00:28:57,250 --> 00:29:00,212
+>> I think in this case, we
+don't need to do anything else,
+
+542
+00:29:00,213 --> 00:29:02,989
+but we could decide that we
+also want to have a link from
+
+543
+00:29:02,990 --> 00:29:04,680
+the post going back to the blog.
+
+544
+00:29:04,681 --> 00:29:05,690
+>> Okay.
+
+545
+00:29:05,691 --> 00:29:08,160
+>> Would you like to do that or
+we can skip it?
+
+546
+00:29:08,161 --> 00:29:09,250
+What is your style?
+
+547
+00:29:09,251 --> 00:29:11,164
+How do you decide that?
+
+548
+00:29:11,165 --> 00:29:14,577
+>> Are you thinking
+a reference to the blog, or
+
+549
+00:29:14,578 --> 00:29:18,460
+are you thinking something
+like the foreign key?
+
+550
+00:29:18,461 --> 00:29:21,078
+>> It could be both, or
+it could be either of those.
+
+551
+00:29:21,079 --> 00:29:22,229
+>> Okay.
+
+552
+00:29:22,230 --> 00:29:23,977
+>> They are all possible, and
+
+553
+00:29:23,978 --> 00:29:27,701
+whenever you don't create
+a property, EF Core is going to
+
+554
+00:29:27,702 --> 00:29:31,560
+still be able to maintain
+the relationship.
+
+555
+00:29:31,561 --> 00:29:34,400
+But if you want to have
+the value of the foreign key
+
+556
+00:29:34,401 --> 00:29:38,910
+in the property because you want
+to render it in database or
+
+557
+00:29:38,911 --> 00:29:40,790
+something, then you can do it.
+
+558
+00:29:40,791 --> 00:29:45,245
+>> Sure, so, just like Diego
+said, if we don't define
+
+559
+00:29:45,246 --> 00:29:50,530
+the foreign key here, if it's
+gonna introduce something.
+
+560
+00:29:50,531 --> 00:29:53,162
+And it's gonna introduce
+a shadow property just like we
+
+561
+00:29:53,163 --> 00:29:53,780
+saw before.
+
+562
+00:29:55,040 --> 00:29:56,930
+So we can probably observe that.
+
+563
+00:30:03,332 --> 00:30:05,540
+Okay so, our database
+looks a little different.
+
+564
+00:30:05,541 --> 00:30:08,230
+We're now creating
+the post table.
+
+565
+00:30:08,231 --> 00:30:11,020
+And here,
+you can see the BlogId.
+
+566
+00:30:11,021 --> 00:30:15,440
+So currently, it's not defined
+on the post entity, but
+
+567
+00:30:15,441 --> 00:30:18,880
+EF created it anyway, and
+EF will manage its value.
+
+568
+00:30:18,881 --> 00:30:26,063
+So this is nice if you want your
+entity types to be really poker.
+
+569
+00:30:26,064 --> 00:30:26,683
+>> Yeah.
+>> And
+
+570
+00:30:26,684 --> 00:30:29,290
+not have any sort of
+database artifacts in them.
+
+571
+00:30:29,291 --> 00:30:30,720
+>> Yep.
+
+572
+00:30:30,721 --> 00:30:37,019
+>> But we could also
+have edited down here.
+
+573
+00:30:37,020 --> 00:30:42,198
+So, Oops.
+
+574
+00:30:44,669 --> 00:30:46,882
+And we need to probably call
+it something different to
+
+575
+00:30:46,883 --> 00:30:48,120
+make interesting, I guess.
+
+576
+00:30:49,940 --> 00:30:54,121
+Blog, oops, BlogFK.
+
+577
+00:30:57,693 --> 00:31:00,420
+>> So now,
+what do we expect to happen?
+
+578
+00:31:00,421 --> 00:31:03,712
+>> I would expect EF to,
+do you want me to lie or
+
+579
+00:31:03,713 --> 00:31:06,186
+do you want me to
+tell the truth?
+
+580
+00:31:06,187 --> 00:31:07,155
+>> Tell the truth.
+
+581
+00:31:07,156 --> 00:31:09,939
+>> Okay, EF is not going to be
+able to figure out that that's
+
+582
+00:31:09,940 --> 00:31:10,700
+a foreign key.
+
+583
+00:31:11,980 --> 00:31:15,638
+That is supposed to point to the
+primary key on the other side.
+
+584
+00:31:15,639 --> 00:31:17,819
+So that's going to consider
+that that's a normal property
+
+585
+00:31:17,820 --> 00:31:20,920
+because we are not following
+the right naming convention.
+
+586
+00:31:20,921 --> 00:31:22,027
+>> Yeah, I think that's right.
+
+587
+00:31:22,028 --> 00:31:24,940
+So EF has a lot of
+conventions built in that try
+
+588
+00:31:24,941 --> 00:31:30,000
+to identify common patterns, in
+order to sort of pair things up.
+
+589
+00:31:30,001 --> 00:31:32,500
+So if we see a property
+here that's called BlogId
+
+590
+00:31:32,501 --> 00:31:34,500
+that matches one of
+our conventions.
+
+591
+00:31:34,501 --> 00:31:40,050
+So that convention is,
+we found a property on the child
+
+592
+00:31:40,051 --> 00:31:42,690
+that has the same name as
+the primary key on the parent.
+
+593
+00:31:43,830 --> 00:31:46,510
+So that's kind of a natural
+way for us to match things up.
+
+594
+00:31:46,511 --> 00:31:49,330
+But if you call this BlogFK
+that doesn't match one of our
+
+595
+00:31:49,331 --> 00:31:50,150
+existing conventions.
+
+596
+00:31:50,151 --> 00:31:55,667
+So what we will expect is
+probably another shadow FK.
+
+597
+00:31:55,668 --> 00:31:56,430
+>> Yep.
+>> Yeah, and so
+
+598
+00:31:56,431 --> 00:31:58,940
+here, you can see
+we've got there.
+
+599
+00:31:58,941 --> 00:32:02,906
+>> Yep, the property that you
+asked for got created, but
+
+600
+00:32:02,907 --> 00:32:04,270
+it's not considered
+a foreign key.
+
+601
+00:32:04,271 --> 00:32:07,527
+And you have still created
+a shadow foreign key, and
+
+602
+00:32:07,528 --> 00:32:10,410
+made the foreign key constraint.
+
+603
+00:32:10,411 --> 00:32:11,680
+>> Okay, well, let's fix that.
+
+604
+00:32:12,840 --> 00:32:15,395
+>> And there are several
+way to fix it, actually.
+
+605
+00:32:15,396 --> 00:32:19,779
+>> Yeah, Fluent.
+
+606
+00:32:24,888 --> 00:32:26,314
+So one way is Fluent API.
+
+607
+00:32:30,086 --> 00:32:35,702
+We want to, sorry,
+we want to configure
+
+608
+00:32:35,703 --> 00:32:41,991
+blog because we're
+going to configure the,
+
+609
+00:32:47,086 --> 00:32:48,790
+HasMany.
+
+610
+00:32:48,791 --> 00:32:52,730
+So this is our way of
+targeting the posts'
+
+611
+00:32:52,731 --> 00:32:54,890
+collection on the blog.
+
+612
+00:32:54,891 --> 00:32:58,070
+So this takes a lambda.
+
+613
+00:33:00,790 --> 00:33:03,707
+So now, we've sort of addressed
+the posts' navigation.
+
+614
+00:33:03,708 --> 00:33:06,444
+And because we need to do
+that to tell EF what we wanna
+
+615
+00:33:06,445 --> 00:33:07,162
+configure.
+
+616
+00:33:07,163 --> 00:33:08,226
+>> Okay.
+
+617
+00:33:12,354 --> 00:33:14,936
+>> We call WithOne.
+
+618
+00:33:14,937 --> 00:33:18,125
+This just allows us to get at
+the foreign key configuration
+
+619
+00:33:18,126 --> 00:33:21,640
+and sort of explicitly calls out
+that there's no back reference
+
+620
+00:33:21,641 --> 00:33:23,086
+from the post to the blog.
+
+621
+00:33:27,342 --> 00:33:30,560
+That's ForeignKey.
+
+622
+00:33:30,561 --> 00:33:34,150
+Now we can do the strongly type,
+because we have the property, so
+
+623
+00:33:34,151 --> 00:33:39,710
+it should be available
+in IntelliSense.
+
+624
+00:33:39,711 --> 00:33:42,230
+So this fluent API is geared
+around IntelliSense as well,
+
+625
+00:33:42,231 --> 00:33:45,100
+in terms of just being able
+to dot into things and
+
+626
+00:33:45,101 --> 00:33:46,780
+reference things that way.
+
+627
+00:33:46,781 --> 00:33:47,960
+Look good?
+
+628
+00:33:47,961 --> 00:33:49,180
+>> Yeah, it looks good.
+
+629
+00:33:52,459 --> 00:33:53,090
+>> There we go.
+
+630
+00:33:54,320 --> 00:33:57,490
+So the shadow property is gone
+and we've configured EF to
+
+631
+00:33:57,491 --> 00:34:00,730
+explicitly use the property that
+we want to be the foreign key.
+
+632
+00:34:00,731 --> 00:34:02,550
+>> Yeah, you can see
+the cost paying also.
+
+633
+00:34:02,551 --> 00:34:06,063
+>> Yeah.
+>> All right.
+
+634
+00:34:06,064 --> 00:34:11,140
+So where else can we show?
+
+635
+00:34:12,650 --> 00:34:15,510
+Would you like to talk
+about performance or?
+
+636
+00:34:16,620 --> 00:34:19,810
+>> We could show a few
+other things first, maybe.
+
+637
+00:34:19,811 --> 00:34:24,150
+So we could talk
+about functions or-
+
+638
+00:34:24,151 --> 00:34:26,560
+>> I think that sounds good.
+
+639
+00:34:26,561 --> 00:34:27,060
+>> Okay.
+
+640
+00:34:31,475 --> 00:34:34,979
+So this is a new feature
+that's in EF Core 2.0.
+
+641
+00:34:36,020 --> 00:34:39,200
+Do you want to talk about
+what it's roughly about?
+
+642
+00:34:39,201 --> 00:34:44,700
+>> Yes, so we have had some
+feedback for a long time
+
+643
+00:34:44,701 --> 00:34:50,020
+from people that wanted us to
+improve one of our features.
+
+644
+00:34:50,021 --> 00:34:52,790
+So the feature is
+called ego loading, but
+
+645
+00:34:52,791 --> 00:34:56,090
+we usually refer to it as
+the include method, cuz that's
+
+646
+00:34:56,091 --> 00:34:59,430
+how you specify that you want
+loading in your inquiries?
+
+647
+00:34:59,431 --> 00:35:01,040
+>> So what does this mean to do?
+
+648
+00:35:01,041 --> 00:35:04,900
+>> So that method is telling
+us that whenever you query for
+
+649
+00:35:04,901 --> 00:35:09,530
+a blog in this query, we should
+also cover the relationship
+
+650
+00:35:09,531 --> 00:35:11,380
+that it has to post.
+
+651
+00:35:11,381 --> 00:35:14,140
+There is a navigation
+property and
+
+652
+00:35:14,141 --> 00:35:18,880
+bring the instances of the post
+as well as part of the results.
+
+653
+00:35:18,881 --> 00:35:19,870
+>> Okay, that makes sense.
+
+654
+00:35:19,871 --> 00:35:24,000
+So when I'm enumerating
+all the blogs I got back,
+
+655
+00:35:24,001 --> 00:35:26,170
+this will be populated
+with all the posts.
+
+656
+00:35:26,171 --> 00:35:27,120
+>> Yeah, exactly.
+
+657
+00:35:27,121 --> 00:35:30,250
+So what people have been
+telling us for a while is that
+
+658
+00:35:30,251 --> 00:35:32,990
+they don't necessarily want
+all the posts to include,
+
+659
+00:35:32,991 --> 00:35:36,140
+that they want to apply
+a filter on that include.
+
+660
+00:35:36,141 --> 00:35:39,470
+For instance, let's say that
+the user has been blogging for
+
+661
+00:35:39,471 --> 00:35:41,490
+many years and
+it has too many posts and
+
+662
+00:35:41,491 --> 00:35:43,740
+I just want to log
+the ones from last year.
+
+663
+00:35:43,741 --> 00:35:44,910
+>> I see, okay.
+
+664
+00:35:44,911 --> 00:35:47,790
+>> So that's the feature that
+we have been talking about.
+
+665
+00:35:47,791 --> 00:35:48,780
+And we look at it and
+
+666
+00:35:48,781 --> 00:35:52,350
+we decided that we didn't want
+to design it exactly like that.
+
+667
+00:35:53,410 --> 00:35:57,244
+But we wanted to have something
+that is more declarative and
+
+668
+00:35:57,245 --> 00:35:59,710
+the ability to say
+at the moral level.
+
+669
+00:35:59,711 --> 00:36:04,157
+Okay, whenever you're ready for
+pause, apply this filter,
+
+670
+00:36:04,158 --> 00:36:07,934
+and of course you are going to
+have ways to turn that off, but
+
+671
+00:36:07,935 --> 00:36:10,550
+general by default,
+just apply this filter.
+
+672
+00:36:10,551 --> 00:36:14,100
+So we came up with
+a solution for that.
+
+673
+00:36:14,101 --> 00:36:17,440
+And that's, we call it
+sometimes lower query filter,
+
+674
+00:36:17,441 --> 00:36:22,170
+sometimes more level query
+filters, sometimes just filters.
+
+675
+00:36:22,171 --> 00:36:26,610
+>> Yeah, so, just to make it
+even more concrete, the way you
+
+676
+00:36:26,611 --> 00:36:29,350
+filter and link is obviously
+what this Where method.
+
+677
+00:36:29,351 --> 00:36:32,880
+So this allows you to
+define a predicate
+
+678
+00:36:32,881 --> 00:36:35,349
+that will be used to either
+include or exclude results.
+
+679
+00:36:36,620 --> 00:36:40,140
+And so what this feature allows
+is essentially to be able to
+
+680
+00:36:40,141 --> 00:36:44,060
+define that in on model creating
+in such a way that it will
+
+681
+00:36:44,061 --> 00:36:46,860
+always apply it to queries
+of the target type.
+
+682
+00:36:49,530 --> 00:36:54,160
+This example we essentially set
+up two filters, because we're
+
+683
+00:36:54,161 --> 00:36:56,870
+trying to implement two
+cross cutting behaviors.
+
+684
+00:36:56,871 --> 00:36:58,810
+We want to implement
+soft delete.
+
+685
+00:36:58,811 --> 00:37:02,550
+So the ability to mark a row
+in the database is deleted
+
+686
+00:37:02,551 --> 00:37:04,568
+without actually
+deleting it physically.
+
+687
+00:37:04,569 --> 00:37:08,640
+And then multi-tendency,
+so the ability associate
+
+688
+00:37:08,641 --> 00:37:12,490
+a row in the database with
+the tenant id, such that
+
+689
+00:37:12,491 --> 00:37:16,310
+we can later on only pull back
+the data for a given tenant.
+
+690
+00:37:17,380 --> 00:37:18,110
+So.
+
+691
+00:37:25,057 --> 00:37:26,210
+Start with the first one.
+
+692
+00:37:27,490 --> 00:37:30,330
+Here you can see that API, so
+it's a non model creating,
+
+693
+00:37:30,331 --> 00:37:33,370
+it's again,
+we address the entity.
+
+694
+00:37:33,371 --> 00:37:34,165
+So it's the post.
+
+695
+00:37:34,166 --> 00:37:35,130
+>> Mm-hm.
+
+696
+00:37:35,131 --> 00:37:38,170
+>> And IsDeleted is
+actually just a property
+
+697
+00:37:38,171 --> 00:37:40,190
+A first class property
+on the entity itself.
+
+698
+00:37:40,191 --> 00:37:41,860
+So we're not using a shadow
+property or anything,
+
+699
+00:37:41,861 --> 00:37:45,210
+we just created the property
+maybe we need this in the UI and
+
+700
+00:37:45,211 --> 00:37:48,260
+maybe it's just the style
+that we wanna use.
+
+701
+00:37:48,261 --> 00:37:49,500
+So we were able to easily,
+
+702
+00:37:50,740 --> 00:37:55,170
+essentially write a small link
+predicate fragment here and
+
+703
+00:37:55,171 --> 00:37:57,790
+associate that with
+the metadata in our model.
+
+704
+00:37:57,791 --> 00:38:02,160
+>> Yep, so the fact that it's
+a property makes it possible,
+
+705
+00:38:02,161 --> 00:38:04,650
+and because we add some code
+that we're going to show and
+
+706
+00:38:04,651 --> 00:38:05,950
+search in this.
+
+707
+00:38:05,951 --> 00:38:08,650
+Now you have two ways to
+mark an entity as deleted,
+
+708
+00:38:08,651 --> 00:38:12,260
+you can either set
+the property to true, or
+
+709
+00:38:12,261 --> 00:38:16,660
+you can call the APIs
+to remove the entity.
+
+710
+00:38:16,661 --> 00:38:21,590
+We have some code that we put
+in SaveChanges this that is going
+
+711
+00:38:21,591 --> 00:38:25,870
+to basically translate that
+removal into a modification.
+
+712
+00:38:26,910 --> 00:38:27,920
+So that's a code.
+
+713
+00:38:27,921 --> 00:38:31,990
+Especially whenever you save
+changes before you actually
+
+714
+00:38:31,991 --> 00:38:33,650
+save changes to the
+database we are going to look
+
+715
+00:38:33,651 --> 00:38:38,230
+for all the change tracking
+entries that we had for
+
+716
+00:38:38,231 --> 00:38:41,020
+post that are mark affiliated.
+
+717
+00:38:41,021 --> 00:38:43,960
+And we are going to switch
+that back to modified and
+
+718
+00:38:43,961 --> 00:38:46,410
+put the property and
+the right state so
+
+719
+00:38:46,411 --> 00:38:51,110
+that marks are deleted,
+as deleted.
+
+720
+00:38:51,111 --> 00:38:53,870
+>> Yes, so
+this is a good example of
+
+721
+00:38:53,871 --> 00:38:56,350
+the more advanced extension
+point that you can use,
+
+722
+00:38:56,351 --> 00:38:58,210
+which is just to override
+sort of changes.
+
+723
+00:38:58,211 --> 00:39:03,360
+The way this works is that,
+internally inside the DB context
+
+724
+00:39:03,361 --> 00:39:05,180
+we have these things
+called entries.
+
+725
+00:39:05,181 --> 00:39:08,780
+An entry is really a data
+structure that wraps around one
+
+726
+00:39:08,781 --> 00:39:11,650
+of the objects that we've given
+you, and it's kind of in charge
+
+727
+00:39:11,651 --> 00:39:15,820
+of keeping track of its original
+data, any new data that's
+
+728
+00:39:15,821 --> 00:39:18,970
+any of the changes that have
+been made, that kind of thing.
+
+729
+00:39:18,971 --> 00:39:23,650
+So instead of changes, you can
+manipulate these entries before
+
+730
+00:39:23,651 --> 00:39:26,590
+we actually read them to make
+the final set of changes call.
+
+731
+00:39:26,591 --> 00:39:27,710
+>> Yeah.
+>> So that's
+
+732
+00:39:27,711 --> 00:39:29,200
+what we're doing here.
+
+733
+00:39:29,201 --> 00:39:31,300
+Find all of the ones
+that say they deleted and
+
+734
+00:39:31,301 --> 00:39:33,140
+turn them into modified.
+
+735
+00:39:33,141 --> 00:39:35,510
+>> Yep.
+>> Whilst also setting
+
+736
+00:39:35,511 --> 00:39:37,395
+the new value for
+this deleted property.
+
+737
+00:39:37,396 --> 00:39:39,970
+>> Mm-hm.
+>> So that's pretty useful.
+
+738
+00:39:41,400 --> 00:39:43,680
+>> So you want to show
+the multi tenancy part?
+
+739
+00:39:43,681 --> 00:39:46,290
+Would you like to
+just execute a query?
+
+740
+00:39:46,291 --> 00:39:50,499
+>> Sure, why don't we first,
+what I'm gonna do is
+
+741
+00:39:52,547 --> 00:39:55,550
+Think it's useful to
+disable that filter.
+
+742
+00:39:57,446 --> 00:39:59,470
+Did I said startup project?
+
+743
+00:39:59,471 --> 00:39:59,970
+>> Yep.
+
+744
+00:40:03,506 --> 00:40:05,064
+So this is our kind
+of initial state,
+
+745
+00:40:05,065 --> 00:40:07,570
+where we haven't got any
+filters defined yet.
+
+746
+00:40:07,571 --> 00:40:09,740
+And we can see that we're
+querying all of the blogs and
+
+747
+00:40:09,741 --> 00:40:13,120
+the posts, and we're getting
+Tenants for everyone, and
+
+748
+00:40:13,121 --> 00:40:15,578
+we are getting all of
+the deleted and the not deleted.
+
+749
+00:40:15,579 --> 00:40:17,660
+>> Yup.
+>> So, that's sort of.
+
+750
+00:40:17,661 --> 00:40:21,855
+Right now, the query is naive.
+
+751
+00:40:21,856 --> 00:40:24,120
+We will enable to
+soft delete filter.
+
+752
+00:40:26,510 --> 00:40:27,090
+Run it again.
+
+753
+00:40:28,190 --> 00:40:28,820
+Okay, so good.
+
+754
+00:40:30,020 --> 00:40:31,419
+We are only getting
+IsDeleted: False.
+
+755
+00:40:32,470 --> 00:40:35,210
+So we very easily implemented
+it's like a crosscutting
+
+756
+00:40:35,211 --> 00:40:38,490
+pediment we wanted to implement
+inside our application.
+
+757
+00:40:38,491 --> 00:40:39,170
+>> Yeah.
+
+758
+00:40:39,171 --> 00:40:41,790
+>> And this this is
+affecting entities that
+
+759
+00:40:43,470 --> 00:40:46,560
+we bring to the results
+as part of an include and
+
+760
+00:40:46,561 --> 00:40:49,190
+not as part of the main entity
+that we're creating for.
+
+761
+00:40:49,191 --> 00:40:51,510
+>> Exactly so if you remember,
+
+762
+00:40:52,813 --> 00:40:56,198
+The way we were enumerating
+these things was that we were
+
+763
+00:40:56,199 --> 00:41:00,016
+bringing the posts together with
+the blogs and then we were just
+
+764
+00:41:00,017 --> 00:41:03,420
+doing this nested loop off
+the navigation properties.
+
+765
+00:41:03,421 --> 00:41:06,880
+So here you can see in the query
+
+766
+00:41:06,881 --> 00:41:09,700
+when we select out of the posts
+we just select on the filter.
+
+767
+00:41:12,120 --> 00:41:13,410
+That's quite nice.
+
+768
+00:41:13,411 --> 00:41:14,920
+>> Yep.
+>> Now this filter will also
+
+769
+00:41:14,921 --> 00:41:17,580
+apply if I query
+post the top level.
+
+770
+00:41:17,581 --> 00:41:20,020
+It would apply any time that I,
+
+771
+00:41:20,021 --> 00:41:21,900
+any query that we generate for
+posts.
+
+772
+00:41:21,901 --> 00:41:23,350
+>> Yep.
+
+773
+00:41:23,351 --> 00:41:23,970
+>> That's it.
+
+774
+00:41:23,971 --> 00:41:28,100
+If, how do you the opt-out.
+
+775
+00:41:28,101 --> 00:41:29,770
+>> Yeah,
+you've got to turn it off.
+
+776
+00:41:29,771 --> 00:41:30,377
+Should we show that?
+
+777
+00:41:32,343 --> 00:41:33,809
+Quickly, and
+then we can go on.
+
+778
+00:41:37,106 --> 00:41:41,810
+Okay, so let's say your
+application has an admin screen
+
+779
+00:41:41,811 --> 00:41:46,615
+and an administrator can go
+in and undelete these things.
+
+780
+00:41:46,616 --> 00:41:48,262
+This is how you would
+implement that.
+
+781
+00:41:48,263 --> 00:41:50,645
+IgnoreQueryFilters just turns
+off all the filters for
+
+782
+00:41:50,646 --> 00:41:51,170
+the query.
+
+783
+00:41:54,949 --> 00:41:55,997
+So we get them back again.
+
+784
+00:41:58,557 --> 00:41:59,767
+It's kind of like the opt out.
+
+785
+00:41:59,768 --> 00:42:00,793
+>> Okay.
+
+786
+00:42:03,043 --> 00:42:05,319
+>> Okay multi-tendency?
+
+787
+00:42:05,320 --> 00:42:05,896
+>> Sounds good.
+
+788
+00:42:13,502 --> 00:42:14,496
+>> Little different,
+
+789
+00:42:14,497 --> 00:42:16,956
+do you wanna explain why
+we have this difference?
+
+790
+00:42:16,957 --> 00:42:17,644
+>> Yeah.
+
+791
+00:42:17,645 --> 00:42:23,011
+So this is a little bit more
+sophisticated I guess than
+
+792
+00:42:23,012 --> 00:42:28,138
+a data filter, because first
+of all we have a tenant
+
+793
+00:42:28,139 --> 00:42:34,000
+ID field on the DE context class
+that we need to reference.
+
+794
+00:42:34,001 --> 00:42:38,000
+So we need to match the tenant
+ID of that particular instance
+
+795
+00:42:38,001 --> 00:42:41,360
+of the context with
+the entities on the database.
+
+796
+00:42:42,590 --> 00:42:47,407
+And we are keeping track of the
+fact that when the query filter
+
+797
+00:42:47,408 --> 00:42:52,114
+was defined,
+Do index execution of
+
+798
+00:42:52,115 --> 00:42:55,470
+the creating method
+on the first context.
+
+799
+00:42:55,471 --> 00:42:59,033
+This was maybe some tenantId
+that was our target site on that
+
+800
+00:42:59,034 --> 00:43:00,108
+first instance.
+
+801
+00:43:00,109 --> 00:43:00,629
+>> Yep.
+
+802
+00:43:00,630 --> 00:43:03,793
+>> We have this optimization
+that we're not executing them or
+
+803
+00:43:03,794 --> 00:43:06,843
+creating method every
+time you use the context.
+
+804
+00:43:06,844 --> 00:43:07,612
+We only execute it once.
+
+805
+00:43:07,613 --> 00:43:09,591
+We create them all and
+we cache it.
+
+806
+00:43:09,592 --> 00:43:14,362
+But we want to always
+use the current value
+
+807
+00:43:14,363 --> 00:43:17,507
+of this _TenantId field.
+
+808
+00:43:17,508 --> 00:43:20,892
+The other part of next is little
+bit more complicated is this
+
+809
+00:43:20,893 --> 00:43:23,880
+access to
+the EF.Property method.
+
+810
+00:43:23,881 --> 00:43:29,079
+There is a way that you can
+access properties on an inquiry
+
+811
+00:43:29,080 --> 00:43:33,423
+using the F core that works for
+every property.
+
+812
+00:43:33,424 --> 00:43:36,435
+It works basically for
+properties that are first class,
+
+813
+00:43:36,436 --> 00:43:39,635
+properties on the class,
+it works for shallow properties,
+
+814
+00:43:39,636 --> 00:43:42,979
+and it also works for properties
+that are mapped to the fields.
+
+815
+00:43:44,010 --> 00:43:46,577
+And it's an also
+interesting point
+
+816
+00:43:46,578 --> 00:43:50,263
+because you an see that it
+starts with the EF class.
+
+817
+00:43:50,264 --> 00:43:54,554
+You want to talk a bit
+about what we did there?
+
+818
+00:43:54,555 --> 00:43:55,075
+>> Sure.
+
+819
+00:43:55,076 --> 00:43:56,487
+Yes, so we had a need for
+
+820
+00:43:56,488 --> 00:44:00,166
+essentially like a static entry
+point API that we could just,
+
+821
+00:44:00,167 --> 00:44:03,083
+you could reference from
+anywhere very easily.
+
+822
+00:44:03,084 --> 00:44:06,700
+So we kind of with those EF
+class and it all goes to be
+
+823
+00:44:06,701 --> 00:44:11,080
+static and very easy to find and
+very easy to type.
+
+824
+00:44:11,081 --> 00:44:13,145
+And so we have a few of
+these static APIs and
+
+825
+00:44:13,146 --> 00:44:14,977
+they will all hang
+off this EF class.
+
+826
+00:44:14,978 --> 00:44:20,240
+Another one is I
+guess compile query.
+
+827
+00:44:20,241 --> 00:44:23,798
+So these static methods that
+allow you to get more advanced
+
+828
+00:44:23,799 --> 00:44:27,430
+query performance by taking
+over the caching of queries for
+
+829
+00:44:27,431 --> 00:44:28,094
+example.
+
+830
+00:44:28,095 --> 00:44:33,517
+And then we have this functions
+property which allows you to,
+
+831
+00:44:33,518 --> 00:44:38,525
+similar to EF property but
+within a link query explicitly
+
+832
+00:44:38,526 --> 00:44:42,620
+specify database function
+using CLI method.
+
+833
+00:44:42,621 --> 00:44:46,117
+>> Yeah, having this static
+entry point viewers have
+
+834
+00:44:46,118 --> 00:44:50,672
+very good discoverability on the
+APIs, so basically you can learn
+
+835
+00:44:50,673 --> 00:44:54,029
+EF by exploring what is
+hanging from this class.
+
+836
+00:44:54,030 --> 00:44:58,140
+And was of course from
+the DE context class.
+
+837
+00:44:58,141 --> 00:44:59,305
+So those are the two primary
+
+838
+00:44:59,306 --> 00:45:00,831
+entity points that
+you have to use.
+
+839
+00:45:00,832 --> 00:45:05,625
+Anything that is not related to
+the current DE context instance
+
+840
+00:45:05,626 --> 00:45:10,339
+that you are using, is going to
+primarily be hanging from EF.
+
+841
+00:45:10,340 --> 00:45:13,335
+>> Yeah, and so as Diego said
+In the blog we don't have
+
+842
+00:45:13,336 --> 00:45:16,959
+a tenantId property, so it's
+similar to our first example we
+
+843
+00:45:16,960 --> 00:45:21,550
+were talking about, where we're
+just using a field mapping.
+
+844
+00:45:21,551 --> 00:45:22,114
+So we reference it this way.
+
+845
+00:45:22,115 --> 00:45:25,482
+>> Yeah, we did something
+also this for this, right?
+
+846
+00:45:25,483 --> 00:45:28,859
+>> Yeah we also did
+the same kind of thing, so
+
+847
+00:45:28,860 --> 00:45:34,900
+just to step back,
+The reason tenantId comes into
+
+848
+00:45:34,901 --> 00:45:39,520
+the constructor here because
+consider a web application.
+
+849
+00:45:39,521 --> 00:45:42,836
+Every request is getting a new
+blogging context instance.
+
+850
+00:45:42,837 --> 00:45:44,014
+And so as part of that,
+
+851
+00:45:44,015 --> 00:45:47,300
+as part of the request itself
+we're gonna have some app logic,
+
+852
+00:45:47,301 --> 00:45:50,165
+figure out what the tenant
+should be for that request.
+
+853
+00:45:50,166 --> 00:45:52,718
+And then we're gonna create
+the context with that tenant, so
+
+854
+00:45:52,719 --> 00:45:55,890
+essentially scoping this
+context to a given tenant.
+
+855
+00:45:55,891 --> 00:45:59,994
+So we know that this instance
+is for a given tenant.
+
+856
+00:45:59,995 --> 00:46:05,184
+We've set up the filter and
+then we've saved changes.
+
+857
+00:46:05,185 --> 00:46:06,852
+We can, from saved changes we
+can actually sit the tenant
+
+858
+00:46:06,853 --> 00:46:08,760
+because we have
+the right value here.
+
+859
+00:46:08,761 --> 00:46:09,971
+>> Yep.
+
+860
+00:46:09,972 --> 00:46:12,728
+>> So any entities that
+were added make sure that
+
+861
+00:46:12,729 --> 00:46:15,570
+the tenantID is seated
+to the current tenant.
+
+862
+00:46:15,571 --> 00:46:18,777
+>> Okay, you want to try it?
+
+863
+00:46:21,923 --> 00:46:24,344
+>> Okay, so
+we got the Diegos only,
+
+864
+00:46:24,345 --> 00:46:26,689
+I think that's what we wanted.
+
+865
+00:46:26,690 --> 00:46:27,691
+Let's just check.
+
+866
+00:46:27,692 --> 00:46:28,357
+>> Mm-hm.
+
+867
+00:46:31,991 --> 00:46:35,838
+>> Yep, there we go.
+
+868
+00:46:35,839 --> 00:46:37,843
+I think we can change it.
+
+869
+00:46:44,153 --> 00:46:47,548
+So a key point here is kind
+of what Diego was alluding to
+
+870
+00:46:47,549 --> 00:46:50,190
+before, or
+model creating rounds once,
+
+871
+00:46:50,191 --> 00:46:53,663
+we detected that underscore
+TenantID should in fact be
+
+872
+00:46:53,664 --> 00:46:55,700
+a parameter in the query.
+
+873
+00:46:55,701 --> 00:46:58,561
+And so you can see here
+it's parameterized.
+
+874
+00:46:58,562 --> 00:47:01,739
+So the query is compiled once,
+each time it runs,
+
+875
+00:47:01,740 --> 00:47:04,691
+get the context instance
+that's running it,
+
+876
+00:47:04,692 --> 00:47:08,410
+pull out the tenant ID from that
+and plop it into the query.
+
+877
+00:47:10,210 --> 00:47:14,966
+>> I wanted to show some links,
+resources.
+
+878
+00:47:14,967 --> 00:47:19,593
+So this is basically some links
+that you can use to learn
+
+879
+00:47:19,594 --> 00:47:23,930
+more about Entity Framework Core
+and how to use it.
+
+880
+00:47:23,931 --> 00:47:28,328
+We have all the demos that
+we have been showing today,
+
+881
+00:47:28,329 --> 00:47:33,431
+those are in a repository on
+GitHub under Andrew's account.
+
+882
+00:47:33,432 --> 00:47:35,513
+This anpete efdemos and
+
+883
+00:47:35,514 --> 00:47:40,660
+then we have all of our source
+code and our issue tracking.
+
+884
+00:47:40,661 --> 00:47:45,499
+So the backtracking we do
+it all on GitHub as well.
+
+885
+00:47:45,500 --> 00:47:49,604
+It's in this http.net
+core repository,
+
+886
+00:47:49,605 --> 00:47:52,797
+and we have
+documentation also on
+
+887
+00:47:52,798 --> 00:47:56,916
+the Microsoft docs
+website under EF core.
+
+888
+00:47:56,917 --> 00:47:58,261
+There's also,
+
+889
+00:47:58,262 --> 00:48:02,486
+we are very soon going to
+have the Entity Framework 6
+
+890
+00:48:02,487 --> 00:48:06,337
+documentation alongside
+this one under EF 6.
+
+891
+00:48:06,338 --> 00:48:10,797
+These are our Twitter accounts,
+we have an official account for
+
+892
+00:48:10,798 --> 00:48:13,853
+EF that is called
+@efmagicunicorns, that
+
+893
+00:48:13,854 --> 00:48:17,818
+if you run into anything that
+you cannot find an answer for
+
+894
+00:48:17,819 --> 00:48:20,060
+a question for stack overflow.
+
+895
+00:48:20,061 --> 00:48:24,062
+Or you cannot find a way to
+tell something you are seeing
+
+896
+00:48:24,063 --> 00:48:28,151
+is a bug or something, you can
+priority ping us there and
+
+897
+00:48:28,152 --> 00:48:29,467
+we'll respond.
+
+898
+00:48:29,468 --> 00:48:32,616
+And for personal ones, and
+then we have this blog that is
+
+899
+00:48:32,617 --> 00:48:36,100
+the .NET blog that we use every
+time we have an announcement.
+
+900
+00:48:37,860 --> 00:48:41,306
+So anything else that
+we should talk about?
+
+901
+00:48:41,307 --> 00:48:45,203
+>> No, just encourage folks that
+are interested to check out
+
+902
+00:48:45,204 --> 00:48:49,710
+our GitHub project, and even
+potentially try and contribute.
+
+903
+00:48:49,711 --> 00:48:52,077
+So we have a bunch of people
+that have already made
+
+904
+00:48:52,078 --> 00:48:54,909
+contributions, and we're super
+excited when we get pull
+
+905
+00:48:54,910 --> 00:48:58,056
+requests from the community, no
+matter how small or how large.
+
+906
+00:48:58,057 --> 00:49:02,245
+>> Yeah, also the the ASP.NET
+documentation contains some
+
+907
+00:49:02,246 --> 00:49:06,434
+interesting tutorials that
+includes using the EF Core and
+
+908
+00:49:06,435 --> 00:49:10,709
+in documentation for EF Core
+you're going to find some some
+
+909
+00:49:10,710 --> 00:49:13,459
+explanations of
+specific features.
+
+910
+00:49:13,460 --> 00:49:17,888
+I recommend that you when
+you're trying to learn how to
+
+911
+00:49:17,889 --> 00:49:20,872
+use EF Core in
+the context of ASP.NET
+
+912
+00:49:20,873 --> 00:49:24,065
+core those are really
+good resources.
+
+913
+00:49:24,066 --> 00:49:24,730
+>> So thank you.
+
